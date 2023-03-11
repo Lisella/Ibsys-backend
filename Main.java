@@ -1,5 +1,7 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Main {
@@ -16,6 +18,7 @@ public class Main {
 
         List<Order> orders = new ArrayList<>();
         orders.add(new Order(1, 21, 2000, LocalDate.now().plusDays(5)));
+        orders.add(new Order(1, 21, 2000, LocalDate.now().plusDays(20)));
 
         return orders;
     }
@@ -23,17 +26,46 @@ public class Main {
     // create a methode that adds a array to a product with a key of a localDate
     // with the given date and goes for the next 4 weeks without the sundays
     // the value of the key is the stock value of the product
-    public void createStockHistory(Product product, List<Order> orders) {
+    public static void createStockHistory(Product product, List<Order> orders) {
+        // filter orders by product productId
+        List<Order> filteredOrders = new ArrayList<>();
+        for (Order order : orders) {
+            if (order.productId == product.id) {
+                filteredOrders.add(order);
+            }
+        }
 
+        // order filteredOrders by date
+        Collections.sort(filteredOrders, new Comparator<Order>() {
+            public int compare(Order o1, Order o2) {
+                return o1.date.compareTo(o2.date);
+            }
+        });
+
+        for (Order order : filteredOrders) {
+            // for each stock History entry if the date is after the order date add the
+            // order quantity to the stock
+            for (LocalDate date : product.stockHistory.keySet()) {
+                if (date.isAfter(order.date)) {
+                    product.stockHistory.put(date, product.stockHistory.get(date) + order.quantity);
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
 
         List<Product> products = getProducts();
         List<Order> orders = getOrders();
+        System.out.println(products.get(0).stockHistory);
 
-        System.out.println(products.get(0).id);
-        System.out.println(orders.get(0).productId);
+        // foreach products create a stockHistory
+        for (Product product : products) {
+            // createStockHistory(product, orders);
+            createStockHistory(product, orders);
+        }
+
+        System.out.println("--------------------");
         System.out.println(products.get(0).stockHistory);
     }
 }

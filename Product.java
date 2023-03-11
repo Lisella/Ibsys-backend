@@ -25,7 +25,6 @@ public class Product {
         this.product2Consumption = product2Consumption;
         this.product3Consumption = product3Consumption;
         this.stockHistory = new HashMap<LocalDate, Integer>();
-        this.stockHistory.put(currentStockDate, stock);
         // add to the stock history entries for the next four weeks without sundays as
         // keys
         // and the stock as value

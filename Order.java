@@ -14,5 +14,4 @@ public class Order {
         this.quantity = quantity;
         this.date = date;
     }
-
 }
