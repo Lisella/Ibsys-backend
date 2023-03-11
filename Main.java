@@ -46,7 +46,7 @@ public class Main {
             // for each stock History entry if the date is after the order date add the
             // order quantity to the stock
             for (LocalDate date : product.stockHistory.keySet()) {
-                if (date.isAfter(order.date)) {
+                if (date.isAfter(order.date) || date.isEqual(order.date)) {
                     product.stockHistory.put(date, product.stockHistory.get(date) + order.quantity);
                 }
             }
