@@ -10,11 +10,13 @@ public class Product {
     int product2Consumption;
     int product3Consumption;
     int discountQuantity;
+    int setuptime; 
+    int workstation;
     HashMap<LocalDate, Integer> stockHistory;
 
     // create constructor
     public Product(int id, String name, int discountQuantity, int deliverytime, double variance,
-            int product1Consumption, int product2Consumption, int product3Consumption, int stock,
+            int product1Consumption, int product2Consumption, int product3Consumption, int setuptime, int workstation, int stock,
             LocalDate currentStockDate) {
         this.id = id;
         this.name = name;
@@ -24,6 +26,8 @@ public class Product {
         this.product1Consumption = product1Consumption;
         this.product2Consumption = product2Consumption;
         this.product3Consumption = product3Consumption;
+        this.setuptime = setuptime;
+        this.workstation = workstation;
         this.stockHistory = new HashMap<LocalDate, Integer>();
 
         // add to the stock history entries for the next four weeks without sundays as

@@ -68,4 +68,6 @@ public class Main {
         System.out.println("--------------------");
         System.out.println(products.get(0).stockHistory);
     }
+
+
 }
