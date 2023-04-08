@@ -1,3 +1,5 @@
+package Ordering;
+
 import java.util.ArrayList;
 
 public class Forecast {
@@ -17,10 +19,10 @@ public class Forecast {
     // create method getForecast
     public static ArrayList<Forecast> getForecast() {
         ArrayList<Forecast> forecasts = new ArrayList<Forecast>();
-        forecasts.add(new Forecast(1, 200, 100, 50));
-        forecasts.add(new Forecast(2, 200, 100, 50));
-        forecasts.add(new Forecast(3, 200, 100, 50));
-        forecasts.add(new Forecast(4, 200, 100, 50));
+        forecasts.add(new Forecast(1, 200, 150, 100));
+        forecasts.add(new Forecast(2, 200, 150, 100));
+        forecasts.add(new Forecast(3, 250, 150, 250));
+        forecasts.add(new Forecast(4, 250, 150, 150));
         return forecasts;
     }
 }
