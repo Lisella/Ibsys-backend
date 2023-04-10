@@ -21,9 +21,6 @@ public class Main {
         return orders;
     }
 
-    /**
-     * @return
-     */
     public static ArrayList<NewOrder> createOrders() {
 
         ArrayList<NewOrder> orders = new ArrayList<>();
@@ -36,28 +33,12 @@ public class Main {
         ArrayList<Product> products = getProducts();
         // log stockHistories
 
-        // calc needs for each product
+        // calculate needs for each week
         for (Product product : products) {
-            ArrayList<Integer> needsforWeek = calcNeedsForWeek(product, forecast);
-            // iterate over products.StockHistory and remove needs for each day from stock
-            // value
-            for (int i = 0; i < needsforWeek.size(); i++) {
-
-                int amount = 0;
-                if (needsforWeek.get(i) != 0) {
-                    amount = needsforWeek.get(i) / 5;
-                }
-                for (int j = 0; j < 5; j++) {
-                    int stock = product.stockHistory.get(i * 5 + j);
-                    // update the stock history foreach key, that is higher than the acutal i*5+j
-                    for (int k = i * 5 + j; k < 28; k++) {
-                        product.stockHistory.put(k, stock - amount);
-                    }
-
-                }
-            }
+            calcStocksForWeek(product, forecast);
         }
         System.out.println(products.get(0).stockHistory);
+
         return orders;
 
     }
@@ -70,6 +51,28 @@ public class Main {
                     + f.product3Consumption * product.product3Consumption);
         }
         return needs;
+    }
+
+    public static void calcStocksForWeek(Product product, ArrayList<Forecast> forecast) {
+
+        ArrayList<Integer> needsforWeek = calcNeedsForWeek(product, forecast);
+        // iterate over products.StockHistory and remove needs for each day from stock
+        // value
+        for (int i = 0; i < needsforWeek.size(); i++) {
+
+            int amount = 0;
+            if (needsforWeek.get(i) != 0) {
+                amount = needsforWeek.get(i) / 5;
+            }
+            for (int j = 0; j < 5; j++) {
+                int stock = product.stockHistory.get(i * 5 + j);
+                // update the stock history foreach key, that is higher than the acutal i*5+j
+                for (int k = i * 5 + j; k < 28; k++) {
+                    product.stockHistory.put(k, stock - amount);
+                }
+
+            }
+        }
     }
 
     public static void main(String[] args) {
