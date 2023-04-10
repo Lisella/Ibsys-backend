@@ -1,6 +1,5 @@
 package Ordering;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 
 public class Product {
@@ -12,12 +11,12 @@ public class Product {
     int product2Consumption;
     int product3Consumption;
     int discountQuantity;
-    HashMap<LocalDate, Integer> stockHistory;
+    HashMap<Integer, Integer> stockHistory;
 
     // create constructor
     public Product(int id, String name, int discountQuantity, int deliverytime, double variance,
             int product1Consumption, int product2Consumption, int product3Consumption, int stock,
-            LocalDate currentStockDate) {
+            Integer daysAfterToday) {
         this.id = id;
         this.name = name;
         this.discountQuantity = discountQuantity;
@@ -26,16 +25,11 @@ public class Product {
         this.product1Consumption = product1Consumption;
         this.product2Consumption = product2Consumption;
         this.product3Consumption = product3Consumption;
-        this.stockHistory = new HashMap<LocalDate, Integer>();
-        this.stockHistory.put(currentStockDate, stock);
-        // add to the stock history entries for the next four weeks without sundays as
-        // keys
-        // and the stock as value
+        this.stockHistory = new HashMap<Integer, Integer>();
+        this.stockHistory.put(daysAfterToday, stock);
+
         for (int i = 0; i < 28; i++) {
-            LocalDate date = currentStockDate.plusDays(i);
-            if (date.getDayOfWeek().getValue() != 7 && date.getDayOfWeek().getValue() != 6) {
-                this.stockHistory.put(date, stock);
-            }
+            stockHistory.put(i, stock);
         }
     }
 }

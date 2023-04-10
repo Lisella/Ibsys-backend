@@ -1,15 +1,13 @@
 package Ordering;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.logging.LogManager;
 
 public class Main {
 
     public static ArrayList<Product> getProducts() {
 
         ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product(21, "test", 2000, 9, 2, 1, 0, 0, 340, LocalDate.now()));
+        products.add(new Product(21, "test", 2000, 9, 2, 1, 0, 0, 340, 5));
         // products.add(new Product(22, "test2", 2000, 10, 2, 2000, 2000, 2000, 2000,
         // LocalDate.now()));
         return products;
@@ -23,6 +21,9 @@ public class Main {
         return orders;
     }
 
+    /**
+     * @return
+     */
     public static ArrayList<NewOrder> createOrders() {
 
         ArrayList<NewOrder> orders = new ArrayList<>();
@@ -38,13 +39,27 @@ public class Main {
         // calc needs for each product
         for (Product product : products) {
             ArrayList<Integer> needsforWeek = calcNeedsForWeek(product, forecast);
-            // log needs for week
+            // iterate over products.StockHistory and remove needs for each day from stock
+            // value
+            for (int i = 0; i < needsforWeek.size(); i++) {
 
-            // remove needs for week / 5 from stock history for each day of the week
+                int amount = 0;
+                if (needsforWeek.get(i) != 0) {
+                    amount = needsforWeek.get(i) / 5;
+                }
+                for (int j = 0; j < 5; j++) {
+                    int stock = product.stockHistory.get(i * 5 + j);
+                    // update the stock history foreach key, that is higher than the acutal i*5+j
+                    for (int k = i * 5 + j; k < 28; k++) {
+                        product.stockHistory.put(k, stock - amount);
+                    }
 
+                }
+            }
         }
-
+        System.out.println(products.get(0).stockHistory);
         return orders;
+
     }
 
     public static ArrayList<Integer> calcNeedsForWeek(Product product, ArrayList<Forecast> forecast) {
@@ -54,8 +69,6 @@ public class Main {
                     + f.product2Consumption * product.product2Consumption
                     + f.product3Consumption * product.product3Consumption);
         }
-
-        System.out.println(needs);
         return needs;
     }
 
