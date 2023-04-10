@@ -25,4 +25,14 @@ public class Forecast {
         forecasts.add(new Forecast(4, 250, 150, 150));
         return forecasts;
     }
+
+    public static ArrayList<Integer> calcNeedsForWeek(Product product, ArrayList<Forecast> forecast) {
+        ArrayList<Integer> needs = new ArrayList<>();
+        for (Forecast f : forecast) {
+            needs.add(f.product1Consumption * product.product1Consumption
+                    + f.product2Consumption * product.product2Consumption
+                    + f.product3Consumption * product.product3Consumption);
+        }
+        return needs;
+    }
 }
