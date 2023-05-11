@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "database",
+      "type": "de.Ibsys.ibsys.DatabaseConfig",
+      "sourceType": "de.Ibsys.ibsys.DatabaseConfig"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}
