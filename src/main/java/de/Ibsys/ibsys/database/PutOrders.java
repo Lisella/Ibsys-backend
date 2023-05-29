@@ -21,7 +21,7 @@ public class PutOrders {
         clearOrdersTable();
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        String sql = "INSERT INTO public.\"Order\" (order_id, product_id, quantity, daysAfterToday) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO public.\"Order\" (\"ID\", \"productID\", \"quantity\", \"days\") VALUES (?, ?, ?, ?)";
 
         for (Order order : orders) {
             jdbcTemplate.update(sql, order.getId(), order.getProductId(), order.getQuantity(), order.getDaysAfterToday());
