@@ -25,7 +25,7 @@ public class Main {
             product.stockHistory = Product.updateStockHistoryByForecast(product, productionPlanEntity);
 
             // create orders for the product
-            orders.add(NewOrder.createOrders(product));
+            //orders.add(NewOrder.createOrder(product));
         }
         return orders;
     }
@@ -33,4 +33,6 @@ public class Main {
     public static void main(String[] args) {
         System.out.println(createOrders());
     }
+
+
 }
