@@ -1,4 +1,4 @@
-package de.Ibsys.ibsys.entity;
+package de.Ibsys.ibsys.InputXml;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -6,12 +6,12 @@ import lombok.Data;
 
 @Data
 @XmlRootElement
-public class Order {
+public class QualityControl {
     @XmlAttribute
-    private int article;
+    private String type;
     @XmlAttribute
-    private int quantity;
+    private int losequantity;
     @XmlAttribute
-    private int modus;
-
+    private int delay;
 }
+

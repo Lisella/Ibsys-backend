@@ -1,22 +1,28 @@
 package de.Ibsys.ibsys.rest;
 
-import de.Ibsys.ibsys.entity.Input;
-import org.springframework.http.HttpStatus;
+import de.Ibsys.ibsys.OutputXml.WarehouseStock;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Unmarshaller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.StringReader;
 
 @RestController
 @RequestMapping("/api")
 public class XMLController {
-        @PostMapping("/in")
-        public ResponseEntity<String> processInput(@RequestBody String inputXml) {
-            try {
-                return ResponseEntity.ok(inputXml);
-            } catch (Exception e) {
-                // Hier können Sie den Umgang mit Fehlern implementieren, falls erforderlich.
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein Fehler ist aufgetreten.");
-            }
-        }
+    @PostMapping("/in")
+    public ResponseEntity<String> processInput(@RequestBody String inputXml) throws JAXBException {
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(WarehouseStock.class);
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        WarehouseStock warehouse = (WarehouseStock) unmarshaller.unmarshal(new StringReader(inputXml));
+        warehouse.update(warehouse);
+        // Erfolgreiche Verarbeitung
+        return ResponseEntity.ok("Input processed successfully");
+
+    }
 
     @GetMapping("/input")
     public ResponseEntity<String> getResponse() {
