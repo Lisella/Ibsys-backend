@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Product {
+
     int id;
     String name;
     int deliverytime;
@@ -30,15 +31,6 @@ public class Product {
         for (int i = 0; i < 28; i++) {
             stockHistory.put(i, stock);
         }
-    }
-
-    public static ArrayList<Product> getProducts() {
-
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product(21, "test", 300, 9, 2, 1, 0, 0, 340));
-        // products.add(new Product(22, "test2", 2000, 10, 2, 2000, 2000, 2000, 2000));
-
-        return products;
     }
 
     public static HashMap<Integer, Integer> updateStockHistoryByForecast(Product product,
