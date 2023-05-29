@@ -1,4 +1,4 @@
-package de.Ibsys.ibsys.entity;
+package de.Ibsys.ibsys.InputXml;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -6,12 +6,12 @@ import lombok.Data;
 
 @Data
 @XmlRootElement
-public class QualityControl {
+public class WorkingTime {
     @XmlAttribute
-    private String type;
+    private int station;
     @XmlAttribute
-    private int losequantity;
+    private int shift;
     @XmlAttribute
-    private int delay;
-}
+    private int overtime;
 
+}

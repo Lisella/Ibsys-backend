@@ -1,4 +1,4 @@
-package de.Ibsys.ibsys.entity;
+package de.Ibsys.ibsys.InputXml;
 
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
