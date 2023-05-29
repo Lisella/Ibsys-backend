@@ -1,6 +1,4 @@
-./gradle  
+./gradle
+./gradle/*
 .gradle/*
-build/tmp/compileJava/previous-compilation-data.bin
-.gradle/buildOutputCleanup/buildOutputCleanup.lock
-.gitignore
-.gradle/buildOutputCleanup/outputFiles.bin
+.idea/*
