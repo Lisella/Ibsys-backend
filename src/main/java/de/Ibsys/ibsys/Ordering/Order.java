@@ -1,5 +1,3 @@
-
-
 package de.Ibsys.ibsys.Ordering;
 
 import java.util.ArrayList;
@@ -36,5 +34,21 @@ public class Order {
         }
 
         return product.stockHistory;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public int getProductId() {
+        return this.productId;
+    }
+
+    public int getQuantity() {
+        return this.quantity;
+    }
+
+    public int getDaysAfterToday() {
+        return this.daysAfterToday;
     }
 }
