@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "WiSJ1p6pcRwkiAJGgLZkAGySBl/4+PNZlcBlsBf6KnE=",
+  "Source": "IbsysBackend",
+  "BasePath": "_content/IbsysBackend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
