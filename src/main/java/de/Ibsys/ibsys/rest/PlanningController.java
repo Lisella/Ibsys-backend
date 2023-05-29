@@ -3,6 +3,7 @@ package de.Ibsys.ibsys.rest;
 import de.Ibsys.ibsys.Ordering.Calculations;
 import de.Ibsys.ibsys.Ordering.NewOrder;
 import de.Ibsys.ibsys.Ordering.ProductionPlanEntity;
+import de.Ibsys.ibsys.Production.ProductionItem;
 import org.glassfish.jersey.internal.guava.Ordering;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,8 @@ public class PlanningController {
         orderList.add(order);
         orderList.add(new NewOrder(2, 200, 3));
 
+        ArrayList<ProductionItem> productionItems = de.Ibsys.ibsys.Production.Calculations.createProductionByProductionPlanning(planningList);
+
         // Create the production list
         List<Map<String, String>> productionList = new ArrayList<>();
         Map<String, String> productionItem1 = new HashMap<>();
@@ -70,7 +73,7 @@ public class PlanningController {
         // Create a map to hold the response data
         Map<String, Object> response = new HashMap<>();
         response.put("orderlist", orders);
-        response.put("productionlist", productionList);
+        response.put("productionlist", productionItems);
         response.put("workingtimelist", workingTimeList);
 
         // Return the response map with the appropriate status
