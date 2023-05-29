@@ -229,11 +229,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\RenéRosenkranz\\source\\repos\\Ibsys\\IbsysBackend\\IbsysBackend.csproj",
+      "projectUniqueName": "C:\\Users\\RenéRosenkranz\\source\\repos\\IbsysNeu\\Ibsys-backend\\IbsysBackend.csproj",
       "projectName": "IbsysBackend",
-      "projectPath": "C:\\Users\\RenéRosenkranz\\source\\repos\\Ibsys\\IbsysBackend\\IbsysBackend.csproj",
+      "projectPath": "C:\\Users\\RenéRosenkranz\\source\\repos\\IbsysNeu\\Ibsys-backend\\IbsysBackend.csproj",
       "packagesPath": "C:\\Users\\RenéRosenkranz\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\RenéRosenkranz\\source\\repos\\Ibsys\\IbsysBackend\\obj\\",
+      "outputPath": "C:\\Users\\RenéRosenkranz\\source\\repos\\IbsysNeu\\Ibsys-backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\RenéRosenkranz\\AppData\\Roaming\\NuGet\\NuGet.Config",

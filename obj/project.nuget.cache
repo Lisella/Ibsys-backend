@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XbPZWbEcO1Eo55Nj1WUlK6php+x3FErLYh3XRQxgJ8YrFowvr4HpTcajHqCMUbwavrT6t8ipgeokIG0/MIRgug==",
+  "dgSpecHash": "ZbFQ8b9XO79EqmJhUTMVKwP7kf4RJh5dCAW8xblWwB/nBhzGgUmULLnMFJM0t++7KhV1ddSojmMg5FzlcInk7w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\RenéRosenkranz\\source\\repos\\Ibsys\\IbsysBackend\\IbsysBackend.csproj",
+  "projectFilePath": "C:\\Users\\RenéRosenkranz\\source\\repos\\IbsysNeu\\Ibsys-backend\\IbsysBackend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\RenéRosenkranz\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\RenéRosenkranz\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
