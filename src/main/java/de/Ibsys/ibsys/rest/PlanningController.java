@@ -1,7 +1,9 @@
 package de.Ibsys.ibsys.rest;
 
+import de.Ibsys.ibsys.Ordering.Calculations;
 import de.Ibsys.ibsys.Ordering.NewOrder;
 import de.Ibsys.ibsys.Ordering.ProductionPlanEntity;
+import org.glassfish.jersey.internal.guava.Ordering;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +30,10 @@ public class PlanningController {
             System.out.println("Product2 Consumption: " + planEntity.product2Consumption);
             System.out.println("Product3 Consumption: " + planEntity.product3Consumption);
         }
+
+        // calls a methode, that uses the ArrayList<ProductionPlanEntity> planningList and start the ordering calcs
+        System.out.println(("Bestellungen berechnung gestartet"));
+        ArrayList<NewOrder> orders = Calculations.createOrdersByProductionPlanning(planningList);
 
         NewOrder order = new NewOrder(1, 200, 5);
 
@@ -63,7 +69,7 @@ public class PlanningController {
 
         // Create a map to hold the response data
         Map<String, Object> response = new HashMap<>();
-        response.put("orderlist", orderList);
+        response.put("orderlist", orders);
         response.put("productionlist", productionList);
         response.put("workingtimelist", workingTimeList);
 
