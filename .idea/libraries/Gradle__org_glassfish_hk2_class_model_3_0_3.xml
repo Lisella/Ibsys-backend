@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: org.glassfish.hk2:class-model:3.0.3">
+  <library name="Gradle: org.glassfish.hk2:class-model:3.0.3" external-system-id="GRADLE">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/class-model/3.0.3/aa6ba787e9a37b0534fd0b008840df8f8253449a/class-model-3.0.3.jar!/" />
     </CLASSES>

@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: org.springframework.boot:spring-boot-starter-jersey:3.0.6">
+  <library name="Gradle: org.springframework.boot:spring-boot-starter-jersey:3.0.6" external-system-id="GRADLE">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-starter-jersey/3.0.6/e17ebe48b5fecca51d9fef92657a193f429e77b8/spring-boot-starter-jersey-3.0.6.jar!/" />
     </CLASSES>

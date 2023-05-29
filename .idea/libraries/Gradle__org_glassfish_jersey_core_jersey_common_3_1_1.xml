@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: org.glassfish.jersey.core:jersey-common:3.1.1">
+  <library name="Gradle: org.glassfish.jersey.core:jersey-common:3.1.1" external-system-id="GRADLE">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.core/jersey-common/3.1.1/8e35d8da05e68c355732acd0a655e94aed703709/jersey-common-3.1.1.jar!/" />
     </CLASSES>

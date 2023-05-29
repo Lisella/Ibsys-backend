@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: org.springframework:spring-expression:6.0.8">
+  <library name="Gradle: org.springframework:spring-expression:6.0.8" external-system-id="GRADLE">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/6.0.8/2e4f2132fbf168e716a618442d6100b71a0e95f9/spring-expression-6.0.8.jar!/" />
     </CLASSES>

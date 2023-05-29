@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: org.springframework:spring-webmvc:6.0.8">
+  <library name="Gradle: org.springframework:spring-webmvc:6.0.8" external-system-id="GRADLE">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/6.0.8/10b9481118ecf8ae9dc6f9fb47f95ed6da0e43e/spring-webmvc-6.0.8.jar!/" />
     </CLASSES>

@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: org.glassfish.jersey.ext:jersey-bean-validation:3.1.1">
+  <library name="Gradle: org.glassfish.jersey.ext:jersey-bean-validation:3.1.1" external-system-id="GRADLE">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.ext/jersey-bean-validation/3.1.1/68d4d4d49be5f4ddb1d350d091a7a337f777fdd3/jersey-bean-validation-3.1.1.jar!/" />
     </CLASSES>

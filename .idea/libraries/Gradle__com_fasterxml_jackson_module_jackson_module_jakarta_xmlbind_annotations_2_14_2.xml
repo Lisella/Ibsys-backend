@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.14.2">
+  <library name="Gradle: com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.14.2" external-system-id="GRADLE">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.module/jackson-module-jakarta-xmlbind-annotations/2.14.2/f568a91da2164a2cbca77543eca9e7d8f7a8eaae/jackson-module-jakarta-xmlbind-annotations-2.14.2.jar!/" />
     </CLASSES>

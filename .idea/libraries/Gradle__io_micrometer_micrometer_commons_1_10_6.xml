@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: io.micrometer:micrometer-commons:1.10.6">
+  <library name="Gradle: io.micrometer:micrometer-commons:1.10.6" external-system-id="GRADLE">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.micrometer/micrometer-commons/1.10.6/ddbcbabad244c79537c918422ad3ba66e1a773b4/micrometer-commons-1.10.6.jar!/" />
     </CLASSES>

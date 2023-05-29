@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: org.springframework.boot:spring-boot-configuration-processor:3.0.6">
+  <library name="Gradle: org.springframework.boot:spring-boot-configuration-processor:3.0.6" external-system-id="GRADLE">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.0.6/40ac53fa1e5c53d15c7058603e26dd03a99223ae/spring-boot-configuration-processor-3.0.6.jar!/" />
     </CLASSES>

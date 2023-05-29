@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Gradle: org.glassfish.hk2:spring-bridge:3.0.3">
+  <library name="Gradle: org.glassfish.hk2:spring-bridge:3.0.3" external-system-id="GRADLE">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.hk2/spring-bridge/3.0.3/6e8419afa484fa51a3e9ae2a4304dbd18591e1e6/spring-bridge-3.0.3.jar!/" />
     </CLASSES>
