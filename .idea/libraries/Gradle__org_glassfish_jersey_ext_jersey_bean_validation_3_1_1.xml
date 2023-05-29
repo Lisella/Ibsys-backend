@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.glassfish.jersey.ext:jersey-bean-validation:3.1.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.ext/jersey-bean-validation/3.1.1/68d4d4d49be5f4ddb1d350d091a7a337f777fdd3/jersey-bean-validation-3.1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.glassfish.jersey.ext/jersey-bean-validation/3.1.1/bbe14534abbb0ccaa308a5e7ab5c12ac4ade2e6a/jersey-bean-validation-3.1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
