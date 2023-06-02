@@ -48,6 +48,7 @@ public class NewOrder {
         // iterate over product.StockHistory and create orders if necessary
         for (int i = 0; i < 28 - product.deliverytime - product.variance; i++) {
             if (product.stockHistory.get(i + product.deliverytime + product.variance) < 0) {
+               //todo  why < 7
                 if (i < 7)
                     quantity += product.discountQuantity;
                 for (int j = i + product.deliverytime + product.variance; j < 28; j++) {

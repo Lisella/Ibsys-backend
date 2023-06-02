@@ -1,5 +1,6 @@
 package de.Ibsys.ibsys.rest;
 
+import de.Ibsys.ibsys.InputXml.WorkingTime;
 import de.Ibsys.ibsys.Ordering.Calculations;
 import de.Ibsys.ibsys.Ordering.NewOrder;
 import de.Ibsys.ibsys.Ordering.ProductionPlanEntity;
@@ -33,7 +34,7 @@ public class PlanningController {
         }
 
         // calls a methode, that uses the ArrayList<ProductionPlanEntity> planningList and start the ordering calcs
-        System.out.println(("Bestellungen berechnung gestartet"));
+        System.out.println(("Bestellungen Berechnung gestartet"));
         ArrayList<NewOrder> orders = Calculations.createOrdersByProductionPlanning(planningList);
 
         NewOrder order = new NewOrder(1, 200, 5);
@@ -43,6 +44,11 @@ public class PlanningController {
         orderList.add(new NewOrder(2, 200, 3));
 
         ArrayList<ProductionItem> productionItems = de.Ibsys.ibsys.Production.Calculations.createProductionByProductionPlanning(planningList);
+
+        System.out.println(("Überstunden Berechnung gestartet"));
+        ArrayList<WorkingTime> workingTimes = new ArrayList<>();
+
+
 
         // Create the production list
         List<Map<String, String>> productionList = new ArrayList<>();
@@ -74,7 +80,7 @@ public class PlanningController {
         Map<String, Object> response = new HashMap<>();
         response.put("orderlist", orders);
         response.put("productionlist", productionItems);
-        response.put("workingtimelist", workingTimeList);
+        response.put("workingtimelist", workingTimes);
 
         // Return the response map with the appropriate status
         return new ResponseEntity<>(response, HttpStatus.OK);
