@@ -26,18 +26,17 @@ public class Workplace {
         return durationsforeachProductWorkplace;
     }
 
-    public static ArrayList<Workplace> getWorkplaces(){
-        //todo db Call
-        ArrayList<WorkplaceProductMerge>  workplaceProductMerges = new ArrayList<WorkplaceProductMerge>();
+    public static ArrayList<Workplace> getWorkplaces() {
+        // todo db Call
+        ArrayList<WorkplaceProductMerge> workplaceProductMerges = new ArrayList<WorkplaceProductMerge>();
 
-        WorkplaceProductMerge workplaceProductMerge = new WorkplaceProductMerge(1, 1, 2);
+        WorkplaceProductMerge workplaceProductMerge = new WorkplaceProductMerge(1, 1, 1);
         workplaceProductMerges.add(workplaceProductMerge);
 
-        Workplace workplace = new Workplace(1, 0, workplaceProductMerges );
+        Workplace workplace = new Workplace(1, 0, workplaceProductMerges);
 
-        ArrayList<Workplace> workplaces  = new ArrayList<>();
+        ArrayList<Workplace> workplaces = new ArrayList<>();
         workplaces.add(workplace);
         return workplaces;
     }
 }
-
