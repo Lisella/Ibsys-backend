@@ -17,7 +17,7 @@ public class Product {
 
     // create constructor
     public Product(int id, String name, int discountQuantity, int deliverytime, int variance,
-                   int product1Consumption, int product2Consumption, int product3Consumption, int stock) {
+            int product1Consumption, int product2Consumption, int product3Consumption, int stock) {
         this.id = id;
         this.name = name;
         this.discountQuantity = discountQuantity;
@@ -34,7 +34,7 @@ public class Product {
     }
 
     public static HashMap<Integer, Integer> updateStockHistoryByForecast(Product product,
-                                                                         ArrayList<ProductionPlanEntity> productionPlanEntity) {
+            ArrayList<ProductionPlanEntity> productionPlanEntity) {
         ArrayList<Integer> needsforWeek = ProductionPlanEntity.calcNeedsForWeek(product, productionPlanEntity);
         // iterate over products.StockHistory and remove needs for each day from stock
         // value
@@ -53,5 +53,9 @@ public class Product {
             }
         }
         return product.stockHistory;
+    }
+
+    public String getId() {
+        return String.valueOf(id);
     }
 }
