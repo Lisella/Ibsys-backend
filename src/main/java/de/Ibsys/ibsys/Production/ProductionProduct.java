@@ -20,7 +20,7 @@ public class ProductionProduct {
     public static ArrayList<ProductionProduct> getProductionProductsFromDB(){
         ArrayList<ProductionProduct> products = new ArrayList<>();
 
-        ProductionProduct product = new ProductionProduct(1, "Test", 150, 150, 200);
+        ProductionProduct product = new ProductionProduct(1, "Test", 1, 0, 0);
         products.add(product);
         return products;
     }

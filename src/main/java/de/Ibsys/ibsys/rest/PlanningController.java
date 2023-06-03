@@ -1,9 +1,11 @@
 package de.Ibsys.ibsys.rest;
 
+import de.Ibsys.ibsys.InputXml.WorkingTime;
 import de.Ibsys.ibsys.Ordering.Calculations;
 import de.Ibsys.ibsys.Ordering.NewOrder;
 import de.Ibsys.ibsys.Ordering.ProductionPlanEntity;
 import de.Ibsys.ibsys.Production.ProductionItem;
+import de.Ibsys.ibsys.WorkingTimes.Workplace;
 import org.glassfish.jersey.internal.guava.Ordering;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,8 @@ public class PlanningController {
     @CrossOrigin(origins = "http://localhost:5173")
 
     @PostMapping("/planning")
-    public ResponseEntity<Map<String, Object>> processPlanning(@RequestBody ArrayList<ProductionPlanEntity> planningList) {
+    public ResponseEntity<Map<String, Object>> processPlanning(
+            @RequestBody ArrayList<ProductionPlanEntity> planningList) {
         // Here you can process the received list
         // For example:
         for (ProductionPlanEntity planEntity : planningList) {
@@ -31,8 +34,9 @@ public class PlanningController {
             System.out.println("Product3 Consumption: " + planEntity.product3Consumption);
         }
 
-        // calls a methode, that uses the ArrayList<ProductionPlanEntity> planningList and start the ordering calcs
-        System.out.println(("Bestellungen berechnung gestartet"));
+        // calls a methode, that uses the ArrayList<ProductionPlanEntity> planningList
+        // and start the ordering calcs
+        System.out.println(("Bestellungen Berechnung gestartet"));
         ArrayList<NewOrder> orders = Calculations.createOrdersByProductionPlanning(planningList);
 
         NewOrder order = new NewOrder(1, 200, 5);
@@ -41,7 +45,12 @@ public class PlanningController {
         orderList.add(order);
         orderList.add(new NewOrder(2, 200, 3));
 
-        ArrayList<ProductionItem> productionItems = de.Ibsys.ibsys.Production.Calculations.createProductionByProductionPlanning(planningList);
+        ArrayList<ProductionItem> productionItems = de.Ibsys.ibsys.Production.Calculations
+                .createProductionByProductionPlanning(planningList);
+
+        System.out.println(("Überstunden Berechnung gestartet"));
+        ArrayList<de.Ibsys.ibsys.WorkingTimes.WorkingTime> workingTimes = de.Ibsys.ibsys.WorkingTimes.Calculations
+                .CalculateWorkingtimesByProductionList(productionItems);
 
         // Create the production list
         List<Map<String, String>> productionList = new ArrayList<>();
@@ -73,7 +82,7 @@ public class PlanningController {
         Map<String, Object> response = new HashMap<>();
         response.put("orderlist", orders);
         response.put("productionlist", productionItems);
-        response.put("workingtimelist", workingTimeList);
+        response.put("workingtimelist", workingTimes);
 
         // Return the response map with the appropriate status
         return new ResponseEntity<>(response, HttpStatus.OK);

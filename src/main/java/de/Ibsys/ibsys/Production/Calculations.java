@@ -18,9 +18,6 @@ public class Calculations {
 
         ArrayList<ProductionProduct> products = ProductionProduct.getProductionProductsFromDB();
 
-
-
-
         System.out.println("Für Produktionsmengen den Produktverbrauch anhand der Produktionsmengen bestimmen");
 
         for (ProductionProduct product: products ){
@@ -29,8 +26,8 @@ public class Calculations {
         }
 
         System.out.println("----------------------");
-        System.out.println("Folgende Produktionsmengen werden vorgeschlagen");
-
+        System.out.println("Folgende Produktionsmengen werden vorgeschlagen:");
+        System.out.println("----------------------");
         for (ProductionItem productionItem : productionItems) {
             System.out.println("Article: " + productionItem.getArticle());
             System.out.println("Quantity: " + productionItem.getQuantity());
