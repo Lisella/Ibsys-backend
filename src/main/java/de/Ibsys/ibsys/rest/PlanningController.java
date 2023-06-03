@@ -22,37 +22,37 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class PlanningController {
-
     @PostMapping("/planning")
-    public ResponseEntity<Map<String, Object>> processPlanning(
-            @RequestBody ArrayList<ProductionPlanEntity> planningList) {
-        // Here you can process the received list
-        // For example:
-        for (ProductionPlanEntity planEntity : planningList) {
-            System.out.println("Periode: " + planEntity.periode);
-            System.out.println("Product1 Consumption: " + planEntity.product1Consumption);
-            System.out.println("Product2 Consumption: " + planEntity.product2Consumption);
-            System.out.println("Product3 Consumption: " + planEntity.product3Consumption);
+    public ResponseEntity<Map<String, Object>> processPlanning(@RequestBody Map<String, Object> requestBody) {
+        List<Map<String, Object>> productionListJson = (List<Map<String, Object>>) requestBody.get("production");
+        boolean splitting = (boolean) requestBody.get("splitting");
+
+        ArrayList<ProductionPlanEntity> planningList = new ArrayList<>();
+
+        for (Map<String, Object> productionItem : productionListJson) {
+            int periode = (int) productionItem.get("periode");
+            int product1Consumption = (int) productionItem.get("product1Consumption");
+            int product2Consumption = (int) productionItem.get("product2Consumption");
+            int product3Consumption = (int) productionItem.get("product3Consumption");
+
+            ProductionPlanEntity planEntity = new ProductionPlanEntity(periode, product1Consumption, product2Consumption, product3Consumption);
+            planningList.add(planEntity);
         }
+
+        System.out.println("Aufträge sollen gesplittet werden: " + splitting);
 
         // calls a methode, that uses the ArrayList<ProductionPlanEntity> planningList
         // and start the ordering calcs
         System.out.println(("Bestellungen Berechnung gestartet"));
         ArrayList<NewOrder> orders = Calculations.createOrdersByProductionPlanning(planningList);
 
-        NewOrder order = new NewOrder(1, 200, 5);
-
-        ArrayList<NewOrder> orderList = new ArrayList<>();
-        orderList.add(order);
-        orderList.add(new NewOrder(2, 200, 3));
-
         ArrayList<ProductionItem> productionItems = de.Ibsys.ibsys.Production.Calculations
-                .createProductionByProductionPlanning(planningList);
+                .createProductionByProductionPlanning(planningList, splitting);
 
         System.out.println(("Überstunden Berechnung gestartet"));
         ArrayList<de.Ibsys.ibsys.WorkingTimes.WorkingTime> workingTimes = de.Ibsys.ibsys.WorkingTimes.Calculations
                 .CalculateWorkingtimesByProductionList(productionItems);
-
+/*
         // Create the production list
         List<Map<String, String>> productionList = new ArrayList<>();
         Map<String, String> productionItem1 = new HashMap<>();
@@ -78,7 +78,7 @@ public class PlanningController {
         workingTimeItem2.put("shift", "1");
         workingTimeItem2.put("overtime", "2");
         workingTimeList.add(workingTimeItem2);
-
+*/
         // Create a map to hold the response data
         Map<String, Object> response = new HashMap<>();
         response.put("orderlist", orders);
