@@ -1,6 +1,7 @@
 package de.Ibsys.ibsys.WorkingTimes;
 
 import de.Ibsys.ibsys.Production.ProductionItem;
+import de.Ibsys.ibsys.database.GetWaitingListForWorkstations;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,17 @@ public class Calculations {
                 System.out.println(
                         workplace.id + " : " + workplace.duration);
 
+            }
+        }
+
+        // Füge die Zeiten der Waitinglist hinzu
+        ArrayList<WaitingListItem> waitingList = GetWaitingListForWorkstations.getWaitingListForWorkstations();
+
+        for (WaitingListItem waitingListItem : waitingList) {
+            for (Workplace workplace : workplaces) {
+                if (waitingListItem.productId == workplace.id) {
+                    workplace.duration += waitingListItem.waitingTime;
+                }
             }
         }
 
