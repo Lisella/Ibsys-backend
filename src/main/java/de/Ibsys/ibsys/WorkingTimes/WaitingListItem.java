@@ -2,10 +2,10 @@ package de.Ibsys.ibsys.WorkingTimes;
 
 public class WaitingListItem {
     public WaitingListItem(int i, int j) {
-        this.productId = i;
+        this.workplaceId = i;
         this.waitingTime = j;
     }
 
-    int productId;
+    int workplaceId;
     int waitingTime;
 }

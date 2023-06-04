@@ -9,10 +9,10 @@ public class GetWaitingListForWorkstations {
         // todo db Call
         ArrayList<WaitingListItem> waitingListItems = new ArrayList<WaitingListItem>();
 
-        int productId = 1;
-        int waitingTime = 500;
+        int workplaceId = 1;
+        int waitingTime = 2500;
 
-        WaitingListItem waitingListItem = new WaitingListItem(productId, waitingTime);
+        WaitingListItem waitingListItem = new WaitingListItem(workplaceId, waitingTime);
         waitingListItems.add(waitingListItem);
 
         return waitingListItems;

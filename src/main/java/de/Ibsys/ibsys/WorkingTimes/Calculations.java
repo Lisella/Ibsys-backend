@@ -34,7 +34,7 @@ public class Calculations {
 
         for (WaitingListItem waitingListItem : waitingList) {
             for (Workplace workplace : workplaces) {
-                if (waitingListItem.productId == workplace.id) {
+                if (waitingListItem.workplaceId == workplace.id) {
                     workplace.duration += waitingListItem.waitingTime;
                 }
             }
