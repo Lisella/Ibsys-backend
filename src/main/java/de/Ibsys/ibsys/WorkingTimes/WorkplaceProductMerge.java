@@ -5,6 +5,7 @@ public class WorkplaceProductMerge {
     int productId;
 
     int durationPerUnit;
+    int setupTime;
 
     public int getWorkplaceId() {
         return workplaceId;
@@ -18,9 +19,10 @@ public class WorkplaceProductMerge {
         return durationPerUnit;
     }
 
-    public WorkplaceProductMerge(int workplaceId, int productId, int durationPerUnit) {
+    public WorkplaceProductMerge(int workplaceId, int productId, int durationPerUnit, int setupTime) {
         this.workplaceId = workplaceId;
         this.productId = productId;
         this.durationPerUnit = durationPerUnit;
+        this.setupTime = setupTime;
     }
 }

@@ -32,5 +32,8 @@ public class ProductionItem {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-}
 
+    public int getProductId() {
+        return article;
+    }
+}
