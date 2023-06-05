@@ -1,10 +1,10 @@
 package de.Ibsys.ibsys.WorkingTimes;
 
 import de.Ibsys.ibsys.Production.ProductionItem;
+import de.Ibsys.ibsys.database.GetWaitingListForWorkstations;
+import de.Ibsys.ibsys.database.GetWorkplaces;
 
 import java.util.ArrayList;
-
-import static de.Ibsys.ibsys.WorkingTimes.Workplace.getWorkplaces;
 
 public class Calculations {
     public static ArrayList<WorkingTime> CalculateWorkingtimesByProductionList(
@@ -14,9 +14,10 @@ public class Calculations {
         System.out.println("Hole alle Arbeitsplätze und zugehörige Produktionszeiten pro Produkt");
         System.out.println("----------------------");
 
-        ArrayList<Workplace> workplaces = getWorkplaces();
+        ArrayList<Workplace> workplaces = GetWorkplaces.getWorkplaces();
 
-        System.out.println("Berechne die benötigte Zeit je Arbeitsplatz");
+        System.out.println(
+                "Berechne die benötigte Zeit je Arbeitsplatz für diese Periode ohne Warteliste und Rüstzeiten");
         System.out.println("----------------------");
         for (Workplace workplace : workplaces) {
             for (WorkplaceProductMerge workplaceProductMerge : workplace.durationsforeachProductWorkplace) {
@@ -26,6 +27,57 @@ public class Calculations {
                         workplace.id + " : " + workplace.duration);
 
             }
+        }
+
+        System.out.println("----------------------");
+        System.out.println(
+                "Berechne die benötigte Zeit je Arbeitsplatz unter Berücksichtigung der Warteliste der letzten Periode");
+        // Füge die Zeiten der Waitinglist hinzu
+        ArrayList<WaitingListItem> waitingList = GetWaitingListForWorkstations.getWaitingListForWorkstations();
+
+        for (WaitingListItem waitingListItem : waitingList) {
+            for (Workplace workplace : workplaces) {
+                if (waitingListItem.workplaceId == workplace.id) {
+                    workplace.duration += waitingListItem.waitingTime;
+                }
+            }
+        }
+
+        System.out.println("----------------------");
+        System.out.println("Arbeitszeiten inclusive Warteliste:");
+
+        // gebe die benötigte Zeit je Arbeitsplatz aus
+        for (Workplace workplace : workplaces) {
+            System.out.println(
+                    workplace.id + " : " + workplace.duration);
+        }
+        System.out.println("Berechne die benötigte Zeit je Arbeitsplatz inklusive Rüstzeiten");
+
+        // Füge die Rüstzeiten hinzu
+        // gehe alle Arbeitsplätze durch
+        // gehe alle Fertigungsaufträge durch
+        // wenn der Fertigungsauftrag auf dem Arbeitsplatz gefertigt wird, dann addiere
+        // die Rüstzeit auf die Gesamtdauer des Arbeitsplatzes
+
+        for (Workplace workplace : workplaces) {
+            for (ProductionItem productionItem : productionList) {
+                for (WorkplaceProductMerge workplaceProductMerge : workplace.durationsforeachProductWorkplace) {
+                    if (productionItem.getProductId() == workplaceProductMerge.getProductId()
+                            && workplaceProductMerge.getWorkplaceId() == workplace.id) {
+                        workplace.duration += workplaceProductMerge.setupTime;
+                    }
+                }
+            }
+        }
+
+        // gebe die benötigte Zeit je Arbeitsplatz aus nachdem die Rüstzeiten
+        // hinzugefügt wurden
+
+        System.out.println("----------------------");
+        System.out.println("Finale benötigte Zeit je Arbeitsplatz");
+        for (Workplace workplace : workplaces) {
+            System.out.println(
+                    workplace.id + " : " + workplace.duration);
         }
 
         System.out.println("----------------------");
@@ -71,7 +123,7 @@ public class Calculations {
             }
 
             workingTimes.add(new WorkingTime(workplace.id, shifts, overtime / 5));
-            System.out.println(workplace.id + " : " + shifts + " Schichten, " + overtime + " Überminuten");
+            System.out.println(workplace.id + " : " + shifts + " Schichten, " + overtime / 5 + " Überminuten pro Tag");
         }
 
         return workingTimes;

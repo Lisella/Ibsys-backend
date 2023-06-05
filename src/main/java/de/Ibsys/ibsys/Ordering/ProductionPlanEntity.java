@@ -16,6 +16,38 @@ public class ProductionPlanEntity {
         this.product3Consumption = product3Consumption;
     }
 
+    public int getPeriode() {
+        return periode;
+    }
+
+    public void setPeriode(int periode) {
+        this.periode = periode;
+    }
+
+    public int getProduct1Consumption() {
+        return product1Consumption;
+    }
+
+    public void setProduct1Consumption(int product1Consumption) {
+        this.product1Consumption = product1Consumption;
+    }
+
+    public int getProduct2Consumption() {
+        return product2Consumption;
+    }
+
+    public void setProduct2Consumption(int product2Consumption) {
+        this.product2Consumption = product2Consumption;
+    }
+
+    public int getProduct3Consumption() {
+        return product3Consumption;
+    }
+
+    public void setProduct3Consumption(int product3Consumption) {
+        this.product3Consumption = product3Consumption;
+    }
+
     // create method getForecast
     public static ArrayList<ProductionPlanEntity> getForecast() {
         ArrayList<ProductionPlanEntity> productionPlanEntities = new ArrayList<ProductionPlanEntity>();

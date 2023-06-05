@@ -5,12 +5,15 @@ import java.util.ArrayList;
 public class Workplace {
     int id;
     int duration;
-
+    // workplaceId, productId, durationPerUnit, setupTime für jedes Produkt, welches
+    // an diesem Arbeitsplatz hergestellt wird
     ArrayList<WorkplaceProductMerge> durationsforeachProductWorkplace;
 
     public Workplace(int id, int duration, ArrayList<WorkplaceProductMerge> durationsforeachProductWorkplace) {
         this.id = id;
         this.duration = duration;
+        // In diese Liste nur die WorkplaceProductMerge-Objekte einfügen, die für diesen
+        // Arbeitsplatz gefertigt werden
         this.durationsforeachProductWorkplace = durationsforeachProductWorkplace;
     }
 
@@ -24,19 +27,5 @@ public class Workplace {
 
     public ArrayList<WorkplaceProductMerge> getDurationsforeachProductWorkplace() {
         return durationsforeachProductWorkplace;
-    }
-
-    public static ArrayList<Workplace> getWorkplaces() {
-        // todo db Call
-        ArrayList<WorkplaceProductMerge> workplaceProductMerges = new ArrayList<WorkplaceProductMerge>();
-
-        WorkplaceProductMerge workplaceProductMerge = new WorkplaceProductMerge(1, 1, 1);
-        workplaceProductMerges.add(workplaceProductMerge);
-
-        Workplace workplace = new Workplace(1, 0, workplaceProductMerges);
-
-        ArrayList<Workplace> workplaces = new ArrayList<>();
-        workplaces.add(workplace);
-        return workplaces;
     }
 }
