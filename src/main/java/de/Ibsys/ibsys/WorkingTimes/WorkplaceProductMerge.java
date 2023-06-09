@@ -1,9 +1,11 @@
 package de.Ibsys.ibsys.WorkingTimes;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class WorkplaceProductMerge {
     int workplaceId;
     int productId;
-
     int durationPerUnit;
     int setupTime;
 
@@ -19,7 +21,11 @@ public class WorkplaceProductMerge {
         return durationPerUnit;
     }
 
-    public WorkplaceProductMerge(int workplaceId, int productId, int durationPerUnit, int setupTime) {
+    @JsonCreator
+    public WorkplaceProductMerge(@JsonProperty("workplaceId") int workplaceId,
+                                 @JsonProperty("productId") int productId,
+                                 @JsonProperty("durationPerUnit") int durationPerUnit,
+                                 @JsonProperty("setupTime") int setupTime) {
         this.workplaceId = workplaceId;
         this.productId = productId;
         this.durationPerUnit = durationPerUnit;
