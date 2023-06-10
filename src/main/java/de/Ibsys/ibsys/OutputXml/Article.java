@@ -1,8 +1,5 @@
 package de.Ibsys.ibsys.OutputXml;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
 public class Article {
     private int id;
     private int amount;

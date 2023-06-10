@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.Ibsys.ibsys.OutputXml.Article;
 import de.Ibsys.ibsys.OutputXml.WarehouseData;
 import de.Ibsys.ibsys.OutputXml.WarehouseStock;
+import de.Ibsys.ibsys.service.InputService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,7 @@ public class XMLController {
                 articlesMap.put(id, amount);
             }
         }
+        InputService.updateArticles(articlesMap);
         System.out.println(articlesMap);
 
         return "Ok";
