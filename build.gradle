@@ -25,9 +25,13 @@ dependencies {
 	implementation 'org.postgresql:postgresql:42.6.0'
 	implementation 'org.eclipse.persistence:org.eclipse.persistence.moxy:4.0.1'
 	implementation 'javax.xml.bind:jaxb-api-parent:2.4.0-b180830.0359'
+<<<<<<< Updated upstream
 	implementation 'com.zaxxer:HikariCP:4.0.3'
 	implementation 'org.apache.poi:poi:4.1.2'
 	implementation 'org.apache.poi:poi-ooxml:4.1.2'
+=======
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+>>>>>>> Stashed changes
     compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'

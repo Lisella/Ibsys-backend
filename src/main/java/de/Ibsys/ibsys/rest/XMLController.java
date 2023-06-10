@@ -1,27 +1,42 @@
 package de.Ibsys.ibsys.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.Ibsys.ibsys.OutputXml.Article;
+import de.Ibsys.ibsys.OutputXml.WarehouseData;
 import de.Ibsys.ibsys.OutputXml.WarehouseStock;
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Unmarshaller;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class XMLController {
+
     @PostMapping("/in")
-    public ResponseEntity<String> processInput(@RequestBody String inputXml) throws JAXBException {
+    public String parseJson(@RequestBody Map<String, Object> requestBody) {
+        List<Map<String, Object>> articles = (List<Map<String, Object>>) ((Map<String, Object>) requestBody
+                .get("warehousestock"))
+                .get("articles");
+        HashMap<Integer, Integer> articlesMap = new HashMap<>();
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(WarehouseStock.class);
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        WarehouseStock warehouse = (WarehouseStock) unmarshaller.unmarshal(new StringReader(inputXml));
-        warehouse.update(warehouse);
-        // Erfolgreiche Verarbeitung
-        return ResponseEntity.ok("Input processed successfully");
+        for (Map<String, Object> article : articles) {
+            if (article != null) {
+                Integer id = Integer.parseInt((String) article.get("id"));
+                Integer amount = Integer.parseInt((String) article.get("amount"));
+                articlesMap.put(id, amount);
+            }
+        }
+        System.out.println(articlesMap);
 
+        return "Ok";
     }
 
     @GetMapping("/input")
