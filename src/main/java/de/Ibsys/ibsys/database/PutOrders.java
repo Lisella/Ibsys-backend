@@ -1,19 +1,19 @@
 package de.Ibsys.ibsys.database;
 
+import com.zaxxer.hikari.HikariDataSource;
 import de.Ibsys.ibsys.Ordering.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import javax.sql.DataSource;
 import java.util.ArrayList;
 
 @Component
 public class PutOrders {
 
-    private final DataSource dataSource;
+    private final HikariDataSource dataSource;
 
     @Autowired
-    public PutOrders(DataSource dataSource) {
+    public PutOrders(HikariDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -26,11 +26,13 @@ public class PutOrders {
         for (Order order : orders) {
             jdbcTemplate.update(sql, order.getId(), order.getProductId(), order.getQuantity(), order.getDaysAfterToday());
         }
+        dataSource.close();
     }
 
     private void clearOrdersTable() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        String sql = "DELETE FROM public.\"Order\"";
+        String sql = "TRUNCATE TABLE public.\"Order\"";
         jdbcTemplate.update(sql);
+        dataSource.close();
     }
 }
