@@ -9,14 +9,14 @@ public class ProductionProduct {
     int product2Consumption;
     int product3Consumption;
 
-    ProductionProduct(int Id, String Name, int p1, int p2, int p3){
-
+    public ProductionProduct(int Id, String Name, int p1, int p2, int p3){
         this.id = Id;
         this.name = Name;
         this.product1Consumption = p1;
         this.product2Consumption = p2;
         this.product3Consumption = p3;
     }
+
     public static ArrayList<ProductionProduct> getProductionProductsFromDB(){
         ArrayList<ProductionProduct> products = new ArrayList<>();
 
