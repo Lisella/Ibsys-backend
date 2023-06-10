@@ -4,11 +4,6 @@
     <facet type="web" name="Web">
       <configuration>
         <webroots />
-        <sourceRoots>
-          <root url="file://$MODULE_DIR$/../../build/generated/sources/annotationProcessor/java/main" />
-          <root url="file://$MODULE_DIR$/../../src/main/java" />
-          <root url="file://$MODULE_DIR$/../../src/main/resources" />
-        </sourceRoots>
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
@@ -37,7 +32,14 @@
     <orderEntry type="library" name="Gradle: com.sun.xml.bind:jaxb-impl:2.3.0.1" level="project" />
     <orderEntry type="library" name="Gradle: jakarta.xml.bind:jakarta.xml.bind-api:4.0.0" level="project" />
     <orderEntry type="library" name="Gradle: org.postgresql:postgresql:42.6.0" level="project" />
+<<<<<<< Updated upstream
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.media:jersey-media-json-jackson:3.1.1" level="project" />
+=======
+    <orderEntry type="library" name="Gradle: org.eclipse.persistence:org.eclipse.persistence.moxy:4.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.zaxxer:HikariCP:4.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.poi:poi-ooxml:4.1.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.poi:poi:4.1.2" level="project" />
+>>>>>>> Stashed changes
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-json:3.0.6" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-tomcat:3.0.6" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-validation:3.0.6" level="project" />
@@ -49,8 +51,8 @@
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.core:jersey-server:3.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-webmvc:6.0.8" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter:3.0.6" level="project" />
-    <orderEntry type="library" name="Gradle: com.zaxxer:HikariCP:5.0.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-jdbc:6.0.8" level="project" />
+<<<<<<< Updated upstream
     <orderEntry type="library" name="Gradle: javax.activation:javax.activation-api:1.2.0" level="project" />
     <orderEntry type="library" name="Gradle: jakarta.activation:jakarta.activation-api:2.1.1" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.14.2" level="project" />
@@ -58,6 +60,20 @@
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.14.2" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.core:jersey-common:3.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.jersey.ext:jersey-entity-filtering:3.1.1" level="project" />
+=======
+    <orderEntry type="library" name="Gradle: jakarta.xml.bind:jakarta.xml.bind-api:4.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.eclipse.persistence:org.eclipse.persistence.core:4.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.eclipse.angus:angus-activation:2.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.eclipse.angus:angus-mail:1.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:2.0.7" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.poi:poi-ooxml-schemas:4.1.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-compress:1.19" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.virtuald:curvesapi:1.06" level="project" />
+    <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.15" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-collections4:4.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-math3:3.6.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.zaxxer:SparseBitSet:1.2" level="project" />
+>>>>>>> Stashed changes
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.module:jackson-module-parameter-names:2.14.2" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.14.2" level="project" />
@@ -80,12 +96,17 @@
     <orderEntry type="library" name="Gradle: org.springframework:spring-context:6.0.8" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-aop:6.0.8" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-expression:6.0.8" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-logging:3.0.6" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:3.0.6" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot:3.0.6" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-logging:3.0.6" level="project" />
     <orderEntry type="library" name="Gradle: org.yaml:snakeyaml:1.33" level="project" />
-    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:2.0.7" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-tx:6.0.8" level="project" />
+<<<<<<< Updated upstream
+=======
+    <orderEntry type="library" name="Gradle: jakarta.activation:jakarta.activation-api:2.1.1" level="project" />
+    <orderEntry type="library" name="Gradle: jakarta.mail:jakarta.mail-api:2.1.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.xmlbeans:xmlbeans:3.1.0" level="project" />
+>>>>>>> Stashed changes
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.14.2" level="project" />
     <orderEntry type="library" name="Gradle: org.glassfish.hk2:osgi-resource-locator:1.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml:classmate:1.5.1" level="project" />
