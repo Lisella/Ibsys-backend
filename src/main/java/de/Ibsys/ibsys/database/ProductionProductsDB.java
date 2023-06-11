@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class GetProductionProducts {
+public class ProductionProductsDB {
 
     private static HikariDataSource dataSource = null;
 
     @Autowired
-    public GetProductionProducts(HikariDataSource dataSource) {
+    public ProductionProductsDB(HikariDataSource dataSource) {
         this.dataSource = dataSource;
     }
 

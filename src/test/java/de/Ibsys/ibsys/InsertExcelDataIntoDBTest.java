@@ -30,6 +30,7 @@ public class InsertExcelDataIntoDBTest {
                 Row row = rowIterator.next();
                 int column1Value = (int) row.getCell(0).getNumericCellValue();
                 int column2Value = (int) row.getCell(1).getNumericCellValue();
+                //String column3Value = row.getCell(2).getStringCellValue();
 
                 String sql = "INSERT INTO public.\"WorkstationWaitlist\" (\"ID\", \"timeneed\") VALUES (?, ?)";
                 jdbcTemplate.update(sql, column1Value, column2Value);

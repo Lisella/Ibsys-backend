@@ -1,19 +1,9 @@
 package de.Ibsys.ibsys.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import de.Ibsys.ibsys.OutputXml.Article;
-import de.Ibsys.ibsys.OutputXml.WarehouseData;
-import de.Ibsys.ibsys.OutputXml.WarehouseStock;
-import de.Ibsys.ibsys.service.InputService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import de.Ibsys.ibsys.database.ProductsDB;
+import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,11 +28,10 @@ public class XMLController {
                 articlesMap.put(id, amount);
             }
         }
-        InputService.updateArticles(articlesMap);
-        System.out.println(articlesMap);
+        // Update stock
+        ProductsDB.updateProductStock(articlesMap);
 
         //Extracting workinglistworkstations
-
         List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) ((Map<String, Object>) requestBody
                 .get("waitinglistworkstation"))
                 .get("workplace");
@@ -57,9 +46,8 @@ public class XMLController {
             }
         }
 
-        // Update articles and workstations
-        InputService.updateArticles(articlesMap);
-        //InputService.updateWorkstations(workstations);
+        // Update timeneed
+        WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
 
         System.out.println(articlesMap);
         System.out.println(workstations);

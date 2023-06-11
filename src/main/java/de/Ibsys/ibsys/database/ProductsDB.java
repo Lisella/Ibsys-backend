@@ -5,19 +5,18 @@ import de.Ibsys.ibsys.Ordering.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-
-import javax.sql.DataSource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Component
-public class GetProducts {
+public class ProductsDB {
 
     private static HikariDataSource dataSource = null;
 
     @Autowired
-    public GetProducts(HikariDataSource dataSource) {
+    public ProductsDB(HikariDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -45,5 +44,14 @@ public class GetProducts {
 
         dataSource.close();
         return products;
+    }
+
+    public static void updateProductStock(HashMap<Integer, Integer> stock) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        String sql = "UPDATE public.\"Product\" SET \"stock\" = ? WHERE \"ID\" = ?";
+        stock.forEach((id, newStock) -> {
+            jdbcTemplate.update(sql, newStock, id);
+        });
+        dataSource.close();
     }
 }
