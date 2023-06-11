@@ -1,24 +1,20 @@
 package de.Ibsys.ibsys;
 
-import de.Ibsys.ibsys.Ordering.Product;
 import de.Ibsys.ibsys.WorkingTimes.Workplace;
-import de.Ibsys.ibsys.database.GetProducts;
-import de.Ibsys.ibsys.database.GetWorkplaces;
+import de.Ibsys.ibsys.database.WorkplacesDB;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.sql.DataSource;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class GetWorkplacesTest {
+public class WorkplacesDBTest {
 
     @Test
     public void testGetWorkplaces() {
-        ArrayList<Workplace> workplaces = GetWorkplaces.getWorkplaces();
+        ArrayList<Workplace> workplaces = WorkplacesDB.getWorkplaces();
         assertEquals(14, workplaces.size());
         System.out.println(workplaces.size());
     }
