@@ -7,23 +7,20 @@ import java.util.Map;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.Ibsys.ibsys.Ordering.Order;
-import de.Ibsys.ibsys.Ordering.Product;
+import com.zaxxer.hikari.HikariDataSource;
 import de.Ibsys.ibsys.WorkingTimes.Workplace;
 import de.Ibsys.ibsys.WorkingTimes.WorkplaceProductMerge;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
-
 @Component
 public class GetWorkplaces {
 
-    private static DataSource dataSource = null;
+    private static HikariDataSource dataSource = null;
 
     @Autowired
-    public GetWorkplaces(DataSource dataSource) { this.dataSource = dataSource; }
+    public GetWorkplaces(HikariDataSource dataSource) { this.dataSource = dataSource; }
 
     public static ArrayList<Workplace> getWorkplaces() {
         ArrayList<Workplace> workplaces = new ArrayList<>();
@@ -44,6 +41,7 @@ public class GetWorkplaces {
             workplaces.add(workplace);
         }
 
+        dataSource.close();
         return workplaces;
     }
 

@@ -1,12 +1,10 @@
 package de.Ibsys.ibsys.database;
 
-import de.Ibsys.ibsys.Ordering.Product;
+import com.zaxxer.hikari.HikariDataSource;
 import de.Ibsys.ibsys.Production.ProductionProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +12,10 @@ import java.util.Map;
 @Component
 public class GetProductionProducts {
 
-    private static DataSource dataSource = null;
+    private static HikariDataSource dataSource = null;
 
     @Autowired
-    public GetProductionProducts(DataSource dataSource) {
+    public GetProductionProducts(HikariDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -39,6 +37,7 @@ public class GetProductionProducts {
             productionProducts.add(productionProduct);
         }
 
+        dataSource.close();
         return productionProducts;
     }
 }

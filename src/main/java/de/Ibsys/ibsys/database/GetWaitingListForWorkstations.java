@@ -1,20 +1,39 @@
 package de.Ibsys.ibsys.database;
 
 import java.util.ArrayList;
-
+import java.util.List;
+import java.util.Map;
+import com.zaxxer.hikari.HikariDataSource;
 import de.Ibsys.ibsys.WorkingTimes.WaitingListItem;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GetWaitingListForWorkstations {
+
+    private static HikariDataSource dataSource = null;
+
+    @Autowired
+    public GetWaitingListForWorkstations(HikariDataSource dataSource) { this.dataSource = dataSource; }
+
     public static ArrayList<WaitingListItem> getWaitingListForWorkstations() {
-        // todo db Call
-        ArrayList<WaitingListItem> waitingListItems = new ArrayList<WaitingListItem>();
+        ArrayList<WaitingListItem> waitingListItems = new ArrayList<>();
 
-        int workplaceId = 1;
-        int waitingTime = 2500;
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        String sql = "SELECT * FROM public.\"WorkstationWaitlist\"";
 
-        WaitingListItem waitingListItem = new WaitingListItem(workplaceId, waitingTime);
-        waitingListItems.add(waitingListItem);
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 
+        for (Map<String, Object> row : rows) {
+            int id = (Integer) row.get("ID");
+            int timeneed = (Integer) row.get("timeneed");
+
+            WaitingListItem waitingListItem = new WaitingListItem(id, timeneed);
+            waitingListItems.add(waitingListItem);
+        }
+
+        dataSource.close();
         return waitingListItems;
     }
 }
