@@ -1,6 +1,6 @@
 package de.Ibsys.ibsys.Ordering;
 
-import de.Ibsys.ibsys.database.GetProducts;
+import de.Ibsys.ibsys.database.ProductsDB;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public class Calculations {
         System.out.println("Für Bestellungen zuerst alle Produkte die Bestellt werden können aus DB holen ");
         System.out.println("----------------------");
 
-        ArrayList<Product> products = GetProducts.getProducts();
+        ArrayList<Product> products = ProductsDB.getProducts();
 
         System.out.println("Für Bestellungen von jedem Produkt den Lagerbestandverlauf updaten  ");
         System.out.println("dafür den Lagerbestandsverlauf anhand der noch offenen Bestellungen updaten ");
