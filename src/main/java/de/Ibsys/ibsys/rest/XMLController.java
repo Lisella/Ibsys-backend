@@ -24,6 +24,8 @@ public class XMLController {
 
     @PostMapping("/in")
     public String parseJson(@RequestBody Map<String, Object> requestBody) {
+
+        //Extracting Articles Id and Articles Amount
         List<Map<String, Object>> articles = (List<Map<String, Object>>) ((Map<String, Object>) requestBody
                 .get("warehousestock"))
                 .get("articles");
@@ -38,6 +40,30 @@ public class XMLController {
         }
         InputService.updateArticles(articlesMap);
         System.out.println(articlesMap);
+
+        //Extracting workinglistworkstations
+
+        List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) ((Map<String, Object>) requestBody
+                .get("waitinglistworkstation"))
+                .get("workplace");
+        HashMap<Integer, Integer> workstations = new HashMap<>();
+
+
+        for (Map<String, Object> workstation : waitingListWorkstations) {
+            if (workstation != null) {
+                Integer id = Integer.parseInt((String) workstation.get("id"));
+                Integer timeNeed = Integer.parseInt((String) workstation.get("timeneed"));
+                workstations.put(id, timeNeed);
+            }
+        }
+
+        // Update articles and workstations
+        InputService.updateArticles(articlesMap);
+        //InputService.updateWorkstations(workstations);
+
+        System.out.println(articlesMap);
+        System.out.println(workstations);
+
 
         return "Ok";
     }
