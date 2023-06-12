@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ProductionItem {
     private int article;
     private int quantity;
+    private int sequenceNumer;
 
     public ProductionItem(int id, int quantity) {
         this.article = id;
@@ -35,5 +36,13 @@ public class ProductionItem {
 
     public int getProductId() {
         return article;
+    }
+
+    public void setSequenceNumber(int sequenceNumber) {
+        this.sequenceNumer = sequenceNumber;
+    }
+
+    public int getSequenceNumer() {
+        return sequenceNumer;
     }
 }
