@@ -34,7 +34,7 @@ public class WaitingListForWorkstationsDB {
             waitingListItems.add(waitingListItem);
         }
 
-        dataSource.close();
+        //dataSource.close();
         return waitingListItems;
     }
 

@@ -30,7 +30,7 @@ public class ForecastsDB {
             forecasts.add(forecast);
         }
 
-        dataSource.close();
+        //dataSource.close();
         return forecasts;
     }
 
@@ -40,6 +40,6 @@ public class ForecastsDB {
         forecast.forEach((id, newSellwish) -> {
             jdbcTemplate.update(sql, newSellwish, id);
         });
-        dataSource.close();
+        //dataSource.close();
     }
 }

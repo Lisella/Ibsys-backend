@@ -36,7 +36,7 @@ public class OrdersDB {
             orders.add(order);
         }
 
-        dataSource.close();
+        //dataSource.close();
         return orders;
     }
 
@@ -49,13 +49,13 @@ public class OrdersDB {
         for (Order order : orders) {
             jdbcTemplate.update(sql, order.getId(), order.getProductId(), order.getQuantity(), order.getDaysAfterToday());
         }
-        dataSource.close();
+        //dataSource.close();
     }
 
     private void clearOrdersTable() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         String sql = "TRUNCATE TABLE public.\"Order\"";
         jdbcTemplate.update(sql);
-        dataSource.close();
+        //dataSource.close();
     }
 }

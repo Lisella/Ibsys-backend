@@ -37,7 +37,7 @@ public class ProductionProductsDB {
             productionProducts.add(productionProduct);
         }
 
-        dataSource.close();
+        //dataSource.close();
         return productionProducts;
     }
 }

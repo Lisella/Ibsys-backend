@@ -41,7 +41,7 @@ public class WorkplacesDB {
             workplaces.add(workplace);
         }
 
-        dataSource.close();
+        //dataSource.close();
         return workplaces;
     }
 

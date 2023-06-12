@@ -42,7 +42,7 @@ public class ProductsDB {
             products.add(product);
         }
 
-        dataSource.close();
+        //dataSource.close();
         return products;
     }
 
@@ -52,6 +52,6 @@ public class ProductsDB {
         stock.forEach((id, newStock) -> {
             jdbcTemplate.update(sql, newStock, id);
         });
-        dataSource.close();
+        //dataSource.close();
     }
 }
