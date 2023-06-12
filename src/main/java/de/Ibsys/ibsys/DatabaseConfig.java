@@ -21,16 +21,6 @@ public class DatabaseConfig {
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
 
-/*
-    public DataSource getDataSource2() {
-        DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.url(url);
-        dataSourceBuilder.username(username);
-        dataSourceBuilder.password(password);
-        dataSourceBuilder.driverClassName(driverClassName);
-        return dataSourceBuilder.build();
-    }*/
-
     @Bean
     public HikariDataSource getDataSource() {
         config.setJdbcUrl(url);
@@ -41,3 +31,13 @@ public class DatabaseConfig {
         return dataSource;
     }
 }
+
+    /*
+    public DataSource getDataSource2() {
+        DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
+        dataSourceBuilder.url(url);
+        dataSourceBuilder.username(username);
+        dataSourceBuilder.password(password);
+        dataSourceBuilder.driverClassName(driverClassName);
+        return dataSourceBuilder.build();
+    }*/
