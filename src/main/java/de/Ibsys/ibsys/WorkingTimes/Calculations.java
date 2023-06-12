@@ -23,10 +23,13 @@ public class Calculations {
             for (WorkplaceProductMerge workplaceProductMerge : workplace.durationsforeachProductWorkplace) {
                 workplace.duration = workplaceProductMerge.durationPerUnit * getProductionQuantityByProductId(
                         productionList, workplaceProductMerge.getProductId());
-                System.out.println(
-                        workplace.id + " : " + workplace.duration);
-
             }
+        }
+
+        // gebe die benötigte Zeit je Arbeitsplatz aus
+        for (Workplace workplace : workplaces) {
+            System.out.println(
+                    workplace.id + " : " + workplace.duration);
         }
 
         System.out.println("----------------------");
@@ -43,6 +46,12 @@ public class Calculations {
             }
         }
 
+        // gebe die benötigte Zeit je Arbeitsplatz aus
+        for (Workplace workplace : workplaces) {
+            System.out.println(
+                    workplace.id + " : " + workplace.duration);
+        }
+
         System.out.println("----------------------");
         System.out.println("Arbeitszeiten inclusive Warteliste:");
 
@@ -51,7 +60,6 @@ public class Calculations {
             System.out.println(
                     workplace.id + " : " + workplace.duration);
         }
-        System.out.println("Berechne die benötigte Zeit je Arbeitsplatz inklusive Rüstzeiten");
 
         // Füge die Rüstzeiten hinzu
         // gehe alle Arbeitsplätze durch

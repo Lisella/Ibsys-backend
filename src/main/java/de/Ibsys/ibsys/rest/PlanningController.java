@@ -1,12 +1,9 @@
 package de.Ibsys.ibsys.rest;
 
-import de.Ibsys.ibsys.InputXml.WorkingTime;
 import de.Ibsys.ibsys.Ordering.Calculations;
 import de.Ibsys.ibsys.Ordering.NewOrder;
 import de.Ibsys.ibsys.Ordering.ProductionPlanEntity;
 import de.Ibsys.ibsys.Production.ProductionItem;
-import de.Ibsys.ibsys.WorkingTimes.Workplace;
-import org.glassfish.jersey.internal.guava.Ordering;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,25 +22,52 @@ public class PlanningController {
     @PostMapping("/planning")
     public ResponseEntity<Map<String, Object>> processPlanning(@RequestBody Map<String, Object> requestBody) {
         List<Map<String, Object>> productionListJson = (List<Map<String, Object>>) requestBody.get("production");
+        Map<String, Map<String, Object>> directListJson = (Map<String, Map<String, Object>>) requestBody.get("direct");
         boolean splitting = (boolean) requestBody.get("splitting");
 
         ArrayList<ProductionPlanEntity> planningList = new ArrayList<>();
 
-        for (Map<String, Object> productionItem : productionListJson) {
-            int periode = (int) productionItem.get("periode");
-            int product1Consumption = (int) productionItem.get("product1Consumption");
-            int product2Consumption = (int) productionItem.get("product2Consumption");
-            int product3Consumption = (int) productionItem.get("product3Consumption");
+        for (int i = 0; i < productionListJson.size(); i++) {
+            Map<String, Object> productionItem = productionListJson.get(i);
+            int product1Consumption = (int) productionItem.get("p1");
+            int product2Consumption = (int) productionItem.get("p2");
+            int product3Consumption = (int) productionItem.get("p3");
 
-            ProductionPlanEntity planEntity = new ProductionPlanEntity(periode, product1Consumption,
-                    product2Consumption, product3Consumption);
+            // Add the quantity of direct p1 to production p1 if present in the JSON
+            if (i == 0 && directListJson.containsKey("p1")) {
+                int directP1Quantity = (int) directListJson.get("p1").get("quantity");
+                product1Consumption += directP1Quantity;
+            }
+
+            // Add the quantity of direct p2 to production p2 if present in the JSON
+            if (i == 0 && directListJson.containsKey("p2")) {
+                int directP2Quantity = (int) directListJson.get("p2").get("quantity");
+                product2Consumption += directP2Quantity;
+            }
+
+            // Add the quantity of direct p3 to production p3 if present in the JSON
+            if (i == 0 && directListJson.containsKey("p3")) {
+                int directP3Quantity = (int) directListJson.get("p3").get("quantity");
+                product3Consumption += directP3Quantity;
+            }
+
+            ProductionPlanEntity planEntity = new ProductionPlanEntity(i + 1, product1Consumption, product2Consumption,
+                    product3Consumption);
             planningList.add(planEntity);
+        }
+
+        // gebe die Liste der Produktionsplanung aus
+        System.out.println("Produktionsplanung:");
+        for (ProductionPlanEntity planEntity : planningList) {
+            System.out.println("Periode: " + planEntity.getPeriode());
+            System.out.println("Product1Consumption: " + planEntity.product1Consumption);
+            System.out.println("Product2Consumption: " + planEntity.product2Consumption);
+            System.out.println("Product3Consumption: " + planEntity.product3Consumption);
+            System.out.println("----------------------");
         }
 
         System.out.println("Aufträge sollen gesplittet werden: " + splitting);
 
-        // calls a methode, that uses the ArrayList<ProductionPlanEntity> planningList
-        // and start the ordering calcs
         System.out.println(("Bestellungen Berechnung gestartet"));
         ArrayList<NewOrder> orders = Calculations.createOrdersByProductionPlanning(planningList);
 
@@ -53,33 +77,7 @@ public class PlanningController {
         System.out.println(("Überstunden Berechnung gestartet"));
         ArrayList<de.Ibsys.ibsys.WorkingTimes.WorkingTime> workingTimes = de.Ibsys.ibsys.WorkingTimes.Calculations
                 .CalculateWorkingtimesByProductionList(productionItems);
-        /*
-         * // Create the production list
-         * List<Map<String, String>> productionList = new ArrayList<>();
-         * Map<String, String> productionItem1 = new HashMap<>();
-         * productionItem1.put("article", "4");
-         * productionItem1.put("quantity", "150");
-         * productionList.add(productionItem1);
-         * 
-         * Map<String, String> productionItem2 = new HashMap<>();
-         * productionItem2.put("article", "5");
-         * productionItem2.put("quantity", "300");
-         * productionList.add(productionItem2);
-         * 
-         * // Create the working time list
-         * List<Map<String, String>> workingTimeList = new ArrayList<>();
-         * Map<String, String> workingTimeItem1 = new HashMap<>();
-         * workingTimeItem1.put("station", "1");
-         * workingTimeItem1.put("shift", "2");
-         * workingTimeItem1.put("overtime", "0");
-         * workingTimeList.add(workingTimeItem1);
-         * 
-         * Map<String, String> workingTimeItem2 = new HashMap<>();
-         * workingTimeItem2.put("station", "2");
-         * workingTimeItem2.put("shift", "1");
-         * workingTimeItem2.put("overtime", "2");
-         * workingTimeList.add(workingTimeItem2);
-         */
+
         // Create a map to hold the response data
         Map<String, Object> response = new HashMap<>();
         response.put("orderlist", orders);
