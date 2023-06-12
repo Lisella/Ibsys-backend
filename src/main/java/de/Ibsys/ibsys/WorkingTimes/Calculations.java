@@ -1,8 +1,8 @@
 package de.Ibsys.ibsys.WorkingTimes;
 
 import de.Ibsys.ibsys.Production.ProductionItem;
-import de.Ibsys.ibsys.database.GetWaitingListForWorkstations;
-import de.Ibsys.ibsys.database.GetWorkplaces;
+import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
+import de.Ibsys.ibsys.database.WorkplacesDB;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public class Calculations {
         System.out.println("Hole alle Arbeitsplätze und zugehörige Produktionszeiten pro Produkt");
         System.out.println("----------------------");
 
-        ArrayList<Workplace> workplaces = GetWorkplaces.getWorkplaces();
+        ArrayList<Workplace> workplaces = WorkplacesDB.getWorkplaces();
 
         System.out.println(
                 "Berechne die benötigte Zeit je Arbeitsplatz für diese Periode ohne Warteliste und Rüstzeiten");
@@ -33,7 +33,7 @@ public class Calculations {
         System.out.println(
                 "Berechne die benötigte Zeit je Arbeitsplatz unter Berücksichtigung der Warteliste der letzten Periode");
         // Füge die Zeiten der Waitinglist hinzu
-        ArrayList<WaitingListItem> waitingList = GetWaitingListForWorkstations.getWaitingListForWorkstations();
+        ArrayList<WaitingListItem> waitingList = WaitingListForWorkstationsDB.getWaitingListForWorkstations();
 
         for (WaitingListItem waitingListItem : waitingList) {
             for (Workplace workplace : workplaces) {

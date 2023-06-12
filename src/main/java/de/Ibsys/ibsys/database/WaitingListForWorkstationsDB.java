@@ -1,6 +1,7 @@
 package de.Ibsys.ibsys.database;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.zaxxer.hikari.HikariDataSource;
@@ -10,12 +11,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetWaitingListForWorkstations {
+public class WaitingListForWorkstationsDB {
 
     private static HikariDataSource dataSource = null;
 
     @Autowired
-    public GetWaitingListForWorkstations(HikariDataSource dataSource) { this.dataSource = dataSource; }
+    public WaitingListForWorkstationsDB(HikariDataSource dataSource) { this.dataSource = dataSource; }
 
     public static ArrayList<WaitingListItem> getWaitingListForWorkstations() {
         ArrayList<WaitingListItem> waitingListItems = new ArrayList<>();
@@ -35,5 +36,14 @@ public class GetWaitingListForWorkstations {
 
         dataSource.close();
         return waitingListItems;
+    }
+
+    public static void updateWaitingListForWorkstations(HashMap<Integer, Integer> waitlist) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        String sql = "UPDATE public.\"WorkstationWaitlist\" SET \"timeneed\" = ? WHERE \"ID\" = ?";
+        waitlist.forEach((id, newTimeneed) -> {
+            jdbcTemplate.update(sql, newTimeneed, id);
+        });
+        dataSource.close();
     }
 }

@@ -15,12 +15,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetWorkplaces {
+public class WorkplacesDB {
 
     private static HikariDataSource dataSource = null;
 
     @Autowired
-    public GetWorkplaces(HikariDataSource dataSource) { this.dataSource = dataSource; }
+    public WorkplacesDB(HikariDataSource dataSource) { this.dataSource = dataSource; }
 
     public static ArrayList<Workplace> getWorkplaces() {
         ArrayList<Workplace> workplaces = new ArrayList<>();
