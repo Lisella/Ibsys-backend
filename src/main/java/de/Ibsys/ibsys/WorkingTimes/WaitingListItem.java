@@ -9,4 +9,9 @@ public class WaitingListItem {
         this.workplaceId = i;
         this.waitingTime = j;
     }
+
+    @Override
+    public String toString() {
+        return "WaitingListItem [id=" + workplaceId + ", timeneed=" + waitingTime + "]";
+    }
 }
