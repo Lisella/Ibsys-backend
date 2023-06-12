@@ -24,9 +24,9 @@ public class ForecastsDB {
 
         for (Map<String, Object> row : rows) {
             int id = (Integer) row.get("ID");
-            int sellwish = (Integer) row.get("sellwish");
+            int amount = (Integer) row.get("amount");
 
-            Item forecast = new Item(id, sellwish);
+            Item forecast = new Item(id, amount);
             forecasts.add(forecast);
         }
 
@@ -36,9 +36,9 @@ public class ForecastsDB {
 
     public static void updateForecasts(HashMap<Integer, Integer> forecast) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        String sql = "UPDATE public.\"Forecast\" SET \"sellwish\" = ? WHERE \"ID\" = ?";
-        forecast.forEach((id, newSellwish) -> {
-            jdbcTemplate.update(sql, newSellwish, id);
+        String sql = "UPDATE public.\"Forecast\" SET \"amount\" = ? WHERE \"ID\" = ?";
+        forecast.forEach((id, newAmount) -> {
+            jdbcTemplate.update(sql, newAmount, id);
         });
         //dataSource.close();
     }

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="de.Ibsys.ibsys.WorkplacesDBTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-06-12T13:08:57" hostname="DESKTOP-0OBUJQK" time="0.983">
+<testsuite name="de.Ibsys.ibsys.WorkplacesDBTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-06-12T17:10:32" hostname="DESKTOP-0OBUJQK" time="2.435">
   <properties/>
-  <testcase name="testGetWorkplaces()" classname="de.Ibsys.ibsys.WorkplacesDBTest" time="0.983"/>
-  <system-out><![CDATA[15:08:54.441 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Neither @ContextConfiguration nor @ContextHierarchy found for test class [WorkplacesDBTest]: using SpringBootContextLoader
-15:08:54.457 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader -- Could not detect default resource locations for test class [de.Ibsys.ibsys.WorkplacesDBTest]: no resource found for suffixes {-context.xml, Context.groovy}.
-15:08:54.457 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [de.Ibsys.ibsys.WorkplacesDBTest]: WorkplacesDBTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-15:08:54.472 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Using ContextCustomizers for test class [WorkplacesDBTest]: [DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, Customizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer]
-15:08:54.551 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider -- Identified candidate component class: file [C:\Users\inesr\IdeaProjects\IbsysBackend\build\classes\java\main\de\Ibsys\ibsys\IbsysApplication.class]
-15:08:54.551 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration de.Ibsys.ibsys.IbsysApplication for test class de.Ibsys.ibsys.WorkplacesDBTest
-15:08:54.678 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Using TestExecutionListeners for test class [WorkplacesDBTest]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, TransactionalTestExecutionListener, SqlScriptsTestExecutionListener, EventPublishingTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener]
-15:08:54.678 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener -- Before test class: class [WorkplacesDBTest], class annotated with @DirtiesContext [false] with mode [null]
+  <testcase name="testGetWorkplaces()" classname="de.Ibsys.ibsys.WorkplacesDBTest" time="2.435"/>
+  <system-out><![CDATA[19:10:25.352 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Neither @ContextConfiguration nor @ContextHierarchy found for test class [WorkplacesDBTest]: using SpringBootContextLoader
+19:10:25.372 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader -- Could not detect default resource locations for test class [de.Ibsys.ibsys.WorkplacesDBTest]: no resource found for suffixes {-context.xml, Context.groovy}.
+19:10:25.374 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [de.Ibsys.ibsys.WorkplacesDBTest]: WorkplacesDBTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+19:10:25.438 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Using ContextCustomizers for test class [WorkplacesDBTest]: [DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, Customizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer]
+19:10:25.658 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider -- Identified candidate component class: file [C:\Users\inesr\IdeaProjects\IbsysBackend\build\classes\java\main\de\Ibsys\ibsys\IbsysApplication.class]
+19:10:25.660 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration de.Ibsys.ibsys.IbsysApplication for test class de.Ibsys.ibsys.WorkplacesDBTest
+19:10:25.946 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Using TestExecutionListeners for test class [WorkplacesDBTest]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, TransactionalTestExecutionListener, SqlScriptsTestExecutionListener, EventPublishingTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener]
+19:10:25.952 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener -- Before test class: class [WorkplacesDBTest], class annotated with @DirtiesContext [false] with mode [null]
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -19,13 +19,11 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.0.6)
 
-2023-06-12T15:08:55.009+02:00  INFO 2964 --- [    Test worker] de.Ibsys.ibsys.WorkplacesDBTest          : Starting WorkplacesDBTest using Java 17.0.1 with PID 2964 (started by inesr in C:\Users\inesr\IdeaProjects\IbsysBackend)
-2023-06-12T15:08:55.009+02:00  INFO 2964 --- [    Test worker] de.Ibsys.ibsys.WorkplacesDBTest          : No active profile set, falling back to 1 default profile: "default"
-2023-06-12T15:08:55.929+02:00  INFO 2964 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2023-06-12T15:08:56.721+02:00  INFO 2964 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2023-06-12T15:08:57.285+02:00  INFO 2964 --- [    Test worker] de.Ibsys.ibsys.WorkplacesDBTest          : Started WorkplacesDBTest in 2.549 seconds (process running for 4.066)
-2023-06-12T15:08:58.065+02:00  INFO 2964 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2023-06-12T15:08:58.254+02:00  INFO 2964 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2023-06-12T19:10:26.861+02:00  INFO 18536 --- [    Test worker] de.Ibsys.ibsys.WorkplacesDBTest          : Starting WorkplacesDBTest using Java 17.0.1 with PID 18536 (started by inesr in C:\Users\inesr\IdeaProjects\IbsysBackend)
+2023-06-12T19:10:26.865+02:00  INFO 18536 --- [    Test worker] de.Ibsys.ibsys.WorkplacesDBTest          : No active profile set, falling back to 1 default profile: "default"
+2023-06-12T19:10:29.649+02:00  INFO 18536 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-06-12T19:10:30.763+02:00  INFO 18536 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-06-12T19:10:32.566+02:00  INFO 18536 --- [    Test worker] de.Ibsys.ibsys.WorkplacesDBTest          : Started WorkplacesDBTest in 6.45 seconds (process running for 9.923)
 14
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>
