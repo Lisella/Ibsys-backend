@@ -4,37 +4,53 @@ import de.Ibsys.ibsys.Production.ProductionItem;
 import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
 import de.Ibsys.ibsys.database.WorkplacesDB;
 
+import java.io.Console;
 import java.util.ArrayList;
 
 public class Calculations {
     public static ArrayList<WorkingTime> CalculateWorkingtimesByProductionList(
             ArrayList<ProductionItem> productionList) {
 
-        System.out.println("Beginne die Überstundenberechnung");
         System.out.println("Hole alle Arbeitsplätze und zugehörige Produktionszeiten pro Produkt");
         System.out.println("----------------------");
 
         ArrayList<Workplace> workplaces = WorkplacesDB.getWorkplaces();
 
-        System.out.println(
-                "Berechne die benötigte Zeit je Arbeitsplatz für diese Periode ohne Warteliste und Rüstzeiten");
-        System.out.println("----------------------");
+        System.out.println("Produktionsdauer und Produkionsmenden für alle Produkte an Arbeitsplatz 1:");
+
         for (Workplace workplace : workplaces) {
             for (WorkplaceProductMerge workplaceProductMerge : workplace.durationsforeachProductWorkplace) {
-                workplace.duration = workplaceProductMerge.durationPerUnit * getProductionQuantityByProductId(
+                workplace.duration += workplaceProductMerge.durationPerUnit * getProductionQuantityByProductId(
                         productionList, workplaceProductMerge.getProductId());
             }
         }
 
+        // gebe in der Console alle workplaceProductMerge.durationPerUnit für
+        // ARbeitsplatz 1 aus
+        for (Workplace workplace : workplaces) {
+            if (workplace.id == 1) {
+                for (WorkplaceProductMerge workplaceProductMerge : workplace.durationsforeachProductWorkplace) {
+                    System.out.println(
+                            workplace.id + " : " + workplaceProductMerge.getProductId() + " : "
+                                    + workplaceProductMerge.durationPerUnit);
+                }
+            }
+        }
+
+        System.out.println("----------------------");
+
+        System.out.println(
+                "Berechne die benötigte Zeit je Arbeitsplatz für diese Periode ohne Warteliste und Rüstzeiten");
+        System.out.println("----------------------");
         // gebe die benötigte Zeit je Arbeitsplatz aus
         for (Workplace workplace : workplaces) {
             System.out.println(
                     workplace.id + " : " + workplace.duration);
         }
-
         System.out.println("----------------------");
         System.out.println(
                 "Berechne die benötigte Zeit je Arbeitsplatz unter Berücksichtigung der Warteliste der letzten Periode");
+        System.out.println("----------------------");
         // Füge die Zeiten der Waitinglist hinzu
         ArrayList<WaitingListItem> waitingList = WaitingListForWorkstationsDB.getWaitingListForWorkstations();
 
@@ -51,10 +67,9 @@ public class Calculations {
             System.out.println(
                     workplace.id + " : " + workplace.duration);
         }
-
         System.out.println("----------------------");
         System.out.println("Arbeitszeiten inclusive Warteliste:");
-
+        System.out.println("----------------------");
         // gebe die benötigte Zeit je Arbeitsplatz aus
         for (Workplace workplace : workplaces) {
             System.out.println(
@@ -80,9 +95,9 @@ public class Calculations {
 
         // gebe die benötigte Zeit je Arbeitsplatz aus nachdem die Rüstzeiten
         // hinzugefügt wurden
-
         System.out.println("----------------------");
-        System.out.println("Finale benötigte Zeit je Arbeitsplatz");
+        System.out.println("Final benötigte Zeit je Arbeitsplatz");
+        System.out.println("----------------------");
         for (Workplace workplace : workplaces) {
             System.out.println(
                     workplace.id + " : " + workplace.duration);
@@ -90,6 +105,7 @@ public class Calculations {
 
         System.out.println("----------------------");
         System.out.println("Berechne die benötigte Überstunden je Arbeitsplatz");
+        System.out.println("----------------------");
 
         ArrayList<WorkingTime> workingTimes = new ArrayList<WorkingTime>();
 
@@ -141,6 +157,15 @@ public class Calculations {
             int productId) {
         for (ProductionItem productionItem : productionList) {
             if (productionItem.getArticle() == productId) {
+                if (productId == 29) {
+                    System.out.println("Produkt 29 hat eine Menge von " + productionItem.getQuantity());
+                }
+                if (productId == 54) {
+                    System.out.println("Produkt 54 hat eine Menge von " + productionItem.getQuantity());
+                }
+                if (productId == 49) {
+                    System.out.println("Produkt 49 hat eine Menge von " + productionItem.getQuantity());
+                }
                 return productionItem.getQuantity();
             }
         }

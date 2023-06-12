@@ -48,8 +48,6 @@ public class Calculations {
             System.out.println("----------------------");
         }
 
-        System.out.println("Für Berechungen zuerst ");
-
         return orders;
     }
 }

@@ -71,10 +71,18 @@ public class PlanningController {
         System.out.println(("Bestellungen Berechnung gestartet"));
         ArrayList<NewOrder> orders = Calculations.createOrdersByProductionPlanning(planningList);
 
+        System.out.println("Bestellungen Berechnung abgeschlossen:");
+        System.out.println("----------------------");
+
+        System.out.println(("Fertigungsaufträge Berechnung gestartet"));
         ArrayList<ProductionItem> productionItems = de.Ibsys.ibsys.Production.Calculations
                 .createProductionByProductionPlanning(planningList, splitting);
 
-        System.out.println(("Überstunden Berechnung gestartet"));
+        System.out.println("----------------------");
+        System.out.println("Fertigungsaufträge Berechnung abgeschlossen:");
+        System.out.println("----------------------");
+
+        System.out.println(("Kapazitätsplanung Berechnung gestartet"));
         ArrayList<de.Ibsys.ibsys.WorkingTimes.WorkingTime> workingTimes = de.Ibsys.ibsys.WorkingTimes.Calculations
                 .CalculateWorkingtimesByProductionList(productionItems);
 
