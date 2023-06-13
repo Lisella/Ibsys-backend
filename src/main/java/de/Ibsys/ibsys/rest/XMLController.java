@@ -4,6 +4,7 @@ import de.Ibsys.ibsys.FutureIncomingOrders.FutureOrder;
 import de.Ibsys.ibsys.InputXml.Item;
 import de.Ibsys.ibsys.Ordering.Product;
 import de.Ibsys.ibsys.database.ForecastsDB;
+import de.Ibsys.ibsys.database.OrdersDB;
 import de.Ibsys.ibsys.database.ProductsDB;
 import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
 import org.springframework.http.ResponseEntity;
@@ -100,14 +101,19 @@ public class XMLController {
             int quantity = Integer.parseInt(order.get("amount").toString());
             // Berechne die Tage in denen die Bestellung spätestens ankommt
             Product product = getProductByProductID(productId, products);
+            Map<String, Object> overview = (Map<String, Object>) requestBody.get("overview");
+            int period = Integer.parseInt((String) overview.get("period"));
+            int orderPeriode = Integer.parseInt(order.get("orderperiod").toString());
+            int periodDifference = period + 1 - orderPeriode;
+            System.out.println("Vergangene Perioden: " + periodDifference);
             int maxDeliveryTime = product.getDeliveryTime();
             int mode = Integer.parseInt(order.get("mode").toString());
             int daysAfterToday = 0;
             if (mode == 3) {
-                daysAfterToday = maxDeliveryTime / 2 - 5;
+                daysAfterToday = maxDeliveryTime / 2 - 5 * periodDifference;
             }
             if (mode == 5) {
-                daysAfterToday = maxDeliveryTime - 5;
+                daysAfterToday = maxDeliveryTime - 5 * periodDifference;
             }
 
             FutureOrder futureOrder = new FutureOrder(productId, quantity, daysAfterToday);
@@ -120,18 +126,15 @@ public class XMLController {
                     + ", Days After Today: " + order.getDaysAfterToday());
         }
 
-        // rufe die createFutureOrders Methode und speichere dort die FutureOrders in
-        // der Datenbank
+        // speicher die offenen Bestellungen in der Datenbank
+        // OrdersDB.putOrders(futureOrders);
         return "Ok";
     }
 
     // Create a Methode, that returns the product by ProductId
     public static Product getProductByProductID(int productID, ArrayList<Product> products) {
-        System.out.println("Product ID: " + productID);
         for (Product product : products) {
-            System.out.println("Product des aktuellen Produkt ID: " + product.getId());
             if (product.getId() == productID) {
-                System.out.println("Product ID gefunden");
                 return product;
             }
         }
@@ -140,9 +143,7 @@ public class XMLController {
 
     @GetMapping("/forecast")
     public ResponseEntity<ArrayList<Item>> getForecast() {
-
         ArrayList<Item> forecast = ForecastsDB.getForecast();
-        System.out.println("Forecast in Controller: " + forecast);
         return ResponseEntity.ok(forecast);
     }
 }

@@ -67,7 +67,6 @@ public class NewOrder {
             if (product.stockHistory.get(i) < 0) {
                 int orderQuantity = product.discountQuantity;
                 int orderDay = i - maxDeliveryTime;
-                // Vielleicht abbrechnen, wenn bestelltag in nächster Periode liegt
 
                 if (orderDay < 6) {
                     System.out.println("Produkt geht an Tag " + i + " aus. Bestellung erfolgt an Tag: " + orderDay);
@@ -88,6 +87,7 @@ public class NewOrder {
                     System.out.println("Neue Normale Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
                             + " Modus: 5");
                 }
+
                 // wenn Order Day ist in nächster Periode (5-10) mache eine günstige Bestellung
                 /*
                  * else if (orderDay >= 5 && orderDay < 10) {

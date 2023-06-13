@@ -3,6 +3,8 @@ package de.Ibsys.ibsys.Ordering;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.springframework.core.OrderComparator.OrderSourceProvider;
+
 public class Order {
     int id;
     int productId;
@@ -17,19 +19,16 @@ public class Order {
         this.daysAfterToday = daysAfterToday;
     }
 
-    public static ArrayList<Order> getOrders(int productId) {
-        // todo return orders for productId
-        ArrayList<Order> orders = new ArrayList<>();
-        orders.add(new Order(1, 21, 300, 1));
-        return orders;
-    }
-
-    public static HashMap<Integer, Integer> updateStockHistoryByOrders(Product product) {
+    public static HashMap<Integer, Integer> updateStockHistoryByOrders(Product product, ArrayList<Order> orders) {
         // add orders to stock History
-        for (Order o : Order.getOrders(product.id)) {
-
-            for (int i = o.daysAfterToday; i < 28; i++) {
-                product.stockHistory.put(i, product.stockHistory.get(i) + o.quantity);
+        for (Order o : orders) {
+            if (o.productId == product.getId()) {
+                if (o.daysAfterToday < 0) {
+                    o.daysAfterToday = 0;
+                }
+                for (int i = o.daysAfterToday; i < 28; i++) {
+                    product.stockHistory.put(i, product.stockHistory.get(i) + o.quantity);
+                }
             }
         }
 

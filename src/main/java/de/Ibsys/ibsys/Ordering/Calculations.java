@@ -1,5 +1,6 @@
 package de.Ibsys.ibsys.Ordering;
 
+import de.Ibsys.ibsys.database.OrdersDB;
 import de.Ibsys.ibsys.database.ProductsDB;
 
 import java.util.ArrayList;
@@ -26,8 +27,9 @@ public class Calculations {
 
         for (Product product : products) {
 
+            ArrayList<Order> oldOrders = OrdersDB.getOrders();
             // update stockHistorieByOrders
-            product.stockHistory = Order.updateStockHistoryByOrders(product);
+            product.stockHistory = Order.updateStockHistoryByOrders(product, oldOrders);
 
             // update stockHistoryByForecast
             product.stockHistory = Product.updateStockHistoryByForecast(product, proudctionPlans);

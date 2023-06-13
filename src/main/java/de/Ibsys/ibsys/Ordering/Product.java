@@ -14,6 +14,7 @@ public class Product {
     int product3Consumption;
     int discountQuantity;
     HashMap<Integer, Integer> stockHistory;
+    public int productId;
 
     // create constructor
     public Product(int id, String name, int discountQuantity, int deliverytime, int variance,
