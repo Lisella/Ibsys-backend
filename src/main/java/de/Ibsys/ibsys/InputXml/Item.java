@@ -1,12 +1,19 @@
 package de.Ibsys.ibsys.InputXml;
 
 public class Item {
-    private int article;
+    public int periode;
 
-    private int quantity;
+    public int p1;
 
-    public Item(int id, int sellwish) {
-        article = id;
-        quantity = sellwish;
+    public int p2;
+
+    public int p3;
+
+    // create Construktor
+    public Item(int periode, int p1, int p2, int p3) {
+        this.periode = periode;
+        this.p1 = p1;
+        this.p2 = p2;
+        this.p3 = p3;
     }
 }

@@ -1,6 +1,8 @@
 package de.Ibsys.ibsys.rest;
 
+import de.Ibsys.ibsys.FutureIncomingOrders.FutureOrder;
 import de.Ibsys.ibsys.InputXml.Item;
+import de.Ibsys.ibsys.Ordering.Product;
 import de.Ibsys.ibsys.database.ForecastsDB;
 import de.Ibsys.ibsys.database.ProductsDB;
 import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
@@ -32,7 +34,7 @@ public class XMLController {
             }
         }
 
-        ProductsDB.updateProductStock(articlesMap);
+        // ProductsDB.updateProductStock(articlesMap);
 
         List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) requestBody
                 .get("waitinglistworkstations");
@@ -53,7 +55,7 @@ public class XMLController {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
 
-        WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
+        // WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
 
         System.out.println(articlesMap);
         System.out.println(workstations);
@@ -77,17 +79,70 @@ public class XMLController {
         System.out.println(forecastMap);
 
         // Rufe die Datenbank Methode auf um die Forecasts zu speichern
-        // ForecastsDB.updateForecasts(forecastMap);
+        ForecastsDB.updateForecasts(forecastMap);
         System.out.println("Forecast gespeichert");
 
+        // Beginne mit der Speicherung der offenen Bestellungen
+        System.out.println("Beginne mit der Verarbeitung offene Bestellungen");
+        List<Map<String, Object>> orders = (List<Map<String, Object>>) requestBody
+                .get("futureinwardstockmovement");
+
+        // Gebe die offenen Bestellungen in der Console aus
+        System.out.println(orders);
+
+        // Hole alle Produkte aus der DB um die Lieferdauer zu bestimmen
+        ArrayList<Product> products = ProductsDB.getProducts();
+        System.out.println(products);
+
+        List<FutureOrder> futureOrders = new ArrayList<>();
+        for (Map<String, Object> order : orders) {
+            int productId = Integer.parseInt(order.get("article").toString());
+            int quantity = Integer.parseInt(order.get("amount").toString());
+            // Berechne die Tage in denen die Bestellung spätestens ankommt
+            Product product = getProductByProductID(productId, products);
+            int maxDeliveryTime = product.getDeliveryTime();
+            int mode = Integer.parseInt(order.get("mode").toString());
+            int daysAfterToday = 0;
+            if (mode == 3) {
+                daysAfterToday = maxDeliveryTime / 2 - 5;
+            }
+            if (mode == 5) {
+                daysAfterToday = maxDeliveryTime - 5;
+            }
+
+            FutureOrder futureOrder = new FutureOrder(productId, quantity, daysAfterToday);
+            futureOrders.add(futureOrder);
+        }
+
+        // Now, you have a list of FutureOrder objects
+        for (FutureOrder order : futureOrders) {
+            System.out.println("Product ID: " + order.getProductId() + ", Quantity: " + order.getQuantity()
+                    + ", Days After Today: " + order.getDaysAfterToday());
+        }
+
+        // rufe die createFutureOrders Methode und speichere dort die FutureOrders in
+        // der Datenbank
         return "Ok";
+    }
+
+    // Create a Methode, that returns the product by ProductId
+    public static Product getProductByProductID(int productID, ArrayList<Product> products) {
+        System.out.println("Product ID: " + productID);
+        for (Product product : products) {
+            System.out.println("Product des aktuellen Produkt ID: " + product.getId());
+            if (product.getId() == productID) {
+                System.out.println("Product ID gefunden");
+                return product;
+            }
+        }
+        return null;
     }
 
     @GetMapping("/forecast")
     public ResponseEntity<ArrayList<Item>> getForecast() {
 
         ArrayList<Item> forecast = ForecastsDB.getForecast();
-
+        System.out.println("Forecast in Controller: " + forecast);
         return ResponseEntity.ok(forecast);
     }
 }

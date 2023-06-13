@@ -55,7 +55,11 @@ public class Product {
         return product.stockHistory;
     }
 
-    public String getId() {
-        return String.valueOf(id);
+    public int getId() {
+        return this.id;
+    }
+
+    public int getDeliveryTime() {
+        return this.deliverytime + this.variance;
     }
 }
