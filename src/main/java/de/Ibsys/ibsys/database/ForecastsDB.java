@@ -27,7 +27,6 @@ public class ForecastsDB {
         String sql = "SELECT * FROM public.\"Forecast\"";
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 
-        System.out.println("ForecastsDB: " + rows);
         int p1 = 0;
         int p2 = 0;
         int p3 = 0;
@@ -35,8 +34,6 @@ public class ForecastsDB {
         for (Map<String, Object> row : rows) {
             int id = (Integer) row.get("ID");
             int amount = (Integer) row.get("amount");
-
-            System.out.println("ForecastsDB: " + id + " " + amount);
 
             if (id == 1) {
                 p1 = amount;
@@ -57,7 +54,6 @@ public class ForecastsDB {
         forecast = new Item(4, p1, p2, p3);
         forecasts.add(forecast);
 
-        System.out.println("ForecastsDB: " + forecasts);
         // dataSource.close();
         return forecasts;
     }

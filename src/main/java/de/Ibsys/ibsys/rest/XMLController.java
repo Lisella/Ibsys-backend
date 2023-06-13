@@ -20,7 +20,6 @@ import java.util.Map;
 public class XMLController {
 
     @CrossOrigin(origins = "http://localhost:5173")
-
     @PostMapping("/in")
     public String parseJson(@RequestBody Map<String, Object> requestBody) {
 
@@ -146,11 +145,5 @@ public class XMLController {
             }
         }
         return null;
-    }
-
-    @GetMapping("/forecast")
-    public ResponseEntity<ArrayList<Item>> getForecast() {
-        ArrayList<Item> forecast = ForecastsDB.getForecast();
-        return ResponseEntity.ok(forecast);
     }
 }
