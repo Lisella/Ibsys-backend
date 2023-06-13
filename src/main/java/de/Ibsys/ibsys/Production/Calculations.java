@@ -42,6 +42,7 @@ public class Calculations {
         // setzte die Sequenznummer für die Produktionsmengen
         for (int i = 0; i < productionItems.size(); i++) {
             productionItems.get(i).setSequenceNumber(i + 1);
+            productionItems.get(i).id = i + 1;
         }
 
         System.out.println("----------------------");

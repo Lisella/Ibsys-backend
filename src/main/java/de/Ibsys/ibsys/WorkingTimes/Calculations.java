@@ -85,7 +85,7 @@ public class Calculations {
         for (Workplace workplace : workplaces) {
             for (ProductionItem productionItem : productionList) {
                 for (WorkplaceProductMerge workplaceProductMerge : workplace.durationsforeachProductWorkplace) {
-                    if (productionItem.getProductId() == workplaceProductMerge.getProductId()
+                    if (productionItem.getArticle() == workplaceProductMerge.getProductId()
                             && workplaceProductMerge.getWorkplaceId() == workplace.id) {
                         workplace.duration += workplaceProductMerge.setupTime;
                     }

@@ -3,6 +3,7 @@ package de.Ibsys.ibsys.Production;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ProductionItem {
+    public int id;
     private int article;
     private int quantity;
     private int sequenceNumer;
@@ -32,10 +33,6 @@ public class ProductionItem {
     @JsonProperty("quantity")
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-    public int getProductId() {
-        return article;
     }
 
     public void setSequenceNumber(int sequenceNumber) {
