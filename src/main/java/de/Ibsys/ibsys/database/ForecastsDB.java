@@ -17,7 +17,9 @@ public class ForecastsDB {
     private static HikariDataSource dataSource = null;
 
     @Autowired
-    public ForecastsDB(HikariDataSource dataSource) { this.dataSource = dataSource; }
+    public ForecastsDB(HikariDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public static ArrayList<Item> getForecast() {
         ArrayList<Item> forecasts = new ArrayList<>();
@@ -25,15 +27,38 @@ public class ForecastsDB {
         String sql = "SELECT * FROM public.\"Forecast\"";
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
 
+        System.out.println("ForecastsDB: " + rows);
+        int p1 = 0;
+        int p2 = 0;
+        int p3 = 0;
+
         for (Map<String, Object> row : rows) {
             int id = (Integer) row.get("ID");
             int amount = (Integer) row.get("amount");
 
-            Item forecast = new Item(id, amount);
-            forecasts.add(forecast);
-        }
+            System.out.println("ForecastsDB: " + id + " " + amount);
 
-        //dataSource.close();
+            if (id == 1) {
+                p1 = amount;
+            }
+            if (id == 2) {
+                p2 = amount;
+            }
+            if (id == 3) {
+                p3 = amount;
+            }
+        }
+        Item forecast = new Item(1, p1, p2, p3);
+        forecasts.add(forecast);
+        forecast = new Item(2, p1, p2, p3);
+        forecasts.add(forecast);
+        forecast = new Item(3, p1, p2, p3);
+        forecasts.add(forecast);
+        forecast = new Item(4, p1, p2, p3);
+        forecasts.add(forecast);
+
+        System.out.println("ForecastsDB: " + forecasts);
+        // dataSource.close();
         return forecasts;
     }
 
@@ -43,6 +68,6 @@ public class ForecastsDB {
         forecast.forEach((id, newAmount) -> {
             jdbcTemplate.update(sql, newAmount, id);
         });
-        //dataSource.close();
+        // dataSource.close();
     }
 }
