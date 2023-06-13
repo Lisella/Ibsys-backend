@@ -7,7 +7,6 @@ import de.Ibsys.ibsys.Ordering.Product;
 import de.Ibsys.ibsys.database.ForecastsDB;
 import de.Ibsys.ibsys.database.OrdersDB;
 import de.Ibsys.ibsys.database.ProductsDB;
-import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +18,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class XMLController {
+
+    @CrossOrigin(origins = "http://localhost:5173")
 
     @PostMapping("/in")
     public String parseJson(@RequestBody Map<String, Object> requestBody) {
