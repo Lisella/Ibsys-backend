@@ -99,9 +99,9 @@ public class NewOrder {
                  */
                 // wenn Order Day ist in Vergangenheit, mache eine Schnelle Bestellung
                 else if (orderDay < 0) {
-                    orders.add(new NewOrder(product.id, orderQuantity, 3));
+                    orders.add(new NewOrder(product.id, orderQuantity, 4));
                     System.out.println("Neue Schnelle Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
-                            + " Modus: 3");
+                            + " Modus: 4");
                 }
             }
         }

@@ -109,10 +109,10 @@ public class XMLController {
             int maxDeliveryTime = product.getDeliveryTime();
             int mode = Integer.parseInt(order.get("mode").toString());
             int daysAfterToday = 0;
-            if (mode == 3) {
+            if (mode == 4) {
                 daysAfterToday = maxDeliveryTime / 2 - 5 * periodDifference;
             }
-            if (mode == 5) {
+            if (mode != 4) {
                 daysAfterToday = maxDeliveryTime - 5 * periodDifference;
             }
 
