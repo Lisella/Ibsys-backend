@@ -54,6 +54,11 @@ public class Calculations {
         // Füge die Zeiten der Waitinglist hinzu
         ArrayList<WaitingListItem> waitingList = WaitingListForWorkstationsDB.getWaitingListForWorkstations();
 
+        // gebe die Warteliste aus
+        for (WaitingListItem waitingListItem : waitingList) {
+            System.out.println(
+                    waitingListItem.toString());
+        }
         for (WaitingListItem waitingListItem : waitingList) {
             for (Workplace workplace : workplaces) {
                 if (waitingListItem.workplaceId == workplace.id) {

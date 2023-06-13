@@ -7,6 +7,10 @@ import de.Ibsys.ibsys.Ordering.Product;
 import de.Ibsys.ibsys.database.ForecastsDB;
 import de.Ibsys.ibsys.database.OrdersDB;
 import de.Ibsys.ibsys.database.ProductsDB;
+import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
+
+import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,7 +61,7 @@ public class XMLController {
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
 
-        // WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
+        WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
         System.out.println(articlesMap);
         System.out.println(workstations);
 

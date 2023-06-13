@@ -16,7 +16,9 @@ public class WaitingListForWorkstationsDB {
     private static HikariDataSource dataSource = null;
 
     @Autowired
-    public WaitingListForWorkstationsDB(HikariDataSource dataSource) { this.dataSource = dataSource; }
+    public WaitingListForWorkstationsDB(HikariDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public static ArrayList<WaitingListItem> getWaitingListForWorkstations() {
         ArrayList<WaitingListItem> waitingListItems = new ArrayList<>();
@@ -34,7 +36,7 @@ public class WaitingListForWorkstationsDB {
             waitingListItems.add(waitingListItem);
         }
 
-        //dataSource.close();
+        // dataSource.close();
         return waitingListItems;
     }
 
@@ -44,6 +46,6 @@ public class WaitingListForWorkstationsDB {
         waitlist.forEach((id, newTimeneed) -> {
             jdbcTemplate.update(sql, newTimeneed, id);
         });
-        dataSource.close();
+        // dataSource.close();
     }
 }
