@@ -2,6 +2,7 @@ package de.Ibsys.ibsys.rest;
 
 import de.Ibsys.ibsys.FutureIncomingOrders.FutureOrder;
 import de.Ibsys.ibsys.InputXml.Item;
+import de.Ibsys.ibsys.Ordering.Order;
 import de.Ibsys.ibsys.Ordering.Product;
 import de.Ibsys.ibsys.database.ForecastsDB;
 import de.Ibsys.ibsys.database.OrdersDB;
@@ -35,7 +36,7 @@ public class XMLController {
             }
         }
 
-        // ProductsDB.updateProductStock(articlesMap);
+        ProductsDB.updateProductStock(articlesMap);
 
         List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) requestBody
                 .get("waitinglistworkstations");
@@ -57,7 +58,6 @@ public class XMLController {
         }
 
         // WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
-
         System.out.println(articlesMap);
         System.out.println(workstations);
 
@@ -120,14 +120,20 @@ public class XMLController {
             futureOrders.add(futureOrder);
         }
 
+        ArrayList<Order> ordersDb = new ArrayList<Order>();
+
         // Now, you have a list of FutureOrder objects
         for (FutureOrder order : futureOrders) {
+            // Create an Order object
+            Order orderDb = new Order(
+                    ordersDb.size() + 1, order.getProductId(), order.getQuantity(), order.getDaysAfterToday());
+            ordersDb.add(orderDb);
             System.out.println("Product ID: " + order.getProductId() + ", Quantity: " + order.getQuantity()
                     + ", Days After Today: " + order.getDaysAfterToday());
         }
 
         // speicher die offenen Bestellungen in der Datenbank
-        // OrdersDB.putOrders(futureOrders);
+        OrdersDB.putOrders(ordersDb);
         return "Ok";
     }
 

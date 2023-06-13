@@ -36,26 +36,27 @@ public class OrdersDB {
             orders.add(order);
         }
 
-        //dataSource.close();
+        // dataSource.close();
         return orders;
     }
 
-    public void putOrders(ArrayList<Order> orders) {
+    public static void putOrders(ArrayList<Order> orders) {
         clearOrdersTable();
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         String sql = "INSERT INTO public.\"Order\" (\"ID\", \"productID\", \"quantity\", \"days\") VALUES (?, ?, ?, ?)";
 
         for (Order order : orders) {
-            jdbcTemplate.update(sql, order.getId(), order.getProductId(), order.getQuantity(), order.getDaysAfterToday());
+            jdbcTemplate.update(sql, order.getId(), order.getProductId(), order.getQuantity(),
+                    order.getDaysAfterToday());
         }
-        //dataSource.close();
+        // dataSource.close();
     }
 
-    private void clearOrdersTable() {
+    private static void clearOrdersTable() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         String sql = "TRUNCATE TABLE public.\"Order\"";
         jdbcTemplate.update(sql);
-        //dataSource.close();
+        // dataSource.close();
     }
 }
