@@ -1,9 +1,15 @@
 package de.Ibsys.ibsys.rest;
 
+import de.Ibsys.ibsys.FutureIncomingOrders.FutureOrder;
+import de.Ibsys.ibsys.InputXml.Item;
+import de.Ibsys.ibsys.Ordering.Product;
+import de.Ibsys.ibsys.database.ForecastsDB;
 import de.Ibsys.ibsys.database.ProductsDB;
 import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,13 +34,12 @@ public class XMLController {
             }
         }
 
-        ProductsDB.updateProductStock(articlesMap);
+        // ProductsDB.updateProductStock(articlesMap);
 
-        List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) ((Map<String, Object>) requestBody
-                .get("waitinglistworkstation"))
-                .get("workplace");
+        List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) requestBody
+                .get("waitinglistworkstations");
+
         HashMap<Integer, Integer> workstations = new HashMap<>();
-
 
         for (Map<String, Object> workstation : waitingListWorkstations) {
             if (workstation != null) {
@@ -44,21 +49,100 @@ public class XMLController {
             }
         }
 
-        WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
+        // gebe alle Werte der HashMap in der Console aus
+        System.out.println("Warteliste der jeweiligen Arbeitsplätze:");
+        for (Map.Entry<Integer, Integer> entry : workstations.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
+
+        // WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
 
         System.out.println(articlesMap);
         System.out.println(workstations);
 
+        // SChreibe in die Console, dass die Forecast speichern beginnt
+        System.out.println("Speichere Forecast");
+        Map<String, Object> forecast = (Map<String, Object>) requestBody
+                .get("forecast");
 
+        // create a Hashmap to store the forecast
+        // use the amount for p1 and set the index to 1
+        HashMap<Integer, Integer> forecastMap = new HashMap<>();
+        forecastMap.put(1, Integer.parseInt((String) forecast.get("p1")));
+
+        // use the amount for p2 and set the index to 2
+        forecastMap.put(2, Integer.parseInt((String) forecast.get("p2")));
+        // use the amount for p3 and set the index to 3
+        forecastMap.put(3, Integer.parseInt((String) forecast.get("p3")));
+
+        // Gebe die Hashmap in der Console aus
+        System.out.println(forecastMap);
+
+        // Rufe die Datenbank Methode auf um die Forecasts zu speichern
+        ForecastsDB.updateForecasts(forecastMap);
+        System.out.println("Forecast gespeichert");
+
+        // Beginne mit der Speicherung der offenen Bestellungen
+        System.out.println("Beginne mit der Verarbeitung offene Bestellungen");
+        List<Map<String, Object>> orders = (List<Map<String, Object>>) requestBody
+                .get("futureinwardstockmovement");
+
+        // Gebe die offenen Bestellungen in der Console aus
+        System.out.println(orders);
+
+        // Hole alle Produkte aus der DB um die Lieferdauer zu bestimmen
+        ArrayList<Product> products = ProductsDB.getProducts();
+        System.out.println(products);
+
+        List<FutureOrder> futureOrders = new ArrayList<>();
+        for (Map<String, Object> order : orders) {
+            int productId = Integer.parseInt(order.get("article").toString());
+            int quantity = Integer.parseInt(order.get("amount").toString());
+            // Berechne die Tage in denen die Bestellung spätestens ankommt
+            Product product = getProductByProductID(productId, products);
+            int maxDeliveryTime = product.getDeliveryTime();
+            int mode = Integer.parseInt(order.get("mode").toString());
+            int daysAfterToday = 0;
+            if (mode == 3) {
+                daysAfterToday = maxDeliveryTime / 2 - 5;
+            }
+            if (mode == 5) {
+                daysAfterToday = maxDeliveryTime - 5;
+            }
+
+            FutureOrder futureOrder = new FutureOrder(productId, quantity, daysAfterToday);
+            futureOrders.add(futureOrder);
+        }
+
+        // Now, you have a list of FutureOrder objects
+        for (FutureOrder order : futureOrders) {
+            System.out.println("Product ID: " + order.getProductId() + ", Quantity: " + order.getQuantity()
+                    + ", Days After Today: " + order.getDaysAfterToday());
+        }
+
+        // rufe die createFutureOrders Methode und speichere dort die FutureOrders in
+        // der Datenbank
         return "Ok";
     }
 
-    @GetMapping("/input")
-    public ResponseEntity<String> getResponse() {
+    // Create a Methode, that returns the product by ProductId
+    public static Product getProductByProductID(int productID, ArrayList<Product> products) {
+        System.out.println("Product ID: " + productID);
+        for (Product product : products) {
+            System.out.println("Product des aktuellen Produkt ID: " + product.getId());
+            if (product.getId() == productID) {
+                System.out.println("Product ID gefunden");
+                return product;
+            }
+        }
+        return null;
+    }
 
+    @GetMapping("/forecast")
+    public ResponseEntity<ArrayList<Item>> getForecast() {
 
-
-        return ResponseEntity.ok("ok");
+        ArrayList<Item> forecast = ForecastsDB.getForecast();
+        System.out.println("Forecast in Controller: " + forecast);
+        return ResponseEntity.ok(forecast);
     }
 }
-
