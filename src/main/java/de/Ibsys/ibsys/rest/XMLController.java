@@ -34,11 +34,10 @@ public class XMLController {
 
         ProductsDB.updateProductStock(articlesMap);
 
-        List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) ((Map<String, Object>) requestBody
-                .get("waitinglistworkstation"))
-                .get("workplace");
-        HashMap<Integer, Integer> workstations = new HashMap<>();
+        List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) requestBody
+                .get("waitinglistworkstations");
 
+        HashMap<Integer, Integer> workstations = new HashMap<>();
 
         for (Map<String, Object> workstation : waitingListWorkstations) {
             if (workstation != null) {
@@ -48,17 +47,38 @@ public class XMLController {
             }
         }
 
+        // gebe alle Werte der HashMap in der Console aus
+        System.out.println("Warteliste der jeweiligen Arbeitsplätze:");
+        for (Map.Entry<Integer, Integer> entry : workstations.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
+
         WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
 
         System.out.println(articlesMap);
         System.out.println(workstations);
 
-        //List<Map<String, Object>> forecast = (List<Map<String, Object>>) ((Map<String, Object>) requestBody
-                //.get("waitinglistworkstation"))
-                //.get("workplace");
-       // HashMap<Integer, Integer> workstations = new HashMap<>();
+        // SChreibe in die Console, dass die Forecast speichern beginnt
+        System.out.println("Speichere Forecast");
+        Map<String, Object> forecast = (Map<String, Object>) requestBody
+                .get("forecast");
 
+        // create a Hashmap to store the forecast
+        // use the amount for p1 and set the index to 1
+        HashMap<Integer, Integer> forecastMap = new HashMap<>();
+        forecastMap.put(1, Integer.parseInt((String) forecast.get("p1")));
 
+        // use the amount for p2 and set the index to 2
+        forecastMap.put(2, Integer.parseInt((String) forecast.get("p2")));
+        // use the amount for p3 and set the index to 3
+        forecastMap.put(3, Integer.parseInt((String) forecast.get("p3")));
+
+        // Gebe die Hashmap in der Console aus
+        System.out.println(forecastMap);
+
+        // Rufe die Datenbank Methode auf um die Forecasts zu speichern
+        // ForecastsDB.updateForecasts(forecastMap);
+        System.out.println("Forecast gespeichert");
 
         return "Ok";
     }
@@ -69,20 +89,5 @@ public class XMLController {
         ArrayList<Item> forecast = ForecastsDB.getForecast();
 
         return ResponseEntity.ok(forecast);
-
-
-
-    }
-
-
-
-
-    @GetMapping("/input")
-    public ResponseEntity<String> getResponse() {
-
-
-
-        return ResponseEntity.ok("ok");
     }
 }
-
