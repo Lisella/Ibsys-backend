@@ -26,17 +26,17 @@ public class Calculations {
             productionItems.add(new ProductionItem(product.id, quantity));
         }
 
+        ArrayList<ProductionItem> copy = new ArrayList<ProductionItem>();
         if (splitting) {
             System.out.println("Produktionsmengen werden aufgeteilt");
             for (ProductionItem productionItem : productionItems) {
                 // Teile die Produktionsmengen durch 2
                 productionItem.setQuantity(productionItem.getQuantity() / 2);
-
+                copy.add(new ProductionItem(productionItem.getArticle(), productionItem.getQuantity()));
             }
 
-            // füge alle Produktionsaufträge aus productionItems nochmal ans Ende der
-            // Production Items
-            productionItems.addAll(productionItems);
+            // Füge die kopierten Produktionsmengen der Liste hinzu
+            productionItems.addAll(copy);
         }
 
         // setzte die Sequenznummer für die Produktionsmengen
@@ -50,6 +50,7 @@ public class Calculations {
         for (ProductionItem productionItem : productionItems) {
             System.out.println("Article: " + productionItem.getArticle());
             System.out.println("Quantity: " + productionItem.getQuantity());
+            System.out.println("Reihenfolge : " + productionItem.getSequenceNumer());
             System.out.println("----------------------");
         }
 
