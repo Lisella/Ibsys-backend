@@ -15,7 +15,6 @@ public class XMLController {
     @PostMapping("/in")
     public String parseJson(@RequestBody Map<String, Object> requestBody) {
 
-        //Extracting Articles Id and Articles Amount
         List<Map<String, Object>> articles = (List<Map<String, Object>>) ((Map<String, Object>) requestBody
                 .get("warehousestock"))
                 .get("articles");
@@ -28,10 +27,9 @@ public class XMLController {
                 articlesMap.put(id, amount);
             }
         }
-        // Update stock
+
         ProductsDB.updateProductStock(articlesMap);
 
-        //Extracting workinglistworkstations
         List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) ((Map<String, Object>) requestBody
                 .get("waitinglistworkstation"))
                 .get("workplace");
@@ -46,7 +44,6 @@ public class XMLController {
             }
         }
 
-        // Update timeneed
         WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
 
         System.out.println(articlesMap);
