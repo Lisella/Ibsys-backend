@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Calculations {
 
     public static ArrayList<ProductionItem> createProductionByProductionPlanning(
-            ArrayList<ProductionPlanEntity> productionPlans, boolean splitting) {
+            ArrayList<ProductionPlanEntity> productionPlans) {
 
         ArrayList<ProductionItem> productionItems = new ArrayList<>();
 
@@ -24,19 +24,6 @@ public class Calculations {
                     + product.product2Consumption * productionPlans.get(0).product2Consumption
                     + product.product3Consumption * productionPlans.get(0).product3Consumption;
             productionItems.add(new ProductionItem(product.id, quantity));
-        }
-
-        ArrayList<ProductionItem> copy = new ArrayList<ProductionItem>();
-        if (splitting) {
-            System.out.println("Produktionsmengen werden aufgeteilt");
-            for (ProductionItem productionItem : productionItems) {
-                // Teile die Produktionsmengen durch 2
-                productionItem.setQuantity(productionItem.getQuantity() / 2);
-                copy.add(new ProductionItem(productionItem.getArticle(), productionItem.getQuantity()));
-            }
-
-            // Füge die kopierten Produktionsmengen der Liste hinzu
-            productionItems.addAll(copy);
         }
 
         // setzte die Sequenznummer für die Produktionsmengen
