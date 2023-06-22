@@ -26,14 +26,15 @@ public class DatabaseConfig {
         config.setJdbcUrl(url);
         config.setUsername(username);
         config.setPassword(password);
-        config.setMaximumPoolSize(4);
+        config.setMaximumPoolSize(1);
+        config.setIdleTimeout(300000);
         HikariDataSource dataSource = new HikariDataSource(config);
         return dataSource;
     }
 }
 
     /*
-    public DataSource getDataSource2() {
+    public DataSource getDataSource() {
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.url(url);
         dataSourceBuilder.username(username);
