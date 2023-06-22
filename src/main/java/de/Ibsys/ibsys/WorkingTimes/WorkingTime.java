@@ -2,23 +2,24 @@ package de.Ibsys.ibsys.WorkingTimes;
 
 import java.util.ArrayList;
 
-import jakarta.xml.bind.annotation.XmlAttribute;
-
 public class WorkingTime {
     private int station;
     private int shift;
     private int overtime;
     public ArrayList<ProductionTimes> productionTimes;
     public ArrayList<SetupTimes> setupTimes;
+    public int waitingDuration;
     public int overallDuration;
 
-    public WorkingTime(int station, int shift, int overtime) {
+    public WorkingTime(int station, int shift, int overtime, ArrayList<ProductionTimes> productionTimes,
+            ArrayList<SetupTimes> setupTimes, int waitingDuration, int overallDuration) {
         this.station = station;
         this.shift = shift;
         this.overtime = overtime;
-        this.productionTimes = new ArrayList<ProductionTimes>();
-        this.setupTimes = new ArrayList<SetupTimes>();
-        this.overallDuration = 0;
+        this.productionTimes = productionTimes;
+        this.setupTimes = setupTimes;
+        this.waitingDuration = waitingDuration;
+        this.overallDuration = overallDuration;
     }
 
     public int getStation() {
@@ -50,8 +51,8 @@ public class WorkingTime {
         this.productionTimes.add(productionTime);
     }
 
-    public void addSetupTime(int productId, int setupTime) {
-        SetupTimes setupTimeObject = new SetupTimes(productId, setupTime);
+    public void addSetupTime(int productId, int setupTime, int setupQunatity) {
+        SetupTimes setupTimeObject = new SetupTimes(productId, setupTime, setupQunatity);
         this.setupTimes.add(setupTimeObject);
     }
 

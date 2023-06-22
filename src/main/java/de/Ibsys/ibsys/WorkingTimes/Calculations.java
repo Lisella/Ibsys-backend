@@ -4,7 +4,6 @@ import de.Ibsys.ibsys.Production.ProductionItem;
 import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
 import de.Ibsys.ibsys.database.WorkplacesDB;
 
-import java.io.Console;
 import java.util.ArrayList;
 
 public class Calculations {
@@ -16,27 +15,14 @@ public class Calculations {
 
         ArrayList<Workplace> workplaces = WorkplacesDB.getWorkplaces();
 
-        System.out.println("Produktionsdauer und Produkionsmenden für alle Produkte an Arbeitsplatz 1:");
-
         for (Workplace workplace : workplaces) {
             for (WorkplaceProductMerge workplaceProductMerge : workplace.durationsforeachProductWorkplace) {
-                workplace.duration += workplaceProductMerge.durationPerUnit * getProductionQuantityByProductId(
-                        productionList, workplaceProductMerge.getProductId());
+                int quantity = getProductionQuantityByProductId(productionList, workplaceProductMerge.getProductId());
+                workplace.duration += workplaceProductMerge.durationPerUnit * quantity;
+                workplace.productionTimes.add(new ProductionTimes(workplaceProductMerge.getProductId(),
+                        workplaceProductMerge.durationPerUnit, quantity));
             }
         }
-
-        // gebe in der Console alle workplaceProductMerge.durationPerUnit für
-        // ARbeitsplatz 1 aus
-        for (Workplace workplace : workplaces) {
-            if (workplace.id == 1) {
-                for (WorkplaceProductMerge workplaceProductMerge : workplace.durationsforeachProductWorkplace) {
-                    System.out.println(
-                            workplace.id + " : " + workplaceProductMerge.getProductId() + " : "
-                                    + workplaceProductMerge.durationPerUnit);
-                }
-            }
-        }
-
         System.out.println("----------------------");
 
         System.out.println(
@@ -63,6 +49,7 @@ public class Calculations {
             for (Workplace workplace : workplaces) {
                 if (waitingListItem.workplaceId == workplace.id) {
                     workplace.duration += waitingListItem.waitingTime;
+                    workplace.waitingDuration += waitingListItem.waitingTime;
                 }
             }
         }
@@ -81,21 +68,42 @@ public class Calculations {
                     workplace.id + " : " + workplace.duration);
         }
 
+        System.out.println("Berechne die Rüstzeiten je Arbeitsplatz");
         // Füge die Rüstzeiten hinzu
         // gehe alle Arbeitsplätze durch
         // gehe alle Fertigungsaufträge durch
         // wenn der Fertigungsauftrag auf dem Arbeitsplatz gefertigt wird, dann addiere
         // die Rüstzeit auf die Gesamtdauer des Arbeitsplatzes
-
         for (Workplace workplace : workplaces) {
             for (ProductionItem productionItem : productionList) {
                 for (WorkplaceProductMerge workplaceProductMerge : workplace.durationsforeachProductWorkplace) {
                     if (productionItem.getArticle() == workplaceProductMerge.getProductId()
                             && workplaceProductMerge.getWorkplaceId() == workplace.id) {
+                        System.out.println("Rüstzeit für Produkt " + workplaceProductMerge.getProductId()
+                                + " auf Arbeitsplatz " + workplace.id + " beträgt " + workplaceProductMerge.setupTime);
                         workplace.duration += workplaceProductMerge.setupTime;
+                        workplace.setupTimes.add(new SetupTimes(workplaceProductMerge.getProductId(),
+                                workplaceProductMerge.setupTime, 1));
                     }
                 }
             }
+        }
+
+        for (Workplace workplace : workplaces) {
+            ArrayList<SetupTimes> newSetupTimes = new ArrayList<SetupTimes>();
+            for (SetupTimes setupTimes : workplace.setupTimes) {
+                boolean found = false;
+                for (SetupTimes newSetupTime : newSetupTimes) {
+                    if (newSetupTime.productId == setupTimes.productId) {
+                        found = true;
+                        newSetupTime.setSetupQunatity(newSetupTime.getSetupQunatity() + 1);
+                    }
+                }
+                if (!found) {
+                    newSetupTimes.add(setupTimes);
+                }
+            }
+            workplace.setupTimes = newSetupTimes;
         }
 
         // gebe die benötigte Zeit je Arbeitsplatz aus nachdem die Rüstzeiten
@@ -115,6 +123,7 @@ public class Calculations {
         ArrayList<WorkingTime> workingTimes = new ArrayList<WorkingTime>();
 
         for (Workplace workplace : workplaces) {
+            int copyOverallDuration = workplace.duration;
             int shifts = 0;
             int overtime = 0;
             // berechne die Schichten und Überminuten für jeden Arbeitsplatz.
@@ -128,7 +137,8 @@ public class Calculations {
             // Berechne die Schichten (max 3)
             if (workplace.duration >= 7200) {
                 shifts = 3;
-                workingTimes.add(new WorkingTime(workplace.id, shifts, 0));
+                workingTimes.add(new WorkingTime(workplace.id, shifts, 0, workplace.getProductionTimes(),
+                        workplace.getSetupTimes(), workplace.waitingDuration, copyOverallDuration));
                 break;
             } else if (workplace.duration >= 4800) {
                 shifts = 2;
@@ -151,7 +161,8 @@ public class Calculations {
                 overtime = workplace.duration;
             }
 
-            workingTimes.add(new WorkingTime(workplace.id, shifts, overtime / 5));
+            workingTimes.add(new WorkingTime(workplace.id, shifts, overtime / 5, workplace.getProductionTimes(),
+                    workplace.getSetupTimes(), workplace.waitingDuration, copyOverallDuration));
             System.out.println(workplace.id + " : " + shifts + " Schichten, " + overtime / 5 + " Überminuten pro Tag");
         }
 
@@ -160,21 +171,13 @@ public class Calculations {
 
     private static int getProductionQuantityByProductId(ArrayList<ProductionItem> productionList,
             int productId) {
+        int quantity = 0;
         for (ProductionItem productionItem : productionList) {
             if (productionItem.getArticle() == productId) {
-                if (productId == 29) {
-                    System.out.println("Produkt 29 hat eine Menge von " + productionItem.getQuantity());
-                }
-                if (productId == 54) {
-                    System.out.println("Produkt 54 hat eine Menge von " + productionItem.getQuantity());
-                }
-                if (productId == 49) {
-                    System.out.println("Produkt 49 hat eine Menge von " + productionItem.getQuantity());
-                }
-                return productionItem.getQuantity();
+                quantity += productionItem.getQuantity();
             }
         }
-        return 0; // Default duration if no matching product ID is found
+        return quantity;
     }
 
 }

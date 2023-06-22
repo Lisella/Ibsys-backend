@@ -4,10 +4,12 @@ public class SetupTimes {
 
     public int productId;
     public int setupTime;
+    public int setupQunatity;
 
-    public SetupTimes(int productId, int setupTime) {
+    public SetupTimes(int productId, int setupTime, int setupQunatity) {
         this.productId = productId;
         this.setupTime = setupTime;
+        this.setupQunatity = setupQunatity;
     }
 
     public int getProductId() {
@@ -24,5 +26,13 @@ public class SetupTimes {
 
     public void setSetupTime(int setupTime) {
         this.setupTime = setupTime;
+    }
+
+    public int getSetupQunatity() {
+        return setupQunatity;
+    }
+
+    public void setSetupQunatity(int setupQunatity) {
+        this.setupQunatity = setupQunatity;
     }
 }
