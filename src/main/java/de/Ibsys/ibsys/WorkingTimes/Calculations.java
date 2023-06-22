@@ -21,6 +21,8 @@ public class Calculations {
                 workplace.duration += workplaceProductMerge.durationPerUnit * quantity;
                 workplace.productionTimes.add(new ProductionTimes(workplaceProductMerge.getProductId(),
                         workplaceProductMerge.durationPerUnit, quantity));
+                System.out.println("Arbeitsplatz: " + workplace.id + " Produkt: " + workplaceProductMerge.getProductId()
+                        + " Menge: " + quantity + " Dauer: " + workplaceProductMerge.durationPerUnit * quantity);
             }
         }
         System.out.println("----------------------");

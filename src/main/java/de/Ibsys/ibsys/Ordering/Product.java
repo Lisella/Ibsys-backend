@@ -63,4 +63,16 @@ public class Product {
     public int getDeliveryTime() {
         return this.deliverytime + this.variance;
     }
+
+    public int getStock() {
+        return this.stockHistory.get(0);
+    }
+
+    public String getQuantity() {
+        return null;
+    }
+
+    public String getProductId() {
+        return null;
+    }
 }
