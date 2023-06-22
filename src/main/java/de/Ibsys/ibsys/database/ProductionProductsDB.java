@@ -34,10 +34,11 @@ public class ProductionProductsDB {
                     (Integer) row.get("product1Consumption"),
                     (Integer) row.get("product2Consumption"),
                     (Integer) row.get("product3Consumption"));
+            // (Integer) row.get("stock"));
             productionProducts.add(productionProduct);
         }
 
-        //dataSource.close();
+        // dataSource.close();
         return productionProducts;
     }
 }

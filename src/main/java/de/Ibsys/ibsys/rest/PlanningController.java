@@ -4,6 +4,8 @@ import de.Ibsys.ibsys.Ordering.Calculations;
 import de.Ibsys.ibsys.Ordering.NewOrder;
 import de.Ibsys.ibsys.Ordering.ProductionPlanEntity;
 import de.Ibsys.ibsys.Production.ProductionItem;
+import de.Ibsys.ibsys.Production.ReserveStockProducts;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +24,8 @@ public class PlanningController {
     @PostMapping("/planning")
     public ResponseEntity<Map<String, Object>> processPlanning(@RequestBody Map<String, Object> requestBody) {
         List<Map<String, Object>> productionListJson = (List<Map<String, Object>>) requestBody.get("production");
-
+        List<Map<String, Object>> reserveStockListJson = (List<Map<String, Object>>) requestBody.get("products");
+        ArrayList<ReserveStockProducts> productionList = new ArrayList<>();
         ArrayList<ProductionPlanEntity> planningList = new ArrayList<>();
 
         for (int i = 0; i < productionListJson.size(); i++) {
@@ -35,6 +38,22 @@ public class PlanningController {
                     product3Consumption);
             planningList.add(planEntity);
         }
+
+        for (int i = 0; i < reserveStockListJson.size(); i++) {
+            Map<String, Object> reserveStockItem = reserveStockListJson.get(i);
+            int productId = (int) reserveStockItem.get("productId");
+            int reserveStock = (int) reserveStockItem.get("reserveStock");
+
+            ReserveStockProducts reserveStockProducts = new ReserveStockProducts(productId, reserveStock);
+            productionList.add(reserveStockProducts);
+        }
+
+        System.out.println("Reserveliste:");
+        for (ReserveStockProducts reserveStockProducts : productionList) {
+            System.out.println("ProductId: " + reserveStockProducts.getProductId() + " ReserveStock: "
+                    + reserveStockProducts.getReserveStock());
+        }
+        System.out.println("----------------------");
 
         // gebe die Liste der Produktionsplanung aus
         System.out.println("Produktionsplanung:");
@@ -54,7 +73,7 @@ public class PlanningController {
 
         System.out.println(("Fertigungsaufträge Berechnung gestartet"));
         ArrayList<ProductionItem> productionItems = de.Ibsys.ibsys.Production.Calculations
-                .createProductionByProductionPlanning(planningList);
+                .createProductionByProductionPlanning(planningList, productionList);
 
         System.out.println("----------------------");
         System.out.println("Fertigungsaufträge Berechnung abgeschlossen:");

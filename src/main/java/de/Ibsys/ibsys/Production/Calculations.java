@@ -2,13 +2,14 @@ package de.Ibsys.ibsys.Production;
 
 import de.Ibsys.ibsys.Ordering.ProductionPlanEntity;
 import de.Ibsys.ibsys.database.ProductionProductsDB;
+import de.Ibsys.ibsys.database.WaitingListProductDB;
 
 import java.util.ArrayList;
 
 public class Calculations {
 
     public static ArrayList<ProductionItem> createProductionByProductionPlanning(
-            ArrayList<ProductionPlanEntity> productionPlans) {
+            ArrayList<ProductionPlanEntity> productionPlan, ArrayList<ReserveStockProducts> reserveStockProducts) {
 
         ArrayList<ProductionItem> productionItems = new ArrayList<>();
 
@@ -17,12 +18,39 @@ public class Calculations {
 
         ArrayList<ProductionProduct> products = ProductionProductsDB.getProductionProducts();
 
+        // gebe alle Produkte aus, mit dem aktuellen Lagerbestand
+        for (ProductionProduct product : products) {
+            System.out.println("Article: " + product.name + " Stock: " + product.stock);
+            System.out.println("----------------------");
+        }
+
         System.out.println("Für Produktionsmengen den Produktverbrauch anhand der Produktionsmengen bestimmen");
 
         for (ProductionProduct product : products) {
-            int quantity = product.product1Consumption * productionPlans.get(0).product1Consumption
-                    + product.product2Consumption * productionPlans.get(0).product2Consumption
-                    + product.product3Consumption * productionPlans.get(0).product3Consumption;
+            System.out.println("----------------------");
+            System.out.println(
+                    "Artikel: " + product.name + " Verbrauch (p1, p2, p3): " + product.product1Consumption + " "
+                            + product.product2Consumption + " " + product.product3Consumption);
+            int quantity = product.product1Consumption * productionPlan.get(0).product1Consumption
+                    + product.product2Consumption * productionPlan.get(0).product2Consumption
+                    + product.product3Consumption * productionPlan.get(0).product3Consumption;
+            System.out.println("Artikel: " + product.id + " Quantity: " + quantity);
+            quantity = quantity + ReserveStockProducts.GetReserveStock(product.id, reserveStockProducts);
+            System.out.println("Addition von Sicherheitsbestand für Artikel: " + product.id + " Menge: " + quantity
+                    + " Sicherheitsbestand: " + ReserveStockProducts.GetReserveStock(product.id, reserveStockProducts));
+            quantity = quantity - product.stock;
+            System.out.println("Subtraktion von Lagerbestand für Artikel: " + product.id + " Menge: " + quantity
+                    + " Lagerbestand: " + product.stock);
+
+            ArrayList<WaitingListProducts> waitingListProducts = WaitingListProductDB.GetWaitingListProductsFromDB();
+            int waitingQuantity = WaitingListProducts.GetWaitingListQuantity(product.id, waitingListProducts);
+            System.out.println("Folgende Anzahl wurde für Produkt: " + product.id + " in der Warteliste gefunden: "
+                    + waitingQuantity);
+
+            quantity = quantity - waitingQuantity;
+            System.out.println("Subtraktion für Warteliste für Artikel: " + product.id + " Menge: " + quantity
+                    + " Warteliste: " + waitingQuantity);
+            System.out.println("Finaler Produktionsmengen für Artikel: " + product.id + " Menge: " + quantity);
             productionItems.add(new ProductionItem(product.id, quantity));
         }
 

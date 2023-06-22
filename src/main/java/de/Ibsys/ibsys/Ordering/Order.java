@@ -3,8 +3,6 @@ package de.Ibsys.ibsys.Ordering;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.springframework.core.OrderComparator.OrderSourceProvider;
-
 public class Order {
     int id;
     int productId;
