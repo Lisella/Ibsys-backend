@@ -27,7 +27,7 @@ public class DatabaseConfig {
         config.setUsername(username);
         config.setPassword(password);
         config.setMaximumPoolSize(1);
-        config.setIdleTimeout(300000);
+        config.setIdleTimeout(900000);
         HikariDataSource dataSource = new HikariDataSource(config);
         return dataSource;
     }

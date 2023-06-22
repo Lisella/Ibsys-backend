@@ -2,11 +2,11 @@ package de.Ibsys.ibsys.Production;
 
 import java.util.ArrayList;
 
-public class ReserveStockProducts {
+public class ReserveStockProduct {
     public int productId;
     public int reserveStock;
 
-    public ReserveStockProducts(int productId, int reserveStock) {
+    public ReserveStockProduct(int productId, int reserveStock) {
         this.productId = productId;
         this.reserveStock = reserveStock;
     }
@@ -27,9 +27,9 @@ public class ReserveStockProducts {
         this.reserveStock = reserveStock;
     }
 
-    public static int GetReserveStock(int productId, ArrayList<ReserveStockProducts> reserveStocks) {
+    public static int GetReserveStock(int productId, ArrayList<ReserveStockProduct> reserveStocks) {
 
-        for (ReserveStockProducts reserveStock : reserveStocks) {
+        for (ReserveStockProduct reserveStock : reserveStocks) {
             if (reserveStock.getProductId() == productId) {
                 return reserveStock.getReserveStock();
             }

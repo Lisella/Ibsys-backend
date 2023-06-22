@@ -4,10 +4,7 @@ import de.Ibsys.ibsys.FutureIncomingOrders.FutureOrder;
 import de.Ibsys.ibsys.InputXml.Item;
 import de.Ibsys.ibsys.Ordering.Order;
 import de.Ibsys.ibsys.Ordering.Product;
-import de.Ibsys.ibsys.database.ForecastsDB;
-import de.Ibsys.ibsys.database.OrdersDB;
-import de.Ibsys.ibsys.database.ProductsDB;
-import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
+import de.Ibsys.ibsys.database.*;
 
 import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
 
@@ -41,6 +38,7 @@ public class XMLController {
         }
 
         ProductsDB.updateProductStock(articlesMap);
+        ProductionProductsDB.updateProductionProductsStock(articlesMap);
 
         List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) requestBody
                 .get("waitinglistworkstations");
@@ -62,13 +60,31 @@ public class XMLController {
         }
 
         WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
+
+        //todo: Produkt-Warteliste
+        HashMap<Integer, Integer> waitingListProducts = new HashMap<>();
+
+        for (Map<String, Object> workstation : waitingListWorkstations) {
+            if (workstation != null) {
+                if (workstation.containsKey("waitinglist")) {
+                    List<Map<String, Object>> waitingList = (List<Map<String, Object>>) workstation.get("waitinglist");
+                    for (Map<String, Object> waitingListItem : waitingList) {
+                        //todo: Menge der Produkte rausfiltern
+                        // (Falls item und amount in nächster Station gleich sind, nicht zur liste hinzufügen?)
+                        //  evtl ordersinwork noch hinzufügen
+                        //waitingListProducts.put(id, amount);
+                    }
+                }
+            }
+        }
+        //WaitingListProductsDB.putWaitingListProducts(waitingListProducts);
+
         System.out.println(articlesMap);
         System.out.println(workstations);
 
         // SChreibe in die Console, dass die Forecast speichern beginnt
         System.out.println("Speichere Forecast");
-        Map<String, Object> forecast = (Map<String, Object>) requestBody
-                .get("forecast");
+        Map<String, Object> forecast = (Map<String, Object>) requestBody.get("forecast");
 
         // create a Hashmap to store the forecast
         // use the amount for p1 and set the index to 1

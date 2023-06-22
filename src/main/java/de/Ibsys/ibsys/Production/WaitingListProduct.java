@@ -2,11 +2,11 @@ package de.Ibsys.ibsys.Production;
 
 import java.util.ArrayList;
 
-public class WaitingListProducts {
+public class WaitingListProduct {
     private int productId;
     private int quantity;
 
-    public WaitingListProducts(int productId, int quantity) {
+    public WaitingListProduct(int productId, int quantity) {
         this.productId = productId;
         this.quantity = quantity;
     }
@@ -27,9 +27,9 @@ public class WaitingListProducts {
         this.quantity = quantity;
     }
 
-    public static int GetWaitingListQuantity(int productId, ArrayList<WaitingListProducts> waitingListProducts) {
+    public static int GetWaitingListQuantity(int productId, ArrayList<WaitingListProduct> waitingListProducts) {
 
-        for (WaitingListProducts waitingListProduct : waitingListProducts) {
+        for (WaitingListProduct waitingListProduct : waitingListProducts) {
             if (waitingListProduct.getProductId() == productId) {
                 return waitingListProduct.getQuantity();
             }

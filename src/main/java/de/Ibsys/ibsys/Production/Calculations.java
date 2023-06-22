@@ -2,14 +2,14 @@ package de.Ibsys.ibsys.Production;
 
 import de.Ibsys.ibsys.Ordering.ProductionPlanEntity;
 import de.Ibsys.ibsys.database.ProductionProductsDB;
-import de.Ibsys.ibsys.database.WaitingListProductDB;
+import de.Ibsys.ibsys.database.WaitingListProductsDB;
 
 import java.util.ArrayList;
 
 public class Calculations {
 
     public static ArrayList<ProductionItem> createProductionByProductionPlanning(
-            ArrayList<ProductionPlanEntity> productionPlan, ArrayList<ReserveStockProducts> reserveStockProducts) {
+            ArrayList<ProductionPlanEntity> productionPlan, ArrayList<ReserveStockProduct> reserveStockProducts) {
 
         ArrayList<ProductionItem> productionItems = new ArrayList<>();
 
@@ -35,15 +35,15 @@ public class Calculations {
                     + product.product2Consumption * productionPlan.get(0).product2Consumption
                     + product.product3Consumption * productionPlan.get(0).product3Consumption;
             System.out.println("Artikel: " + product.id + " Quantity: " + quantity);
-            quantity = quantity + ReserveStockProducts.GetReserveStock(product.id, reserveStockProducts);
+            quantity = quantity + ReserveStockProduct.GetReserveStock(product.id, reserveStockProducts);
             System.out.println("Addition von Sicherheitsbestand für Artikel: " + product.id + " Menge: " + quantity
-                    + " Sicherheitsbestand: " + ReserveStockProducts.GetReserveStock(product.id, reserveStockProducts));
+                    + " Sicherheitsbestand: " + ReserveStockProduct.GetReserveStock(product.id, reserveStockProducts));
             quantity = quantity - product.stock;
             System.out.println("Subtraktion von Lagerbestand für Artikel: " + product.id + " Menge: " + quantity
                     + " Lagerbestand: " + product.stock);
 
-            ArrayList<WaitingListProducts> waitingListProducts = WaitingListProductDB.GetWaitingListProductsFromDB();
-            int waitingQuantity = WaitingListProducts.GetWaitingListQuantity(product.id, waitingListProducts);
+            ArrayList<WaitingListProduct> waitingListProducts = WaitingListProductsDB.GetWaitingListProductsFromDB();
+            int waitingQuantity = WaitingListProduct.GetWaitingListQuantity(product.id, waitingListProducts);
             System.out.println("Folgende Anzahl wurde für Produkt: " + product.id + " in der Warteliste gefunden: "
                     + waitingQuantity);
 

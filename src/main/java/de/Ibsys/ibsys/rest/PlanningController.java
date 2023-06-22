@@ -4,7 +4,7 @@ import de.Ibsys.ibsys.Ordering.Calculations;
 import de.Ibsys.ibsys.Ordering.NewOrder;
 import de.Ibsys.ibsys.Ordering.ProductionPlanEntity;
 import de.Ibsys.ibsys.Production.ProductionItem;
-import de.Ibsys.ibsys.Production.ReserveStockProducts;
+import de.Ibsys.ibsys.Production.ReserveStockProduct;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class PlanningController {
     public ResponseEntity<Map<String, Object>> processPlanning(@RequestBody Map<String, Object> requestBody) {
         List<Map<String, Object>> productionListJson = (List<Map<String, Object>>) requestBody.get("production");
         List<Map<String, Object>> reserveStockListJson = (List<Map<String, Object>>) requestBody.get("products");
-        ArrayList<ReserveStockProducts> productionList = new ArrayList<>();
+        ArrayList<ReserveStockProduct> productionList = new ArrayList<>();
         ArrayList<ProductionPlanEntity> planningList = new ArrayList<>();
 
         for (int i = 0; i < productionListJson.size(); i++) {
@@ -44,14 +44,14 @@ public class PlanningController {
             int productId = (int) reserveStockItem.get("productId");
             int reserveStock = (int) reserveStockItem.get("reserveStock");
 
-            ReserveStockProducts reserveStockProducts = new ReserveStockProducts(productId, reserveStock);
-            productionList.add(reserveStockProducts);
+            ReserveStockProduct reserveStockProduct = new ReserveStockProduct(productId, reserveStock);
+            productionList.add(reserveStockProduct);
         }
 
         System.out.println("Reserveliste:");
-        for (ReserveStockProducts reserveStockProducts : productionList) {
-            System.out.println("ProductId: " + reserveStockProducts.getProductId() + " ReserveStock: "
-                    + reserveStockProducts.getReserveStock());
+        for (ReserveStockProduct reserveStockProduct : productionList) {
+            System.out.println("ProductId: " + reserveStockProduct.getProductId() + " ReserveStock: "
+                    + reserveStockProduct.getReserveStock());
         }
         System.out.println("----------------------");
 
