@@ -34,6 +34,11 @@ public class ForecastsController {
             productInfos.add(new ProductInfo(product.getId(), product.getStock()));
         }
 
+        // mocke p1, p2 p3
+        productInfos.add(new ProductInfo(1, 70));
+        productInfos.add(new ProductInfo(2, 40));
+        productInfos.add(new ProductInfo(3, 40));
+
         ForecastResponse response = new ForecastResponse();
         response.setForecasts(forecast);
         response.setProducts(productInfos);
