@@ -60,15 +60,10 @@ public class PlanningController {
         System.out.println("Fertigungsaufträge Berechnung abgeschlossen:");
         System.out.println("----------------------");
 
-        System.out.println(("Kapazitätsplanung Berechnung gestartet"));
-        ArrayList<de.Ibsys.ibsys.WorkingTimes.WorkingTime> workingTimes = de.Ibsys.ibsys.WorkingTimes.Calculations
-                .CalculateWorkingtimesByProductionList(productionItems);
-
         // Create a map to hold the response data
         Map<String, Object> response = new HashMap<>();
         response.put("orderlist", orders);
         response.put("productionlist", productionItems);
-        response.put("workingtimelist", workingTimes);
 
         // Return the response map with the appropriate status
         return new ResponseEntity<>(response, HttpStatus.OK);
