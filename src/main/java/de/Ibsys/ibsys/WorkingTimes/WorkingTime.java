@@ -1,18 +1,23 @@
 package de.Ibsys.ibsys.WorkingTimes;
 
+import java.util.ArrayList;
+
 import jakarta.xml.bind.annotation.XmlAttribute;
 
 public class WorkingTime {
     private int station;
     private int shift;
+    private int overtime;
+    public ArrayList<ProductionTimes> productionTimes;
+    public ArrayList<SetupTimes> setupTimes;
 
     public WorkingTime(int station, int shift, int overtime) {
         this.station = station;
         this.shift = shift;
         this.overtime = overtime;
+        this.productionTimes = new ArrayList<ProductionTimes>();
+        this.setupTimes = new ArrayList<SetupTimes>();
     }
-
-    private int overtime;
 
     public int getStation() {
         return station;
