@@ -22,11 +22,20 @@ public class ForecastsController {
         ArrayList<de.Ibsys.ibsys.InputXml.Item> forecast = ForecastsDB.getForecast();
         ArrayList<Product> products = ProductsDB.getProducts();
 
+        // Get ProductionProducts, sortiere p1,p2,p3 Consumption
+        ArrayList<ProductInfo> forP1 = new ArrayList<>();
+        ArrayList<ProductInfo> forP2 = new ArrayList<>();
+        ArrayList<ProductInfo> forP3 = new ArrayList<>();
+
         // Ausgabe der Produktinformationen
         for (Product product : products) {
             System.out.println("ProductId: " + product.getId());
             System.out.println("Stock: " + product.getStock());
         }
+
+        // TODO: ProdutionProducts aus DB holen
+        // TODO: ProductionProducts in ProductInfo mappen
+        // TODO Je Produkt die benötigten Production Products ausgeben
 
         ArrayList<ProductInfo> productInfos = new ArrayList<>();
         for (Product product : products) {
@@ -34,14 +43,19 @@ public class ForecastsController {
             productInfos.add(new ProductInfo(product.getId(), product.getStock()));
         }
 
+
         // mocke p1, p2 p3
         productInfos.add(new ProductInfo(1, 70));
         productInfos.add(new ProductInfo(2, 40));
         productInfos.add(new ProductInfo(3, 40));
 
+        // Consumption hinzufügen, danach nach p1,p2,p3 sortieren
+
         ForecastResponse response = new ForecastResponse();
         response.setForecasts(forecast);
         response.setProducts(productInfos);
+
+
 
         return ResponseEntity.ok(response);
     }

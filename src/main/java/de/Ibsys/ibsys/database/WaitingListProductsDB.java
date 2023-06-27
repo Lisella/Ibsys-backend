@@ -51,6 +51,15 @@ public class WaitingListProductsDB {
         // dataSource.close();
     }
 
+    public static void updateWaitingListProducts(ArrayList<WaitingListProduct> waitingListProducts) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        String sql = "UPDATE public.\"ProductWaitlist\" SET \"quantity\" = ? WHERE \"ID\" = ?";
+        for (WaitingListProduct waitingListProduct : waitingListProducts) {
+            jdbcTemplate.update(sql, waitingListProduct.getQuantity(), waitingListProduct.getProductId());
+        }
+        // dataSource.close();
+    }
+
     private static void clearWaitingListProductTable() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         String sql = "TRUNCATE TABLE public.\"ProductWaitlist\"";

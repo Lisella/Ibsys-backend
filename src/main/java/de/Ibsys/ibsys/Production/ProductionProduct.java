@@ -16,4 +16,6 @@ public class ProductionProduct {
         this.product3Consumption = p3;
         this.stock = stock;
     }
+
+    // { 22, Rahmen, 1, 0, 0, 13 },
 }
