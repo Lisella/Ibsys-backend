@@ -1,14 +1,9 @@
 package de.Ibsys.ibsys.rest;
 
 import de.Ibsys.ibsys.FutureIncomingOrders.FutureOrder;
-import de.Ibsys.ibsys.InputXml.Item;
 import de.Ibsys.ibsys.Ordering.Order;
 import de.Ibsys.ibsys.Ordering.Product;
 import de.Ibsys.ibsys.database.*;
-
-import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -44,24 +39,53 @@ public class XMLController {
                 .get("waitinglistworkstations");
 
         HashMap<Integer, Integer> workstations = new HashMap<>();
+        HashMap<Integer, Integer> itemQuantities = new HashMap<>();
+
+
+
 
         for (Map<String, Object> workstation : waitingListWorkstations) {
             if (workstation != null) {
                 Integer id = Integer.parseInt((String) workstation.get("id"));
                 Integer timeNeed = Integer.parseInt((String) workstation.get("timeneed"));
                 workstations.put(id, timeNeed);
+
+                //getting amount of items in waitinglist
+
+                List<Map<String, Object>> waitingLists = (List<Map<String, Object>>) workstation.get("waitingslists");
+                if (waitingLists != null) {
+                    for (Map<String, Object> waitingList : waitingLists) {
+                        Integer item = (Integer) waitingList.get("item");
+                        Integer amount = (Integer) waitingList.get("amount");
+                        if (item != null && amount != null) {
+                            itemQuantities.put(item, amount);
+                        }
+                    }
+
+
+
             }
         }
 
         // gebe alle Werte der HashMap in der Console aus
         System.out.println("Warteliste der jeweiligen Arbeitsplätze:");
         for (Map.Entry<Integer, Integer> entry : workstations.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue());
+            System.out.println("Workstation " + entry.getKey() + " : " + entry.getValue() + " Minuten");
         }
 
         WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
 
-        //todo: Produkt-Warteliste
+
+            System.out.println("ProductionProduct in der Warteliste : ");
+            for (Map.Entry<Integer, Integer> entry : itemQuantities.entrySet()) {
+                System.out.println("Product Nr: " + entry.getKey() + entry.getValue() + " : Stück");
+            }
+
+            ProductionProductsDB.updateProductionProductsStock(itemQuantities);
+
+
+
+    /*    //todo: Produkt-Warteliste
         HashMap<Integer, Integer> waitingListProducts = new HashMap<>();
 
         for (Map<String, Object> workstation : waitingListWorkstations) {
@@ -76,8 +100,11 @@ public class XMLController {
                     }
                 }
             }
-        }
+        }*/
+
+
         //WaitingListProductsDB.putWaitingListProducts(waitingListProducts);
+
 
         System.out.println(articlesMap);
         System.out.println(workstations);
@@ -96,7 +123,7 @@ public class XMLController {
         // use the amount for p3 and set the index to 3
         forecastMap.put(3, Integer.parseInt((String) forecast.get("p3")));
 
-        // Gebe die Hashmap in der Console aus
+        // Gebe die Hashmap in der Console aus  5671qk
         System.out.println(forecastMap);
 
         // Rufe die Datenbank Methode auf um die Forecasts zu speichern
@@ -111,21 +138,20 @@ public class XMLController {
         // Gebe die offenen Bestellungen in der Console aus
         System.out.println(orders);
 
-        // Hole alle Produkte aus der DB um die Lieferdauer zu bestimmen
-        ArrayList<Product> products = ProductsDB.getProducts();
-        System.out.println(products);
 
-        List<FutureOrder> futureOrders = new ArrayList<>();
+
+       List<FutureOrder> futureOrders = new ArrayList<>();
         for (Map<String, Object> order : orders) {
             int productId = Integer.parseInt(order.get("article").toString());
             int quantity = Integer.parseInt(order.get("amount").toString());
             // Berechne die Tage in denen die Bestellung spätestens ankommt
-            Product product = getProductByProductID(productId, products);
+            Product product = ProductsDB.getProductByID(productId);
             Map<String, Object> overview = (Map<String, Object>) requestBody.get("overview");
             int period = Integer.parseInt((String) overview.get("period"));
             int orderPeriode = Integer.parseInt(order.get("orderperiod").toString());
+
             int periodDifference = period + 1 - orderPeriode;
-            System.out.println("Vergangene Perioden: " + periodDifference);
+            System.out.println("Bestellung Product " + productId + "Vergangene Perioden: " + periodDifference);
             int maxDeliveryTime = product.getDeliveryTime();
             int mode = Integer.parseInt(order.get("mode").toString());
             int daysAfterToday = 0;
@@ -156,14 +182,7 @@ public class XMLController {
         OrdersDB.putOrders(ordersDb);
         return "Ok";
     }
+return "not ok";
 
-    // Create a Methode, that returns the product by ProductId
-    public static Product getProductByProductID(int productID, ArrayList<Product> products) {
-        for (Product product : products) {
-            if (product.getId() == productID) {
-                return product;
-            }
-        }
-        return null;
-    }
-}
+
+}}

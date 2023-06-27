@@ -54,4 +54,29 @@ public class ProductsDB {
         });
         //dataSource.close();
     }
+
+    public static Product getProductByID(int productID) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        String sql = "SELECT * FROM public.\"Product\" WHERE \"ID\" = ?";
+
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, productID);
+
+        if (!rows.isEmpty()) {
+            Map<String, Object> row = rows.get(0);
+            Product product = new Product(
+                    (Integer) row.get("ID"),
+                    (String) row.get("name"),
+                    (Integer) row.get("discountQuantity"),
+                    (Integer) row.get("deliverytime"),
+                    (Integer) row.get("variance"),
+                    (Integer) row.get("product1Consumption"),
+                    (Integer) row.get("product2Consumption"),
+                    (Integer) row.get("product3Consumption"),
+                    (Integer) row.get("stock"));
+            return product;
+        }
+
+        return null;
+    }
+
 }
