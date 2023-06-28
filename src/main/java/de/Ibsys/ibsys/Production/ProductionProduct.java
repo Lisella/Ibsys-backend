@@ -17,5 +17,30 @@ public class ProductionProduct {
         this.stock = stock;
     }
 
+    //Write getter for productConsumptions
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getProduct1Consumption() {
+        return product1Consumption;
+    }
+
+    public int getProduct2Consumption() {
+        return product2Consumption;
+    }
+
+    public int getProduct3Consumption() {
+        return product3Consumption;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
     // { 22, Rahmen, 1, 0, 0, 13 },
 }
