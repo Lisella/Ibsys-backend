@@ -69,10 +69,11 @@ public class ForecastsController {
         response.setP1(convertToMapList(forP1));
         response.setP2(convertToMapList(forP2));
         response.setP3(convertToMapList(forP3));
-        response.setProducts(productInfos);
+
 
         // Konsolenausgabe für Produktinformationen
-        System.out.println("=== Produktinformationen ===");
+        System.out.println("*** Produktinformationen ***");
+        System.out.println();
         for (ProductInfo productInfo : productInfos) {
             System.out.println("ProductId: " + productInfo.getProductId() + " Stock: " + productInfo.getStock());
         }
@@ -93,7 +94,6 @@ public class ForecastsController {
 
     public class ForecastResponse {
         private ArrayList<de.Ibsys.ibsys.InputXml.Item> forecasts;
-        private ArrayList<ProductInfo> products;
         private List<Map<String, Object>> p1;
         private List<Map<String, Object>> p2;
         private List<Map<String, Object>> p3;
@@ -106,13 +106,6 @@ public class ForecastsController {
             this.forecasts = forecasts;
         }
 
-        public ArrayList<ProductInfo> getProducts() {
-            return products;
-        }
-
-        public void setProducts(ArrayList<ProductInfo> products) {
-            this.products = products;
-        }
 
         public List<Map<String, Object>> getP1() {
             return p1;

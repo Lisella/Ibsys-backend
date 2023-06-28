@@ -156,6 +156,8 @@ public class XMLController {
         OrdersDB.putOrders(ordersDb);
     }
 
+
+
     private void printResults() {
         System.out.println();
         System.out.println(" *** Ermittlung aller Artikel aus dem Warenbestand *** ");
