@@ -12,10 +12,8 @@ import de.Ibsys.ibsys.database.WaitingListForWorkstationsDB;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -24,6 +22,11 @@ public class XMLController {
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/in")
     public String parseJson(@RequestBody Map<String, Object> requestBody) {
+
+
+        /**
+         * Speichere alle Artikel in der Datenbank
+         */
 
         List<Map<String, Object>> articles = (List<Map<String, Object>>) ((Map<String, Object>) requestBody
                 .get("warehousestock"))
@@ -39,7 +42,43 @@ public class XMLController {
         }
 
         ProductsDB.updateProductStock(articlesMap);
-        ProductionProductsDB.updateProductionProductsStock(articlesMap);
+
+
+
+
+        /**
+         * Speichere alle Production Products in der Datenbank (nur die gültigen)
+         */
+
+        HashMap<Integer, Integer> productionProductsMap = new HashMap<>();
+
+        List<Integer> validProductIds = List.of(
+                4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+                16, 17, 18, 19, 20, 26, 49, 54, 29, 50, 55,
+                30, 51, 56, 31, 1, 2, 3
+        );
+
+
+        for (Map<String, Object> article : articles) {
+            if (article != null) {
+                String idString = article.get("id").toString();
+                Integer amount = Integer.parseInt(article.get("amount").toString());
+
+                Integer id = Integer.parseInt(idString);
+
+                if (validProductIds.contains(idString)) {
+                    productionProductsMap.put(id, amount);
+                }
+            }
+        }
+
+        ProductionProductsDB.updateProductionProductsStock(productionProductsMap);
+
+
+
+        /**
+         * Ermittle Workstation und verbleibende Arbeitszeit
+         */
 
         List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) requestBody
                 .get("waitinglistworkstations");
@@ -54,8 +93,11 @@ public class XMLController {
                 workstations.put(id, timeNeed);
             }
 
-            //getting amount of items in waitinglist
 
+
+            /**
+             * Ermittle Produktnummer und Menge der Produkte in der Warteliste
+             */
 
             List<Map<String, Object>> waitingLists = (List<Map<String, Object>>) workstation.get("waitingslists");
             if (waitingLists != null) {
@@ -69,10 +111,12 @@ public class XMLController {
                 }
             }
 
-            // gebe alle Werte der HashMap in der Console aus
-            System.out.println("Warteliste der jeweiligen Arbeitsplätze:");
+            System.out.println();
+            System.out.println(" *** Warteliste der jeweiligen Arbeitsplätze *** ");
+            System.out.println();
+
             for (Map.Entry<Integer, Integer> entry : workstations.entrySet()) {
-                System.out.println(entry.getKey() + " : " + entry.getValue());
+                System.out.println(" Produktnummer: " + entry.getKey() + ":" + entry.getValue() + " Stück");
             }
 
             WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
@@ -82,23 +126,16 @@ public class XMLController {
             System.out.println(" *** Ermittlung der Produkte die sich in der Warteschlange befinden *** ");
             System.out.println();
 
-            System.out.println("ProductionProduct in der Warteliste : ");
             for (WaitingListProduct waitingListProduct : waitingListProducts){
                 System.out.println("Product Nr: " + waitingListProduct.getProductId() + waitingListProduct.getQuantity() + " : Stück");
             }
 
             WaitingListProductsDB.updateWaitingListProducts(waitingListProducts);
 
-            // If ProductionProduct in articlesList
 
-
-            //WaitingListProductsDB.putWaitingListProducts(waitingListProducts);
-
-            System.out.println(articlesMap);
-            System.out.println(workstations);
-
-            // SChreibe in die Console, dass die Forecast speichern beginnt
-            System.out.println("Speichere Forecast");
+            System.out.println();
+            System.out.println(" *** Ermittlung der Produkte die sich in der Warteschlange befinden *** ");
+            System.out.println();
             Map<String, Object> forecast = (Map<String, Object>) requestBody.get("forecast");
 
             // create a Hashmap to store the forecast
@@ -116,26 +153,52 @@ public class XMLController {
 
             // Rufe die Datenbank Methode auf um die Forecasts zu speichern
             ForecastsDB.updateForecasts(forecastMap);
+
+            System.out.println();
             System.out.println("Forecast gespeichert");
+            System.out.println();
+            System.out.println("*** Beginne mit der Verarbeitung offene Bestellungen ***");
+            System.out.println();
 
-            // Beginne mit der Speicherung der offenen Bestellungen
-            System.out.println("Beginne mit der Verarbeitung offene Bestellungen");
-            List<Map<String, Object>> orders = (List<Map<String, Object>>) requestBody
-                    .get("futureinwardstockmovement");
 
-            // Gebe die offenen Bestellungen in der Console aus
-            System.out.println(orders);
+            List<Map<String, Object>> orders = (List<Map<String, Object>>) requestBody.get("futureinwardstockmovement");
 
-            // Hole alle Produkte aus der DB um die Lieferdauer zu bestimmen
+            System.out.println();
+            System.out.println("*** eingehende Lagerbewegungen ***");
+            System.out.println();
+
+            System.out.println("Bestellungen:");
+            for (Map<String, Object> order : orders) {
+                System.out.println("Bestellung: " + order);
+            }
+
+
             ArrayList<Product> products = ProductsDB.getProducts();
-            System.out.println(products);
+
+           /* System.out.println();
+            System.out.println("*** Alle Produkte in der Datenbank ***");
+            System.out.println();
+
+            System.out.println("Produkte:");
+            for (Product product : products) {
+                System.out.println("Produkt: " + product);
+            }*/
+
 
             List<FutureOrder> futureOrders = new ArrayList<>();
             for (Map<String, Object> order : orders) {
                 int productId = Integer.parseInt(order.get("article").toString());
                 int quantity = Integer.parseInt(order.get("amount").toString());
                 // Berechne die Tage in denen die Bestellung spätestens ankommt
-                Product product = products.get(productId);
+
+                Product product = null;
+                for (Product p : products) {
+                    if (p.getId() == productId) {
+                        product = p;
+                        break;
+                    }
+                }
+
                 Map<String, Object> overview = (Map<String, Object>) requestBody.get("overview");
                 int period = Integer.parseInt((String) overview.get("period"));
                 int orderPeriode = Integer.parseInt(order.get("orderperiod").toString());
@@ -170,6 +233,29 @@ public class XMLController {
             // speicher die offenen Bestellungen in der Datenbank
             OrdersDB.putOrders(ordersDb);
         }
+
+        System.out.println();
+        System.out.println(" *** Ermittlung aller Artikel aus dem Warenbestand *** ");
+        System.out.println();
+
+        for (Map.Entry<Integer, Integer> entry : articlesMap.entrySet()) {
+            Integer productId = entry.getKey();
+            Integer quantity = entry.getValue();
+            System.out.println("Product Nr: " + productId + " - Menge: " + quantity + " Stück");
+        }
+
+
+        System.out.println();
+        System.out.println(" *** Ermittlung der ProductionProducts und ihr Warenbestand *** ");
+        System.out.println();
+
+        for (Map.Entry<Integer, Integer> entry : productionProductsMap.entrySet()) {
+            Integer productId = entry.getKey();
+            Integer quantity = entry.getValue();
+            System.out.println("Product Nr: " + productId + " - Menge: " + quantity + " Stück");
+        }
+
+
         return "Ok";
 
 
