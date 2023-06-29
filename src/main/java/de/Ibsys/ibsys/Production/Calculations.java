@@ -42,7 +42,7 @@ public class Calculations {
             System.out.println("Subtraktion von Lagerbestand für Artikel: " + product.id + " Menge: " + quantity
                     + " Lagerbestand: " + product.stock);
 
-            ArrayList<WaitingListProduct> waitingListProducts = WaitingListProductsDB.GetWaitingListProductsFromDB();
+            ArrayList<WaitingListProduct> waitingListProducts = WaitingListProductsDB.getWaitingListProductsFromDB();
             int waitingQuantity = WaitingListProduct.GetWaitingListQuantity(product.id, waitingListProducts);
             System.out.println("Folgende Anzahl wurde für Produkt: " + product.id + " in der Warteliste gefunden: "
                     + waitingQuantity);
