@@ -7,6 +7,9 @@ public class ProductionProduct {
     int product2Consumption;
     int product3Consumption;
     int stock;
+    int waitingListQuantity;
+    int inProductionQuantity;
+    int reserveStock;
 
     public ProductionProduct(int Id, String Name, int p1, int p2, int p3, int stock) {
         this.id = Id;
@@ -15,9 +18,12 @@ public class ProductionProduct {
         this.product2Consumption = p2;
         this.product3Consumption = p3;
         this.stock = stock;
+        this.waitingListQuantity = 0;
+        this.inProductionQuantity = 0;
+        this.reserveStock = 50;
     }
 
-    //Write getter for productConsumptions
+    // Write getter for productConsumptions
     public int getId() {
         return id;
     }
@@ -42,5 +48,32 @@ public class ProductionProduct {
         return stock;
     }
 
-    // { 22, Rahmen, 1, 0, 0, 13 },
+    public int getWaitingListQuantity() {
+        return waitingListQuantity;
+    }
+
+    public int getInProductionQuantity() {
+        return inProductionQuantity;
+    }
+
+    // Write setter for Quantity
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public void setWaitingListQuantity(int waitingListQuantity) {
+        this.waitingListQuantity = waitingListQuantity;
+    }
+
+    public void setInProductionQuantity(int inProductionQuantity) {
+        this.inProductionQuantity = inProductionQuantity;
+    }
+
+    public int getReserveStock() {
+        return reserveStock;
+    }
+
+    public void setReserveStock(int reserveStock) {
+        this.reserveStock = reserveStock;
+    }
 }
