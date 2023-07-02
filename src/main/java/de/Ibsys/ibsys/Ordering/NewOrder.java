@@ -7,18 +7,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class NewOrder {
     private int article;
+    private String name;
     private int quantity;
     private int modus;
     private ArrayList<String> orderInfos;
 
     @JsonCreator
     public NewOrder(@JsonProperty("article") int article,
+            String name,
             @JsonProperty("quantity") int quantity,
             @JsonProperty("modus") int modus,
             @JsonProperty("orderInfos") ArrayList<String> orderInfos) {
         this.article = article;
         this.quantity = quantity;
         this.modus = modus;
+        this.name = name;
         this.orderInfos = orderInfos;
     }
 
@@ -46,6 +49,18 @@ public class NewOrder {
 
     public void setModus(int modus) {
         this.modus = modus;
+    }
+
+    public void setOrderInfos(ArrayList<String> orderInfos) {
+        this.orderInfos = orderInfos;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public static NewOrder createOrder(Product product) {
@@ -96,7 +111,7 @@ public class NewOrder {
 
                 // wenn Order Day ist in aktueller Periode (0-5)
                 if (orderDay >= 0 && orderDay < 5) {
-                    orders.add(new NewOrder(product.id, orderQuantity, 5, orderInfos));
+                    orders.add(new NewOrder(product.id, product.name, orderQuantity, 5, orderInfos));
                     System.out.println("Neue Normale Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
                             + " Modus: 5");
                     orderInfos.add("Neue Normale Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
@@ -116,7 +131,7 @@ public class NewOrder {
                  */
                 // wenn Order Day ist in Vergangenheit, mache eine Schnelle Bestellung
                 else if (orderDay < 0) {
-                    orders.add(new NewOrder(product.id, orderQuantity, 4, orderInfos));
+                    orders.add(new NewOrder(product.id, product.name, orderQuantity, 4, orderInfos));
                     System.out.println("Neue Schnelle Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
                             + " Modus: 4");
                     orderInfos.add("Neue Schnelle Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
@@ -138,7 +153,7 @@ public class NewOrder {
             System.out.println("Bestellungen zusammenfassen. Neue Bestellmenge: " + amount);
             orderInfos.add("Beide Besellungen zu einer zusammengesfasst. Neue Bestellmenge: " + amount);
             orderInfos.add("Finaler Lagerbestandsverlauf: " + product.stockHistory);
-            return new NewOrder(product.id, amount, orders.get(0).getModus(), orderInfos);
+            return new NewOrder(product.id, product.name, amount, orders.get(0).getModus(), orderInfos);
         }
 
         if (orders.size() == 0) {
