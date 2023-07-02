@@ -21,8 +21,8 @@ public class PlanningController {
 
     @CrossOrigin(origins = "http://localhost:5173")
 
-    @PostMapping("/planning")
-    public ResponseEntity<Map<String, Object>> processPlanning(@RequestBody Map<String, Object> requestBody) {
+    @PostMapping("/productionorders")
+    public ArrayList<ProductionItem> processPlanning(@RequestBody Map<String, Object> requestBody) {
         List<Map<String, Object>> productionListJson = (List<Map<String, Object>>) requestBody.get("production");
         List<Map<String, Object>> reserveStockListJson = (List<Map<String, Object>>) requestBody.get("products");
         ArrayList<ReserveStockProduct> productionList = new ArrayList<>();
@@ -65,12 +65,6 @@ public class PlanningController {
             System.out.println("----------------------");
         }
 
-        System.out.println(("Bestellungen Berechnung gestartet"));
-        ArrayList<NewOrder> orders = Calculations.createOrdersByProductionPlanning(planningList);
-
-        System.out.println("Bestellungen Berechnung abgeschlossen:");
-        System.out.println("----------------------");
-
         System.out.println(("Fertigungsaufträge Berechnung gestartet"));
         ArrayList<ProductionItem> productionItems = de.Ibsys.ibsys.Production.Calculations
                 .createProductionByProductionPlanning(planningList, productionList);
@@ -79,12 +73,7 @@ public class PlanningController {
         System.out.println("Fertigungsaufträge Berechnung abgeschlossen:");
         System.out.println("----------------------");
 
-        // Create a map to hold the response data
-        Map<String, Object> response = new HashMap<>();
-        response.put("orderlist", orders);
-        response.put("productionlist", productionItems);
-
         // Return the response map with the appropriate status
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return productionItems;
     }
 }

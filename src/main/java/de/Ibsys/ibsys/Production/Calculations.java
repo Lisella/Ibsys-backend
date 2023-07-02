@@ -12,7 +12,7 @@ public class Calculations {
             ArrayList<ProductionPlanEntity> productionPlan, ArrayList<ReserveStockProduct> reserveStockProducts) {
 
         ArrayList<ProductionItem> productionItems = new ArrayList<>();
-
+        ArrayList<WaitingListProduct> waitingListProducts = WaitingListProductsDB.getWaitingListProductsFromDB();
         System.out.println("Für Produktionmengen zuerst alle Produkte die nicht bestellt werden können aus DB holen ");
         System.out.println("----------------------");
 
@@ -22,8 +22,16 @@ public class Calculations {
         for (ProductionProduct product : products) {
             for (ReserveStockProduct r : reserveStockProducts) {
                 if (product.getId() == r.getProductId()) {
-                    product.setReserveStock(r.getReserveStock());
+                    for (WaitingListProduct w : waitingListProducts) {
+                        if (product.getId() == w.getProductId()) {
+                            product.setWaitingListQuantity(w.getWaitlistQuantity());
+                            product.setInProductionQuantity(w.getInWorkQuantity());
+                            product.setReserveStock(r.getReserveStock());
+                        }
+                    }
+
                 }
+
             }
         }
 
