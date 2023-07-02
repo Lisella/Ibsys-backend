@@ -136,8 +136,12 @@ public class XMLController {
         waitingListProducts.add(new WaitingListProduct(item, waitlistQuantity, 0));
     }
 
-    List<Map<String, Object>> ordersInWork = (List<Map<String, Object>>) requestBody.get("ordersinwork");
-    for (Map<String, Object> orderInWork : ordersInWork) {
+    Map<String, Object> ordersInWorkMap = (Map<String, Object>) requestBody.get("ordersinwork");
+    List<Map<String, Object>> ordersInWorkList = new ArrayList<>();
+    if (ordersInWorkMap != null) {
+        ordersInWorkList.add(ordersInWorkMap);
+    }
+    for (Map<String, Object> orderInWork : ordersInWorkList) {
         Integer item = Integer.parseInt(orderInWork.get("item").toString());
         Integer inworkQuantity = Integer.parseInt(orderInWork.get("amount").toString());
 
