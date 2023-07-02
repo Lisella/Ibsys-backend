@@ -48,9 +48,9 @@ public class PlanningController {
             productionList.add(reserveStockProduct);
         }
 
-        System.out.println("Reserveliste:");
+        System.out.println("Sicherheitsbestände:");
         for (ReserveStockProduct reserveStockProduct : productionList) {
-            System.out.println("ProductId: " + reserveStockProduct.getProductId() + " ReserveStock: "
+            System.out.println("ProductId: " + reserveStockProduct.getProductId() + " Sicherheitsbestand: "
                     + reserveStockProduct.getReserveStock());
         }
         System.out.println("----------------------");

@@ -9,14 +9,17 @@ public class NewOrder {
     private int article;
     private int quantity;
     private int modus;
+    private ArrayList<String> orderInfos;
 
     @JsonCreator
     public NewOrder(@JsonProperty("article") int article,
             @JsonProperty("quantity") int quantity,
-            @JsonProperty("modus") int modus) {
+            @JsonProperty("modus") int modus,
+            @JsonProperty("orderInfos") ArrayList<String> orderInfos) {
         this.article = article;
         this.quantity = quantity;
         this.modus = modus;
+        this.orderInfos = orderInfos;
     }
 
     // Getters and setters
@@ -55,37 +58,51 @@ public class NewOrder {
 
         ArrayList<NewOrder> orders = new ArrayList<NewOrder>();
 
+        // orderInfos enthält alle Consolenausgaben um im Frontend berechnungen
+        // nachvollziehen zu können.
+        ArrayList<String> orderInfos = new ArrayList<String>();
+
         System.out.println("----------------------");
         System.out.println("Berechne Bestellungen für Produkt: " + product.id);
         System.out.println("Lagerbestandsverlauf: " + product.stockHistory);
         int maxDeliveryTime = product.deliverytime + product.variance;
 
+        orderInfos.add("Maximale Lieferdauer: " + maxDeliveryTime);
+        orderInfos.add("Lagerbestandsverlauf: " + product.stockHistory);
+
         System.out.println("Maximale Lieferdauer: " + maxDeliveryTime);
 
-        for (int i = 0; i < 27; i++) {
+        for (int i = 0; i < 20; i++) {
 
-            if (product.stockHistory.get(i) < 0) {
+            if (product.stockHistory.get(i + 1) < 0 && product.stockHistory.get(i + 2) < 0 && product.stockHistory
+                    .get(i + 3) < 0 && product.stockHistory.get(i + 4) < 0) {
+
                 int orderQuantity = product.discountQuantity;
                 int orderDay = i - maxDeliveryTime;
 
                 if (orderDay < 6) {
                     System.out.println("Produkt geht an Tag " + i + " aus. Bestellung erfolgt an Tag: " + orderDay);
+                    orderInfos.add("Produkt geht an Tag " + i + " aus. Bestellung erfolgt an Tag: " + orderDay);
                 }
 
                 // Lagerbestand erhöhen für alle Tage ab dem Tag an dem die Bestellung
                 // spätestens ankommt
+
                 for (int j = i; j < 27; j++) {
                     product.stockHistory.put(j, product.stockHistory.get(j) + orderQuantity);
-                    if (j == 27) {
+                    if (j == 26)
                         System.out.println("Neuer Lagerbestand: " + product.stockHistory);
-                    }
                 }
 
                 // wenn Order Day ist in aktueller Periode (0-5)
                 if (orderDay >= 0 && orderDay < 5) {
-                    orders.add(new NewOrder(product.id, orderQuantity, 5));
+                    orders.add(new NewOrder(product.id, orderQuantity, 5, orderInfos));
                     System.out.println("Neue Normale Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
                             + " Modus: 5");
+                    orderInfos.add("Neue Normale Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
+                            + " Modus: 5");
+                    orderInfos.add("Finaler Lagerbestandsverlauf: " + product.stockHistory);
+
                 }
 
                 // wenn Order Day ist in nächster Periode (5-10) mache eine günstige Bestellung
@@ -99,9 +116,13 @@ public class NewOrder {
                  */
                 // wenn Order Day ist in Vergangenheit, mache eine Schnelle Bestellung
                 else if (orderDay < 0) {
-                    orders.add(new NewOrder(product.id, orderQuantity, 4));
+                    orders.add(new NewOrder(product.id, orderQuantity, 4, orderInfos));
                     System.out.println("Neue Schnelle Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
                             + " Modus: 4");
+                    orderInfos.add("Neue Schnelle Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
+                            + " Modus: 4");
+                    orderInfos.add("Finaler Lagerbestandsverlauf: " + product.stockHistory);
+
                 }
             }
         }
@@ -115,7 +136,9 @@ public class NewOrder {
             }
             System.out.println("2 Bestellungen in einer Periode für Produkt: " + product.id);
             System.out.println("Bestellungen zusammenfassen. Neue Bestellmenge: " + amount);
-            return new NewOrder(product.id, amount, orders.get(0).getModus());
+            orderInfos.add("Beide Besellungen zu einer zusammengesfasst. Neue Bestellmenge: " + amount);
+            orderInfos.add("Finaler Lagerbestandsverlauf: " + product.stockHistory);
+            return new NewOrder(product.id, amount, orders.get(0).getModus(), orderInfos);
         }
 
         if (orders.size() == 0) {
@@ -123,5 +146,9 @@ public class NewOrder {
         }
 
         return orders.get(0);
+    }
+
+    public String getOrderInfos() {
+        return orderInfos.toString();
     }
 }
