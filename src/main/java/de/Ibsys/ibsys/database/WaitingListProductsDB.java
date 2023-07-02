@@ -31,7 +31,8 @@ public class WaitingListProductsDB {
         for (Map<String, Object> row : rows) {
             WaitingListProduct waitingListProduct = new WaitingListProduct(
                     (Integer) row.get("ID"),
-                    (Integer) row.get("quantity"));
+                    (Integer) row.get("waitlistQuantity"),
+                    (Integer) row.get("inWorkQuantity"));
             waitingListProducts.add(waitingListProduct);
         }
         return waitingListProducts;
@@ -41,25 +42,20 @@ public class WaitingListProductsDB {
         clearWaitingListProductTable();
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        //TODO: Ersetzen durch
-        // String sql = "INSERT INTO public.\"ProductWaitlist\" (\"ID\", \"waitlistQuantity\", \"inWorkQuantity\") VALUES (?, ?, ?)";
-        String sql = "INSERT INTO public.\"ProductWaitlist\" (\"ID\", \"quantity\") VALUES (?, ?)";
+        String sql = "INSERT INTO public.\"ProductWaitlist\" (\"ID\", \"waitlistQuantity\", \"inWorkQuantity\") VALUES (?, ?, ?)";
 
         for (WaitingListProduct waitingListProduct : waitingListProducts) {
-            //TODO: Ersetzen durch
-            // jdbcTemplate.update(sql, waitingListProduct.getProductId(), waitingListProduct.getWaitlistQuantity(), waitingListProduct.getInWorkQuantity);
-            jdbcTemplate.update(sql, waitingListProduct.getProductId(), waitingListProduct.getQuantity());
+            jdbcTemplate.update(sql, waitingListProduct.getProductId(), waitingListProduct.getWaitlistQuantity(), waitingListProduct.getInWorkQuantity());
         }
     }
 
-    //TODO: Löschen?
-    public static void updateWaitingListProducts(ArrayList<WaitingListProduct> waitingListProducts) {
+    /*public static void updateWaitingListProducts(ArrayList<WaitingListProduct> waitingListProducts) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         String sql = "UPDATE public.\"ProductWaitlist\" SET \"quantity\" = ? WHERE \"ID\" = ?";
         for (WaitingListProduct waitingListProduct : waitingListProducts) {
             jdbcTemplate.update(sql, waitingListProduct.getQuantity(), waitingListProduct.getProductId());
         }
-    }
+    }*/
 
     private static void clearWaitingListProductTable() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
