@@ -115,7 +115,7 @@ public class XMLController {
     Map<Integer, Integer> itemWaitlistQuantityMap = new HashMap<>();
 
     for (Map<String, Object> workstation : waitingListWorkstations) {
-        List<Map<String, Object>> waitingLists = (List<Map<String, Object>>) workstation.get("waitinglist");
+        List<Map<String, Object>> waitingLists = (List<Map<String, Object>>) workstation.get("waitingslists");
         if (waitingLists != null) {
             for (Map<String, Object> waitingList : waitingLists) {
                 Integer item = Integer.parseInt(waitingList.get("item").toString());
@@ -136,11 +136,8 @@ public class XMLController {
         waitingListProducts.add(new WaitingListProduct(item, waitlistQuantity, 0));
     }
 
-    Map<String, Object> ordersInWorkMap = (Map<String, Object>) requestBody.get("ordersinwork");
-    List<Map<String, Object>> ordersInWorkList = new ArrayList<>();
-    if (ordersInWorkMap != null) {
-        ordersInWorkList.add(ordersInWorkMap);
-    }
+    List<Map<String, Object>> ordersInWorkList = (List<Map<String, Object>>) requestBody.get("ordersinswork");
+
     for (Map<String, Object> orderInWork : ordersInWorkList) {
         Integer item = Integer.parseInt(orderInWork.get("item").toString());
         Integer inworkQuantity = Integer.parseInt(orderInWork.get("amount").toString());

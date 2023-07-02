@@ -7,7 +7,7 @@ public class WaitingListProduct {
     private int waitlistQuantity;
     private int inWorkQuantity;
 
-    public WaitingListProduct(int productID, int waitlistQuantity, int inWorkQuantity) {
+    public WaitingListProduct(int productId, int waitlistQuantity, int inWorkQuantity) {
         this.productId = productId;
         this.waitlistQuantity = waitlistQuantity;
         this.inWorkQuantity = inWorkQuantity;
