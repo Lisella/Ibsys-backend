@@ -39,6 +39,8 @@ public class WaitingListProductsDB {
         return waitingListProducts;
     }
 
+    // OrdersinWorkQuantitiy + WaitingListQuantity
+
     public static void putWaitingListProducts(ArrayList<WaitingListProduct> waitingListProducts) {
         clearWaitingListProductTable();
 
@@ -60,10 +62,31 @@ public class WaitingListProductsDB {
         // dataSource.close();
     }
 
+// OrdersInWork
+    // p1 100 = 20 Warteliste + 30 OrdersinWork = 50
+    // E4 -> 100*E4
+
     private static void clearWaitingListProductTable() {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         String sql = "TRUNCATE TABLE public.\"ProductWaitlist\"";
         jdbcTemplate.update(sql);
         // dataSource.close();
     }
+
+    public static int getWaitingListQuantityById(int productId) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        String sql = "SELECT \"quantity\" FROM public.\"ProductWaitlist\" WHERE \"ID\" = ?";
+        Object[] params = { productId };
+
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
+
+        if (!rows.isEmpty()) {
+            Map<String, Object> row = rows.get(0);
+            return (Integer) row.get("quantity");
+        }
+
+        return 0;
+    }
+
+
 }
