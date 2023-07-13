@@ -163,7 +163,8 @@ public class NewOrder {
         return orders.get(0);
     }
 
-    public String getOrderInfos() {
-        return orderInfos.toString();
+    public ArrayList<String> getOrderInfos() {
+        return orderInfos;
     }
+
 }

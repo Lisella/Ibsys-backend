@@ -20,7 +20,7 @@ public class Calculations {
                 int quantity = getProductionQuantityByProductId(productionList, workplaceProductMerge.getProductId());
                 workplace.duration += workplaceProductMerge.durationPerUnit * quantity;
                 workplace.productionTimes.add(new ProductionTimes(workplaceProductMerge.getProductId(),
-                        workplaceProductMerge.durationPerUnit, quantity));
+                        quantity, workplaceProductMerge.durationPerUnit));
                 System.out.println("Arbeitsplatz: " + workplace.id + " Produkt: " + workplaceProductMerge.getProductId()
                         + " Menge: " + quantity + " Dauer: " + workplaceProductMerge.durationPerUnit * quantity);
             }
