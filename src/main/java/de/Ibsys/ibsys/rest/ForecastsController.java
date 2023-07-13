@@ -26,7 +26,7 @@ public class ForecastsController {
         ArrayList<de.Ibsys.ibsys.InputXml.Item> forecast = ForecastsDB.getForecast();
         ArrayList<Product> products = ProductsDB.getProducts();
         ArrayList<ProductionProduct> productionProducts = ProductionProductsDB.getProductionProducts();
-        ArrayList<WaitingListProduct> waitingListProducts = WaitingListProductsDB.GetWaitingListProductsFromDB();
+        ArrayList<WaitingListProduct> waitingListProducts = WaitingListProductsDB.getWaitingListProductsFromDB();
 
         ArrayList<ProductInfo> forP1 = new ArrayList<>();
         ArrayList<ProductInfo> forP2 = new ArrayList<>();
