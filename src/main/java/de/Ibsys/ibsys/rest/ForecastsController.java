@@ -39,8 +39,8 @@ public class ForecastsController {
             int product3Consumption = productionProduct.getProduct3Consumption();
             int stock = productionProduct.getStock();
             String name = productionProduct.getName();
-            int waitingListQuantity = WaitingListProductsDB.getWaitingListQuantityById(productId);
             int ordersInWorkQuantity = 11;
+            int waitingListQuantity = WaitingListProductsDB.getWaitingListQuantityById(productId);
 
             if (product1Consumption > 0) {
                 ProductInfo productInfo = new ProductInfo(productId, name, stock, waitingListQuantity, ordersInWorkQuantity);
@@ -60,7 +60,10 @@ public class ForecastsController {
         for (Product product : products) {
             int productId = product.getId();
             int stock = product.getStock();
-            productInfos.add(new ProductInfo(productId, stock));
+            String name = product.getName();
+            int waitingListQuantity = WaitingListProductsDB.getWaitingListQuantityById(productId);
+            int ordersInWorkQuantity = 11;
+            productInfos.add(new ProductInfo(productId, name, stock, waitingListQuantity, ordersInWorkQuantity));
         }
 
         ForecastResponse response = new ForecastResponse();
@@ -132,11 +135,6 @@ public class ForecastsController {
         private int waitingListQuantity;
         private int ordersInWorkQuantity;
 
-        public ProductInfo(int productId, int stock) {
-            this.productId = productId;
-            this.stock = stock;
-        }
-
         public ProductInfo(int productId, String name, int stock, int waitingListQuantity, int ordersInWorkQuantity) {
             this.productId = productId;
             this.name = name;
@@ -144,6 +142,7 @@ public class ForecastsController {
             this.waitingListQuantity = waitingListQuantity;
             this.ordersInWorkQuantity = ordersInWorkQuantity;
         }
+
 
         public int getProductId() {
             return productId;

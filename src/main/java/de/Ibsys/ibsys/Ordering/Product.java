@@ -75,4 +75,8 @@ public class Product {
     public String getProductId() {
         return null;
     }
+
+    public String getName() {
+        return this.name;
+    }
 }
