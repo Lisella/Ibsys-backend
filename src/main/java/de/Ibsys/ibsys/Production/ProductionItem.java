@@ -16,6 +16,13 @@ public class ProductionItem {
     }
 
     // Standardkonstruktor, Getter und Setter
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @JsonProperty("article")
     public int getArticle() {

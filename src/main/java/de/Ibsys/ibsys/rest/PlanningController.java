@@ -1,7 +1,6 @@
 package de.Ibsys.ibsys.rest;
 
-import de.Ibsys.ibsys.Ordering.Calculations;
-import de.Ibsys.ibsys.Ordering.NewOrder;
+import de.Ibsys.ibsys.Production.Calculations;
 import de.Ibsys.ibsys.Ordering.ProductionPlanEntity;
 import de.Ibsys.ibsys.Production.ProductionItem;
 import de.Ibsys.ibsys.Production.ReserveStockProduct;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,12 +18,39 @@ import java.util.Map;
 public class PlanningController {
 
     @CrossOrigin(origins = "http://localhost:5173")
-
     @PostMapping("/productionorders")
     public ArrayList<ProductionItem> processPlanning(@RequestBody Map<String, Object> requestBody) {
         List<Map<String, Object>> productionListJson = (List<Map<String, Object>>) requestBody.get("production");
         List<Map<String, Object>> reserveStockListJson = (List<Map<String, Object>>) requestBody.get("products");
+
+        ArrayList<ReserveStockProduct> productionList = createProductionList(reserveStockListJson);
+        ArrayList<ProductionPlanEntity> planningList = createPlanningList(productionListJson);
+
+        printReserveStocks(productionList);
+        printPlanningList(planningList);
+
+        ArrayList<ProductionItem> productionItems = Calculations.createProductionByProductionPlanning(planningList, productionList);
+
+        printCalculationResult(productionItems);
+
+        return productionItems;
+    }
+
+    private ArrayList<ReserveStockProduct> createProductionList(List<Map<String, Object>> reserveStockListJson) {
         ArrayList<ReserveStockProduct> productionList = new ArrayList<>();
+
+        for (Map<String, Object> reserveStockItem : reserveStockListJson) {
+            int productId = (int) reserveStockItem.get("productId");
+            int reserveStock = (int) reserveStockItem.get("reserveStock");
+
+            ReserveStockProduct reserveStockProduct = new ReserveStockProduct(productId, reserveStock);
+            productionList.add(reserveStockProduct);
+        }
+
+        return productionList;
+    }
+
+    private ArrayList<ProductionPlanEntity> createPlanningList(List<Map<String, Object>> productionListJson) {
         ArrayList<ProductionPlanEntity> planningList = new ArrayList<>();
 
         for (int i = 0; i < productionListJson.size(); i++) {
@@ -39,23 +64,19 @@ public class PlanningController {
             planningList.add(planEntity);
         }
 
-        for (int i = 0; i < reserveStockListJson.size(); i++) {
-            Map<String, Object> reserveStockItem = reserveStockListJson.get(i);
-            int productId = (int) reserveStockItem.get("productId");
-            int reserveStock = (int) reserveStockItem.get("reserveStock");
+        return planningList;
+    }
 
-            ReserveStockProduct reserveStockProduct = new ReserveStockProduct(productId, reserveStock);
-            productionList.add(reserveStockProduct);
-        }
-
+    private void printReserveStocks(ArrayList<ReserveStockProduct> productionList) {
         System.out.println("Sicherheitsbestände:");
         for (ReserveStockProduct reserveStockProduct : productionList) {
             System.out.println("ProductId: " + reserveStockProduct.getProductId() + " Sicherheitsbestand: "
                     + reserveStockProduct.getReserveStock());
         }
         System.out.println("----------------------");
+    }
 
-        // gebe die Liste der Produktionsplanung aus
+    private void printPlanningList(ArrayList<ProductionPlanEntity> planningList) {
         System.out.println("Produktionsplanung:");
         for (ProductionPlanEntity planEntity : planningList) {
             System.out.println("Periode: " + planEntity.getPeriode());
@@ -64,16 +85,18 @@ public class PlanningController {
             System.out.println("Product3Consumption: " + planEntity.product3Consumption);
             System.out.println("----------------------");
         }
+    }
 
-        System.out.println(("Fertigungsaufträge Berechnung gestartet"));
-        ArrayList<ProductionItem> productionItems = de.Ibsys.ibsys.Production.Calculations
-                .createProductionByProductionPlanning(planningList, productionList);
-
+    private void printCalculationResult(ArrayList<ProductionItem> productionItems) {
+        System.out.println("Fertigungsaufträge Berechnung gestartet");
         System.out.println("----------------------");
         System.out.println("Fertigungsaufträge Berechnung abgeschlossen:");
         System.out.println("----------------------");
 
-        // Return the response map with the appropriate status
-        return productionItems;
+        System.out.println("Fertigungsaufträge:");
+        for (ProductionItem item : productionItems) {
+            System.out.println("Produkt: " + item.getId() + ", Menge: " + item.getQuantity());
+        }
     }
+
 }

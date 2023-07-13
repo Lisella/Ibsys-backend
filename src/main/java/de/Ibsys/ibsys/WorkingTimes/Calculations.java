@@ -16,6 +16,13 @@ public class Calculations {
         ArrayList<Workplace> workplaces = WorkplacesDB.getWorkplaces();
 
         for (Workplace workplace : workplaces) {
+            System.out.println("Workplace ID: " + workplace.getId());
+            System.out.println("Workplace Duration: " + workplace.getDuration());
+            System.out.println("Workplace Durations Products: " + workplace.getDuration());
+        }
+
+
+        for (Workplace workplace : workplaces) {
             for (WorkplaceProductMerge workplaceProductMerge : workplace.durationsforeachProductWorkplace) {
                 int quantity = getProductionQuantityByProductId(productionList, workplaceProductMerge.getProductId());
                 workplace.duration += workplaceProductMerge.durationPerUnit * quantity;
@@ -176,7 +183,9 @@ public class Calculations {
         int quantity = 0;
         for (ProductionItem productionItem : productionList) {
             if (productionItem.getArticle() == productId) {
+                System.out.println(quantity + "Logging");
                 quantity += productionItem.getQuantity();
+                System.out.println(productionItem.getQuantity());
             }
         }
         return quantity;
