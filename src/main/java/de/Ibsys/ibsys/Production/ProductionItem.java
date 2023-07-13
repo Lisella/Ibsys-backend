@@ -7,10 +7,12 @@ public class ProductionItem {
     private int article;
     private int quantity;
     private int sequenceNumer;
+    private String Name;
 
-    public ProductionItem(int id, int quantity) {
-        this.article = id;
+    public ProductionItem(int article, String name, int quantity) {
+        this.article = article;
         this.quantity = quantity;
+        this.Name = name;
     }
 
     // Standardkonstruktor, Getter und Setter
@@ -42,4 +44,13 @@ public class ProductionItem {
     public int getSequenceNumer() {
         return sequenceNumer;
     }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
 }

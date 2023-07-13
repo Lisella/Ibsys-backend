@@ -98,13 +98,13 @@ public class XMLController {
         }
         WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
     }
-
+/*
     private void parseWaitingList(Map<String, Object> requestBody) {
         waitingListProducts = new ArrayList<>();
         List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) requestBody
                 .get("waitinglistworkstations");
         for (Map<String, Object> workstation : waitingListWorkstations) {
-            List<Map<String, Object>> waitingLists = (List<Map<String, Object>>) workstation.get("waitingslists");
+            List<Map<String, Object>> waitingLists = (List<Map<String, Object>>) workstation.get("waitinglist");
             if (waitingLists != null) {
                 for (Map<String, Object> waitingList : waitingLists) {
                     Integer item = Integer.parseInt((waitingList.get("item").toString()));
@@ -116,6 +116,59 @@ public class XMLController {
             }
         }
         WaitingListProductsDB.updateWaitingListProducts(waitingListProducts);
+    }*/
+
+
+    private void parseWaitingList(Map<String, Object> requestBody) {
+    waitingListProducts = new ArrayList<>();
+    List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) requestBody.get("waitinglistworkstations");
+    Map<Integer, Integer> itemWaitlistQuantityMap = new HashMap<>();
+
+    for (Map<String, Object> workstation : waitingListWorkstations) {
+        List<Map<String, Object>> waitingLists = (List<Map<String, Object>>) workstation.get("waitingslists");
+        if (waitingLists != null) {
+            for (Map<String, Object> waitingList : waitingLists) {
+                Integer item = Integer.parseInt(waitingList.get("item").toString());
+                Integer waitlistQuantity = Integer.parseInt(waitingList.get("amount").toString());
+
+                if (itemWaitlistQuantityMap.containsKey(item)) {
+                    continue;
+                }
+                itemWaitlistQuantityMap.put(item, waitlistQuantity);
+            }
+        }
+    }
+
+    for (Map.Entry<Integer, Integer> entry : itemWaitlistQuantityMap.entrySet()) {
+        Integer item = entry.getKey();
+        Integer waitlistQuantity = entry.getValue();
+
+        waitingListProducts.add(new WaitingListProduct(item, waitlistQuantity, 0));
+    }
+
+    List<Map<String, Object>> ordersInWorkList = (List<Map<String, Object>>) requestBody.get("ordersinswork");
+
+    for (Map<String, Object> orderInWork : ordersInWorkList) {
+        Integer item = Integer.parseInt(orderInWork.get("item").toString());
+        Integer inworkQuantity = Integer.parseInt(orderInWork.get("amount").toString());
+
+        WaitingListProduct existingProduct = findWaitingListProduct(waitingListProducts, item);
+        if (existingProduct != null) {
+            existingProduct.setInWorkQuantity(inworkQuantity);
+        } else {
+            waitingListProducts.add(new WaitingListProduct(item, 0, inworkQuantity));
+        }
+    }
+    WaitingListProductsDB.putWaitingListProducts(waitingListProducts);
+    }
+
+    private WaitingListProduct findWaitingListProduct(List<WaitingListProduct> productList, Integer item) {
+        for (WaitingListProduct product : productList) {
+            if (product.getProductId() == item) {
+                return product;
+            }
+        }
+        return null;
     }
 
     private void parseOrdersInWork(Map<String, Object> requestBody) {
@@ -189,7 +242,7 @@ public class XMLController {
         for (Map.Entry<Integer, Integer> entry : articlesMap.entrySet()) {
             Integer productId = entry.getKey();
             Integer quantity = entry.getValue();
-            System.out.println("Product Nr: " + productId + " - Menge: " + quantity + " Stück");
+            System.out.println("Produktnummer: " + productId + " - Menge: " + quantity + " Stück");
         }
         System.out.println();
         System.out.println(" *** Ermittlung der ProductionProducts und ihr Warenbestand *** ");
@@ -197,7 +250,7 @@ public class XMLController {
         for (Map.Entry<Integer, Integer> entry : productionProductsMap.entrySet()) {
             Integer productId = entry.getKey();
             Integer quantity = entry.getValue();
-            System.out.println("Product Nr: " + productId + " - Menge: " + quantity + " Stück");
+            System.out.println("Produktnummer: " + productId + " - Menge: " + quantity + " Stück");
         }
         System.out.println();
         System.out.println(" *** In Produktion befindliche ProductionProducts *** ");
@@ -208,8 +261,18 @@ public class XMLController {
         System.out.println();
         System.out.println(" *** Ermittlung der Produkte die sich in der Warteschlange befinden *** ");
         System.out.println();
-        for (WaitingListProduct waitingListProduct : waitingListProducts){
-            System.out.println("Product Nr: " + waitingListProduct.getProductId() + " - " + waitingListProduct.getQuantity() + " Stück");
+        for (WaitingListProduct waitingListProduct : waitingListProducts) {
+            if (waitingListProduct.getWaitlistQuantity() != 0) {
+                System.out.println("Produktnummer: " + waitingListProduct.getProductId() + " - " + waitingListProduct.getWaitlistQuantity() + " Stück");
+            }
+        }
+        System.out.println();
+        System.out.println(" *** Ermittlung der Produkte die sich in Bearbeitung befinden *** ");
+        System.out.println();
+        for (WaitingListProduct waitingListProduct : waitingListProducts) {
+            if (waitingListProduct.getInWorkQuantity() != 0) {
+                System.out.println("Produktnummer: " + waitingListProduct.getProductId() + " - " + waitingListProduct.getInWorkQuantity() + " Stück");
+            }
         }
 
 
