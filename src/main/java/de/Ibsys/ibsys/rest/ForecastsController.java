@@ -39,7 +39,7 @@ public class ForecastsController {
             int product3Consumption = productionProduct.getProduct3Consumption();
             int stock = productionProduct.getStock();
             String name = productionProduct.getName();
-            int ordersInWorkQuantity = 11;
+            int ordersInWorkQuantity = WaitingListProductsDB.getInWorkQuantityById(productId);
             int waitingListQuantity = WaitingListProductsDB.getWaitingListQuantityById(productId);
 
             if (product1Consumption > 0) {

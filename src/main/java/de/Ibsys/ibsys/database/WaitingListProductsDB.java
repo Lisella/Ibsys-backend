@@ -71,14 +71,29 @@ public class WaitingListProductsDB {
 
     public static int getWaitingListQuantityById(int productId) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        String sql = "SELECT \"quantity\" FROM public.\"ProductWaitlist\" WHERE \"ID\" = ?";
+        String sql = "SELECT \"waitlistQuantity\" FROM public.\"ProductWaitlist\" WHERE \"ID\" = ?";
         Object[] params = { productId };
 
         List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
 
         if (!rows.isEmpty()) {
             Map<String, Object> row = rows.get(0);
-            return (Integer) row.get("quantity");
+            return (Integer) row.get("waitlistQuantity");
+        }
+
+        return 0;
+    }
+
+    public static int getInWorkQuantityById(int productId) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        String sql = "SELECT \"inWorkQuantity\" FROM public.\"ProductWaitlist\" WHERE \"ID\" = ?";
+        Object[] params = { productId };
+
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
+
+        if (!rows.isEmpty()) {
+            Map<String, Object> row = rows.get(0);
+            return (Integer) row.get("inWorkQuantity");
         }
 
         return 0;
