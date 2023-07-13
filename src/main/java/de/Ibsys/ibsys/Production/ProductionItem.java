@@ -1,5 +1,7 @@
 package de.Ibsys.ibsys.Production;
 
+import java.util.ArrayList;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ProductionItem {
@@ -8,11 +10,13 @@ public class ProductionItem {
     private int quantity;
     private int sequenceNumer;
     private String Name;
+    private ArrayList<String> informations;
 
-    public ProductionItem(int article, String name, int quantity) {
+    public ProductionItem(int article, String name, int quantity, ArrayList<String> informations) {
         this.article = article;
         this.quantity = quantity;
         this.Name = name;
+        this.informations = informations;
     }
 
     // Standardkonstruktor, Getter und Setter
@@ -51,6 +55,18 @@ public class ProductionItem {
 
     public void setName(String name) {
         Name = name;
+    }
+
+    public ArrayList<String> getInformations() {
+        return informations;
+    }
+
+    public void setInformations(ArrayList<String> informations) {
+        this.informations = informations;
+    }
+
+    public void addInformation(String information) {
+        this.informations.add(information);
     }
 
 }

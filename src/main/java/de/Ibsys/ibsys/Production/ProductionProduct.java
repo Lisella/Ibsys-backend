@@ -1,5 +1,7 @@
 package de.Ibsys.ibsys.Production;
 
+import java.util.ArrayList;
+
 public class ProductionProduct {
     int id;
     String name;
@@ -10,6 +12,7 @@ public class ProductionProduct {
     int waitingListQuantity;
     int inProductionQuantity;
     int reserveStock;
+    ArrayList<String> informations = new ArrayList<String>();
 
     public ProductionProduct(int Id, String Name, int p1, int p2, int p3, int stock) {
         this.id = Id;
@@ -75,5 +78,17 @@ public class ProductionProduct {
 
     public void setReserveStock(int reserveStock) {
         this.reserveStock = reserveStock;
+    }
+
+    public ArrayList<String> getInformations() {
+        return informations;
+    }
+
+    public void setInformations(ArrayList<String> informations) {
+        this.informations = informations;
+    }
+
+    public void addInformation(String information) {
+        this.informations.add(information);
     }
 }
