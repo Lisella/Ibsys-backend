@@ -172,6 +172,7 @@ public class Calculations {
                 p31Product.addInformation("Warteschlange: " + p31Product.getWaitingListQuantity());
                 p31Product.addInformation("In Produktion: " + p31Product.getInProductionQuantity());
 
+                // p1 p2 p3
                 p16 += p51 + p51Product.getWaitingListQuantity() + p56 + p56Product.getWaitingListQuantity() + p31
                                 + p31Product.getWaitingListQuantity() + p16Product.getReserveStock()
                                 - p16Product.getStock()
@@ -204,6 +205,7 @@ public class Calculations {
                 p17Product.addInformation("Warteschlange: " + p17Product.getWaitingListQuantity());
                 p17Product.addInformation("In Produktion: " + p17Product.getInProductionQuantity());
 
+                // p1
                 p50 += p51 + p51Product.getWaitingListQuantity() + p50Product.getReserveStock() - p50Product.getStock()
                                 - p50Product.getWaitingListQuantity() - p50Product.getInProductionQuantity();
 
@@ -214,6 +216,7 @@ public class Calculations {
                 p50Product.addInformation("Warteschlange: " + p50Product.getWaitingListQuantity());
                 p50Product.addInformation("In Produktion: " + p50Product.getInProductionQuantity());
 
+                // p2
                 p55 += p56 + p56Product.getWaitingListQuantity() + p55Product.getReserveStock() - p55Product.getStock()
                                 - p55Product.getWaitingListQuantity() - p55Product.getInProductionQuantity();
 
@@ -224,6 +227,7 @@ public class Calculations {
                 p55Product.addInformation("Warteschlange: " + p55Product.getWaitingListQuantity());
                 p55Product.addInformation("In Produktion: " + p55Product.getInProductionQuantity());
 
+                // p3
                 p30 += p31 + p31Product.getWaitingListQuantity() + p30Product.getReserveStock() - p30Product.getStock()
                                 - p30Product.getWaitingListQuantity() - p30Product.getInProductionQuantity();
 
@@ -316,15 +320,45 @@ public class Calculations {
                 p11Product.addInformation("Warteschlange: " + p11Product.getWaitingListQuantity());
                 p11Product.addInformation("In Produktion: " + p11Product.getInProductionQuantity());
 
-                p12 = p55 + p55Product.getWaitingListQuantity() + p12Product.getReserveStock() - p12Product.getStock()
-                                - p12Product.getWaitingListQuantity() - p12Product.getInProductionQuantity();
+                p54 = p55 + p55Product.getWaitingListQuantity() + p54Product.getReserveStock() - p54Product.getStock()
+                                - p54Product.getWaitingListQuantity() - p54Product.getInProductionQuantity();
 
-                p12Product.addInformation("Produktionsmenge P55: " + p55);
-                p12Product.addInformation("Warteschlange P55: " + p55Product.getWaitingListQuantity());
-                p12Product.addInformation("Sicherheitsbestand: " + p12Product.getReserveStock());
-                p12Product.addInformation("Lagerbestand: " + p12Product.getStock());
-                p12Product.addInformation("Warteschlange: " + p12Product.getWaitingListQuantity());
-                p12Product.addInformation("In Produktion: " + p12Product.getInProductionQuantity());
+                p54Product.addInformation("Produktionsmenge P55: " + p55);
+                p54Product.addInformation("Warteschlange P55: " + p55Product.getWaitingListQuantity());
+                p54Product.addInformation("Sicherheitsbestand: " + p54Product.getReserveStock());
+                p54Product.addInformation("Lagerbestand: " + p54Product.getStock());
+                p54Product.addInformation("Warteschlange: " + p54Product.getWaitingListQuantity());
+                p54Product.addInformation("In Produktion: " + p54Product.getInProductionQuantity());
+
+                p8 = p54 + p54Product.getWaitingListQuantity() + p8Product.getReserveStock() - p8Product.getStock()
+                                - p8Product.getWaitingListQuantity() - p8Product.getInProductionQuantity();
+
+                p8Product.addInformation("Produktionsmenge P54: " + p54);
+                p8Product.addInformation("Warteschlange P54: " + p54Product.getWaitingListQuantity());
+                p8Product.addInformation("Sicherheitsbestand: " + p8Product.getReserveStock());
+                p8Product.addInformation("Lagerbestand: " + p8Product.getStock());
+                p8Product.addInformation("Warteschlange: " + p8Product.getWaitingListQuantity());
+                p8Product.addInformation("In Produktion: " + p8Product.getInProductionQuantity());
+
+                p14 = p54 + p54Product.getWaitingListQuantity() + p14Product.getReserveStock() - p14Product.getStock()
+                                - p14Product.getWaitingListQuantity() - p14Product.getInProductionQuantity();
+
+                p14Product.addInformation("Produktionsmenge P54: " + p54);
+                p14Product.addInformation("Warteschlange P54: " + p54Product.getWaitingListQuantity());
+                p14Product.addInformation("Sicherheitsbestand: " + p14Product.getReserveStock());
+                p14Product.addInformation("Lagerbestand: " + p14Product.getStock());
+                p14Product.addInformation("Warteschlange: " + p14Product.getWaitingListQuantity());
+                p14Product.addInformation("In Produktion: " + p14Product.getInProductionQuantity());
+
+                p19 = p54 + p54Product.getWaitingListQuantity() + p19Product.getReserveStock() - p19Product.getStock()
+                                - p19Product.getWaitingListQuantity() - p19Product.getInProductionQuantity();
+
+                p19Product.addInformation("Produktionsmenge P54: " + p54);
+                p19Product.addInformation("Warteschlange P54: " + p54Product.getWaitingListQuantity());
+                p19Product.addInformation("Sicherheitsbestand: " + p19Product.getReserveStock());
+                p19Product.addInformation("Lagerbestand: " + p19Product.getStock());
+                p19Product.addInformation("Warteschlange: " + p19Product.getWaitingListQuantity());
+                p19Product.addInformation("In Produktion: " + p19Product.getInProductionQuantity());
 
                 // p3
                 p6 = p30 + p30Product.getWaitingListQuantity() + p6Product.getReserveStock() - p6Product.getStock()
@@ -337,42 +371,51 @@ public class Calculations {
                 p6Product.addInformation("Warteschlange: " + p6Product.getWaitingListQuantity());
                 p6Product.addInformation("In Produktion: " + p6Product.getInProductionQuantity());
 
-                p9 = p30 + p30Product.getWaitingListQuantity() + p9Product.getReserveStock() - p9Product.getStock()
+                p12 = p30 + p30Product.getWaitingListQuantity() + p12Product.getReserveStock() - p12Product.getStock()
+                                - p12Product.getWaitingListQuantity() - p12Product.getInProductionQuantity();
+
+                p12Product.addInformation("Produktionsmenge P30: " + p30);
+                p12Product.addInformation("Warteschlange P30: " + p30Product.getWaitingListQuantity());
+                p12Product.addInformation("Sicherheitsbestand: " + p12Product.getReserveStock());
+                p12Product.addInformation("Lagerbestand: " + p12Product.getStock());
+                p12Product.addInformation("Warteschlange: " + p12Product.getWaitingListQuantity());
+                p12Product.addInformation("In Produktion: " + p12Product.getInProductionQuantity());
+
+                p29 = p30 + p30Product.getWaitingListQuantity() + p29Product.getReserveStock() - p29Product.getStock()
+                                - p29Product.getWaitingListQuantity() - p29Product.getInProductionQuantity();
+
+                p29Product.addInformation("Produktionsmenge P30: " + p30);
+                p29Product.addInformation("Warteschlange P30: " + p30Product.getWaitingListQuantity());
+                p29Product.addInformation("Sicherheitsbestand: " + p29Product.getReserveStock());
+                p29Product.addInformation("Lagerbestand: " + p29Product.getStock());
+                p29Product.addInformation("Warteschlange: " + p29Product.getWaitingListQuantity());
+                p29Product.addInformation("In Produktion: " + p29Product.getInProductionQuantity());
+
+                p9 = p29 + p29Product.getWaitingListQuantity() + p9Product.getReserveStock() - p9Product.getStock()
                                 - p9Product.getWaitingListQuantity() - p9Product.getInProductionQuantity();
 
-                p9Product.addInformation("Produktionsmenge P30: " + p30);
-                p9Product.addInformation("Warteschlange P30: " + p30Product.getWaitingListQuantity());
+                p9Product.addInformation("Produktionsmenge P29: " + p29);
+                p9Product.addInformation("Warteschlange P29: " + p29Product.getWaitingListQuantity());
                 p9Product.addInformation("Sicherheitsbestand: " + p9Product.getReserveStock());
                 p9Product.addInformation("Lagerbestand: " + p9Product.getStock());
                 p9Product.addInformation("Warteschlange: " + p9Product.getWaitingListQuantity());
                 p9Product.addInformation("In Produktion: " + p9Product.getInProductionQuantity());
 
-                p14 = p30 + p30Product.getWaitingListQuantity() + p14Product.getReserveStock() - p14Product.getStock()
-                                - p14Product.getWaitingListQuantity() - p14Product.getInProductionQuantity();
+                p15 = p29 + p29Product.getWaitingListQuantity() + p15Product.getReserveStock() - p15Product.getStock()
+                                - p15Product.getWaitingListQuantity() - p15Product.getInProductionQuantity();
 
-                p14Product.addInformation("Produktionsmenge P30: " + p30);
-                p14Product.addInformation("Warteschlange P30: " + p30Product.getWaitingListQuantity());
-                p14Product.addInformation("Sicherheitsbestand: " + p14Product.getReserveStock());
-                p14Product.addInformation("Lagerbestand: " + p14Product.getStock());
-                p14Product.addInformation("Warteschlange: " + p14Product.getWaitingListQuantity());
-                p14Product.addInformation("In Produktion: " + p14Product.getInProductionQuantity());
+                p15Product.addInformation("Produktionsmenge P29: " + p29);
+                p15Product.addInformation("Warteschlange P29: " + p29Product.getWaitingListQuantity());
+                p15Product.addInformation("Sicherheitsbestand: " + p15Product.getReserveStock());
+                p15Product.addInformation("Lagerbestand: " + p15Product.getStock());
+                p15Product.addInformation("Warteschlange: " + p15Product.getWaitingListQuantity());
+                p15Product.addInformation("In Produktion: " + p15Product.getInProductionQuantity());
 
-                // p4
-                p8 = p26 + p26Product.getWaitingListQuantity() + p8Product.getReserveStock() - p8Product.getStock()
-                                - p8Product.getWaitingListQuantity() - p8Product.getInProductionQuantity();
-
-                p8Product.addInformation("Produktionsmenge P26: " + p26);
-                p8Product.addInformation("Warteschlange P26: " + p26Product.getWaitingListQuantity());
-                p8Product.addInformation("Sicherheitsbestand: " + p8Product.getReserveStock());
-                p8Product.addInformation("Lagerbestand: " + p8Product.getStock());
-                p8Product.addInformation("Warteschlange: " + p8Product.getWaitingListQuantity());
-                p8Product.addInformation("In Produktion: " + p8Product.getInProductionQuantity());
-
-                p20 = p26 + p26Product.getWaitingListQuantity() + p20Product.getReserveStock() - p20Product.getStock()
+                p20 = p29 + p29Product.getWaitingListQuantity() + p20Product.getReserveStock() - p20Product.getStock()
                                 - p20Product.getWaitingListQuantity() - p20Product.getInProductionQuantity();
 
-                p20Product.addInformation("Produktionsmenge P26: " + p26);
-                p20Product.addInformation("Warteschlange P26: " + p26Product.getWaitingListQuantity());
+                p20Product.addInformation("Produktionsmenge P29: " + p29);
+                p20Product.addInformation("Warteschlange P29: " + p29Product.getWaitingListQuantity());
                 p20Product.addInformation("Sicherheitsbestand: " + p20Product.getReserveStock());
                 p20Product.addInformation("Lagerbestand: " + p20Product.getStock());
                 p20Product.addInformation("Warteschlange: " + p20Product.getWaitingListQuantity());
