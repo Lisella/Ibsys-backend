@@ -78,14 +78,17 @@ public class Calculations {
         // die Rüstzeit auf die Gesamtdauer des Arbeitsplatzes
         for (Workplace workplace : workplaces) {
             for (ProductionItem productionItem : productionList) {
-                for (WorkplaceProductMerge workplaceProductMerge : workplace.durationsforeachProductWorkplace) {
-                    if (productionItem.getArticle() == workplaceProductMerge.getProductId()
-                            && workplaceProductMerge.getWorkplaceId() == workplace.id) {
-                        System.out.println("Rüstzeit für Produkt " + workplaceProductMerge.getProductId()
-                                + " auf Arbeitsplatz " + workplace.id + " beträgt " + workplaceProductMerge.setupTime);
-                        workplace.duration += workplaceProductMerge.setupTime;
-                        workplace.setupTimes.add(new SetupTimes(workplaceProductMerge.getProductId(),
-                                workplaceProductMerge.setupTime, 1));
+                if (productionItem.getQuantity() != 0) {
+                    for (WorkplaceProductMerge workplaceProductMerge : workplace.durationsforeachProductWorkplace) {
+                        if (productionItem.getArticle() == workplaceProductMerge.getProductId()
+                                && workplaceProductMerge.getWorkplaceId() == workplace.id) {
+                            System.out.println("Rüstzeit für Produkt " + workplaceProductMerge.getProductId()
+                                    + " auf Arbeitsplatz " + workplace.id + " beträgt "
+                                    + workplaceProductMerge.setupTime);
+                            workplace.duration += workplaceProductMerge.setupTime;
+                            workplace.setupTimes.add(new SetupTimes(workplaceProductMerge.getProductId(),
+                                    workplaceProductMerge.setupTime, 1));
+                        }
                     }
                 }
             }
