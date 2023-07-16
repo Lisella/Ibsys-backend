@@ -102,7 +102,6 @@ public class NewOrder {
 
                 // Lagerbestand erhöhen für alle Tage ab dem Tag an dem die Bestellung
                 // spätestens ankommt
-
                 for (int j = i; j < 27; j++) {
                     product.stockHistory.put(j, product.stockHistory.get(j) + orderQuantity);
                     if (j == 26)
@@ -111,13 +110,12 @@ public class NewOrder {
 
                 // wenn Order Day ist in aktueller Periode (0-5)
                 if (orderDay >= 0 && orderDay < 5) {
-                    orders.add(new NewOrder(product.id, product.name, orderQuantity, 5, orderInfos));
                     System.out.println("Neue Normale Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
                             + " Modus: 5");
                     orderInfos.add("Neue Normale Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
                             + " Modus: 5");
                     orderInfos.add("Finaler Lagerbestandsverlauf: " + product.stockHistory);
-
+                    orders.add(new NewOrder(product.id, product.name, orderQuantity, 5, orderInfos));
                 }
 
                 // wenn Order Day ist in nächster Periode (5-10) mache eine günstige Bestellung
@@ -131,13 +129,28 @@ public class NewOrder {
                  */
                 // wenn Order Day ist in Vergangenheit, mache eine Schnelle Bestellung
                 else if (orderDay < 0) {
-                    orders.add(new NewOrder(product.id, product.name, orderQuantity, 4, orderInfos));
                     System.out.println("Neue Schnelle Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
                             + " Modus: 4");
                     orderInfos.add("Neue Schnelle Bestellung: Produkt: " + product.id + " Menge: " + orderQuantity
                             + " Modus: 4");
                     orderInfos.add("Finaler Lagerbestandsverlauf: " + product.stockHistory);
+                    orders.add(new NewOrder(product.id, product.name, orderQuantity, 4, orderInfos));
+                }
+            }
 
+            if (i == 19) {
+                Boolean o = false;
+
+                for (NewOrder order : orders) {
+                    if (order.article == product.getId()) {
+                        o = true;
+                    }
+
+                }
+
+                if (!o) {
+                    orderInfos.add("Bestellmenge 0. Produkt muss nicht in den nächsten 5 Tagen bestellt werden. ");
+                    orders.add(new NewOrder(product.id, product.name, 0, 5, orderInfos));
                 }
             }
         }
@@ -159,6 +172,20 @@ public class NewOrder {
         if (orders.size() == 0) {
             return null;
         }
+        /*
+         * ArrayList<NewOrder> orders2 = new ArrayList<NewOrder>();
+         * if (orders.size() > 1) {
+         * 
+         * for (NewOrder o : orders) {
+         * if (o.quantity == 0) {
+         * orders2.add(o);
+         * orders.remove(o);
+         * }
+         * }
+         * }
+         * 
+         * orders.addAll(orders.size() - 1, orders2);
+         */
 
         return orders.get(0);
     }
