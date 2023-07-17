@@ -21,10 +21,9 @@ public class XMLController {
     private HashMap<Integer, Integer> workstations;
     private ArrayList<WaitingListProduct> waitingListProducts;
 
-
     /**
-    * REST Endpoint for the XML-Input
-    **/
+     * REST Endpoint for the XML-Input
+     **/
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/in")
     public String parseJson(@RequestBody Map<String, Object> requestBody) {
@@ -67,8 +66,8 @@ public class XMLController {
                 .get("articles");
         productionProductsMap = new HashMap<>();
         List<Integer> validProductIds = List.of(
-                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 26, 29, 30, 31, 49, 50, 51, 54, 55, 56
-        );
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 26, 29, 30, 31, 49, 50, 51, 54,
+                55, 56);
         for (Map<String, Object> article : articles) {
             if (article != null) {
                 Integer id = Integer.parseInt(article.get("id").toString());
@@ -98,94 +97,77 @@ public class XMLController {
         }
         WaitingListForWorkstationsDB.updateWaitingListForWorkstations(workstations);
     }
-/*
+
     private void parseWaitingList(Map<String, Object> requestBody) {
         waitingListProducts = new ArrayList<>();
         List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) requestBody
                 .get("waitinglistworkstations");
+        List<Map<String, Object>> waitingListStock = (List<Map<String, Object>>) requestBody.get("waitingliststock");
+
+        // Für Aufträge, die wegen Maschinen nicht angefangen wurden
         for (Map<String, Object> workstation : waitingListWorkstations) {
-            List<Map<String, Object>> waitingLists = (List<Map<String, Object>>) workstation.get("waitinglist");
+            List<Map<String, Object>> waitingLists = (List<Map<String, Object>>) workstation.get("waitingslists");
             if (waitingLists != null) {
                 for (Map<String, Object> waitingList : waitingLists) {
-                    Integer item = Integer.parseInt((waitingList.get("item").toString()));
-                    Integer amount = Integer.parseInt((waitingList.get("amount").toString()));
-                    if (item != null && amount != null) {
-                        waitingListProducts.add(new WaitingListProduct(item, amount));
-                    }
+                    Integer item = Integer.parseInt(waitingList.get("item").toString());
+                    Integer waitlistQuantity = Integer.parseInt(waitingList.get("amount").toString());
+                    waitingListProducts.add(new WaitingListProduct(item, waitlistQuantity, 0));
                 }
             }
         }
-        WaitingListProductsDB.updateWaitingListProducts(waitingListProducts);
-    }*/
 
+        // Für Aufträge die wegen Fehledem Material nicht gemacht werden
+        for (Map<String, Object> stockItem : waitingListStock) {
+            List<Map<String, Object>> workplaces = (List<Map<String, Object>>) stockItem.get("workplaces");
+            for (Map<String, Object> workplace : workplaces) {
+                List<Map<String, Object>> waitingLists = (List<Map<String, Object>>) workplace.get("waitinglists");
+                for (Map<String, Object> waitingList : waitingLists) {
+                    Integer item = Integer.parseInt(waitingList.get("item").toString());
+                    Integer waitlistQuantity = Integer.parseInt(waitingList.get("amount").toString());
+                    System.out.println("Folgendes Item wegen Material" + item);
 
-    private void parseWaitingList(Map<String, Object> requestBody) {
-    waitingListProducts = new ArrayList<>();
-    List<Map<String, Object>> waitingListWorkstations = (List<Map<String, Object>>) requestBody.get("waitinglistworkstations");
-    Map<Integer, Integer> itemWaitlistQuantityMap = new HashMap<>();
-
-    for (Map<String, Object> workstation : waitingListWorkstations) {
-        List<Map<String, Object>> waitingLists = (List<Map<String, Object>>) workstation.get("waitingslists");
-        if (waitingLists != null) {
-            for (Map<String, Object> waitingList : waitingLists) {
-                Integer item = Integer.parseInt(waitingList.get("item").toString());
-                Integer waitlistQuantity = Integer.parseInt(waitingList.get("amount").toString());
-
-                if (itemWaitlistQuantityMap.containsKey(item)) {
-                    continue;
+                    waitingListProducts.add(new WaitingListProduct(item, waitlistQuantity, 0));
                 }
-                itemWaitlistQuantityMap.put(item, waitlistQuantity);
             }
         }
-    }
 
-    for (Map.Entry<Integer, Integer> entry : itemWaitlistQuantityMap.entrySet()) {
-        Integer item = entry.getKey();
-        Integer waitlistQuantity = entry.getValue();
+        List<Map<String, Object>> ordersInWorkList = (List<Map<String, Object>>) requestBody.get("ordersinswork");
 
-        waitingListProducts.add(new WaitingListProduct(item, waitlistQuantity, 0));
-    }
+        // Verarbeitung in Produktion
+        for (Map<String, Object> orderInWork : ordersInWorkList) {
+            Integer item = Integer.parseInt(orderInWork.get("item").toString());
+            Integer inworkQuantity = Integer.parseInt(orderInWork.get("amount").toString());
 
-    List<Map<String, Object>> ordersInWorkList = (List<Map<String, Object>>) requestBody.get("ordersinswork");
-
-    for (Map<String, Object> orderInWork : ordersInWorkList) {
-        Integer item = Integer.parseInt(orderInWork.get("item").toString());
-        Integer inworkQuantity = Integer.parseInt(orderInWork.get("amount").toString());
-
-        WaitingListProduct existingProduct = findWaitingListProduct(waitingListProducts, item);
-        if (existingProduct != null) {
-            existingProduct.setInWorkQuantity(inworkQuantity);
-        } else {
             waitingListProducts.add(new WaitingListProduct(item, 0, inworkQuantity));
         }
-    }
-    WaitingListProductsDB.putWaitingListProducts(waitingListProducts);
+
+        System.out.println("Aktuelle Wartelisten:");
+        ArrayList<WaitingListProduct> mergedList = mergeWaitingListProducts(waitingListProducts);
+        for (WaitingListProduct w : mergedList) {
+            System.out.println(w.getProductId());
+        }
+
+        System.out.println("Alle ausgegeben: ");
+        WaitingListProductsDB.putWaitingListProducts(mergedList);
     }
 
-    private WaitingListProduct findWaitingListProduct(List<WaitingListProduct> productList, Integer item) {
+    private ArrayList<WaitingListProduct> mergeWaitingListProducts(List<WaitingListProduct> productList) {
+        Map<Integer, WaitingListProduct> mergedMap = new HashMap<>();
         for (WaitingListProduct product : productList) {
-            if (product.getProductId() == item) {
-                return product;
+            int productId = product.getProductId();
+            int quantity = product.getWaitlistQuantity();
+            int inWorkQuantity = product.getInWorkQuantity();
+
+            if (mergedMap.containsKey(productId)) {
+                WaitingListProduct existingProduct = mergedMap.get(productId);
+                existingProduct.setWaitlistQuantity((existingProduct.getWaitlistQuantity() + quantity));
+                existingProduct.setInWorkQuantity(existingProduct.getInWorkQuantity() + inWorkQuantity);
+            } else {
+                mergedMap.put(productId, new WaitingListProduct(productId, quantity, inWorkQuantity));
             }
         }
-        return null;
+        return new ArrayList<>(mergedMap.values());
     }
-
-    private void parseOrdersInWork(Map<String, Object> requestBody) {
-        List<Map<String, Object>> ordersInWork = (List<Map<String, Object>>) requestBody.get("ordersinwork");
-
-        for (Map<String, Object> order : ordersInWork) {
-            int productId = Integer.parseInt(order.get("item").toString());
-            int quantity = Integer.parseInt(order.get("amount").toString());
-
-            // Hier kannst du die Quantity für das entsprechende Produkt verwenden
-            // und weitere Verarbeitungen durchführen
-
-            // Beispiel: Speichern der Quantity in der Datenbank
-            //WaitingListProductsDB.updateOrdersInWorkQuantity(productId, quantity);
-        }
-    }
-
 
     private void parseForecast(Map<String, Object> requestBody) {
         Map<String, Object> forecast = (Map<String, Object>) requestBody.get("forecast");
@@ -263,7 +245,8 @@ public class XMLController {
         System.out.println();
         for (WaitingListProduct waitingListProduct : waitingListProducts) {
             if (waitingListProduct.getWaitlistQuantity() != 0) {
-                System.out.println("Produktnummer: " + waitingListProduct.getProductId() + " - " + waitingListProduct.getWaitlistQuantity() + " Stück");
+                System.out.println("Produktnummer: " + waitingListProduct.getProductId() + " - "
+                        + waitingListProduct.getWaitlistQuantity() + " Stück");
             }
         }
         System.out.println();
@@ -271,12 +254,11 @@ public class XMLController {
         System.out.println();
         for (WaitingListProduct waitingListProduct : waitingListProducts) {
             if (waitingListProduct.getInWorkQuantity() != 0) {
-                System.out.println("Produktnummer: " + waitingListProduct.getProductId() + " - " + waitingListProduct.getInWorkQuantity() + " Stück");
+                System.out.println("Produktnummer: " + waitingListProduct.getProductId() + " - "
+                        + waitingListProduct.getInWorkQuantity() + " Stück");
             }
         }
 
-
     }
-
 
 }
