@@ -517,6 +517,9 @@ public class Calculations {
                 for (int i = 0; i < productionItems.size(); i++) {
                         productionItems.get(i).setSequenceNumber(i + 1);
                         productionItems.get(i).id = i + 1;
+                        if (productionItems.get(i).getQuantity() < 0) {
+                                productionItems.get(i).setQuantity(0);
+                        }
                 }
 
                 System.out.println("----------------------");
