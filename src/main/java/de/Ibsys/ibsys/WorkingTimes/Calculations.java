@@ -150,7 +150,8 @@ public class Calculations {
                 shifts = 3;
                 workingTimes.add(new WorkingTime(workplace.id, shifts, 0, workplace.getProductionTimes(),
                         workplace.getSetupTimes(), workplace.waitingDuration, copyOverallDuration));
-                break;
+                continue;
+
             } else if (workplace.duration >= 4800) {
                 shifts = 2;
                 workplace.duration -= 4800;

@@ -91,6 +91,10 @@ public class ForecastsController {
             productInfos.add(new ProductInfo(productId, name, stock, waitingListQuantity, ordersInWorkQuantity));
         }
 
+        forP1.sort(Comparator.comparingInt(ProductInfo::getProductId));
+        forP2.sort(Comparator.comparingInt(ProductInfo::getProductId));
+        forP3.sort(Comparator.comparingInt(ProductInfo::getProductId));
+
         ForecastResponse response = new ForecastResponse();
         response.setForecasts(forecast);
         response.setP1(convertToMapList(forP1));
