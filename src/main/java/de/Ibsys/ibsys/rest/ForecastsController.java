@@ -20,6 +20,28 @@ import de.Ibsys.ibsys.database.ProductsDB;
 @RequestMapping("/api")
 public class ForecastsController {
 
+    public static int GetWaitingListQuantityById(int productId, ArrayList<WaitingListProduct> waitingListProducts) {
+
+        for (WaitingListProduct waitingListProduct : waitingListProducts) {
+            if (waitingListProduct.getProductId() == productId) {
+                return waitingListProduct.getWaitlistQuantity();
+            }
+        }
+
+        return 0;
+    }
+
+    public static int GetInOrderQuantityById(int productId, ArrayList<WaitingListProduct> waitingListProducts) {
+
+        for (WaitingListProduct waitingListProduct : waitingListProducts) {
+            if (waitingListProduct.getProductId() == productId) {
+                return waitingListProduct.getInWorkQuantity();
+            }
+        }
+
+        return 0;
+    }
+
     @CrossOrigin(origins = "http://localhost:5173")
     @GetMapping("/forecasts")
     public ResponseEntity<ForecastResponse> getForecast() {
@@ -39,19 +61,22 @@ public class ForecastsController {
             int product3Consumption = productionProduct.getProduct3Consumption();
             int stock = productionProduct.getStock();
             String name = productionProduct.getName();
-            int ordersInWorkQuantity = WaitingListProductsDB.getInWorkQuantityById(productId);
-            int waitingListQuantity = WaitingListProductsDB.getWaitingListQuantityById(productId);
+            int ordersInWorkQuantity = GetInOrderQuantityById(productId, waitingListProducts);
+            int waitingListQuantity = GetWaitingListQuantityById(productId, waitingListProducts);
 
             if (product1Consumption > 0) {
-                ProductInfo productInfo = new ProductInfo(productId, name, stock, waitingListQuantity, ordersInWorkQuantity);
+                ProductInfo productInfo = new ProductInfo(productId, name, stock, waitingListQuantity,
+                        ordersInWorkQuantity);
                 forP1.add(productInfo);
             }
             if (product2Consumption > 0) {
-                ProductInfo productInfo = new ProductInfo(productId, name, stock, waitingListQuantity, ordersInWorkQuantity);
+                ProductInfo productInfo = new ProductInfo(productId, name, stock, waitingListQuantity,
+                        ordersInWorkQuantity);
                 forP2.add(productInfo);
             }
             if (product3Consumption > 0) {
-                ProductInfo productInfo = new ProductInfo(productId, name, stock, waitingListQuantity, ordersInWorkQuantity);
+                ProductInfo productInfo = new ProductInfo(productId, name, stock, waitingListQuantity,
+                        ordersInWorkQuantity);
                 forP3.add(productInfo);
             }
         }
@@ -61,8 +86,8 @@ public class ForecastsController {
             int productId = product.getId();
             int stock = product.getStock();
             String name = product.getName();
-            int waitingListQuantity = WaitingListProductsDB.getWaitingListQuantityById(productId);
-            int ordersInWorkQuantity = 11;
+            int waitingListQuantity = GetWaitingListQuantityById(productId, waitingListProducts);
+            int ordersInWorkQuantity = GetInOrderQuantityById(productId, waitingListProducts);
             productInfos.add(new ProductInfo(productId, name, stock, waitingListQuantity, ordersInWorkQuantity));
         }
 
@@ -78,7 +103,8 @@ public class ForecastsController {
     public List<Map<String, Object>> convertToMapList(ArrayList<ProductInfo> productInfos) {
         List<Map<String, Object>> mapList = new ArrayList<>();
         for (ProductInfo productInfo : productInfos) {
-            Map<String, Object> map = new LinkedHashMap<>();  // Verwenden Sie LinkedHashMap, um die Reihenfolge der Felder beizubehalten
+            Map<String, Object> map = new LinkedHashMap<>(); // Verwenden Sie LinkedHashMap, um die Reihenfolge der
+                                                             // Felder beizubehalten
             map.put("productId", productInfo.getProductId());
             map.put("name", productInfo.getName());
             map.put("stock", productInfo.getStock());
@@ -142,7 +168,6 @@ public class ForecastsController {
             this.waitingListQuantity = waitingListQuantity;
             this.ordersInWorkQuantity = ordersInWorkQuantity;
         }
-
 
         public int getProductId() {
             return productId;
